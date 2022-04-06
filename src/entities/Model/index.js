@@ -8,7 +8,13 @@ const get_blank_report = () => {
     return {
         id: generate_id(),
         name: "Sin nombre",
+        dose:{},
+        distr: {},
+        supplies: {},
         completed: {
+            dose: false,
+            distribution: false,
+            supplies: false
         },
         selected: false // Esto se usa en la vista de listado
     };
@@ -16,8 +22,47 @@ const get_blank_report = () => {
 
 export default class CriolloModel {
     constructor(){
+        // Variables que no intervienen en los calculos
+        this.gear = null; // Regulacion de la maquina
+        this.main_prod = null; // Nombre de producto
+        this.prod_density = null; // Densidad de fertilizante
+        // Variables de dosificacion
+        this.expected_dose = null; // Dosis prevista
+        this.effective_dose = null; // Dosis efectiva
+        this.expected_work_width = null; // Ancho de labor inicial
+        this.recolected = null; // Peso total recolectado
+        this.time = null;  // Tiempo de muestreo      
+        this.work_velocity = null; // Velocidad de trabajo
+        this.work_width = null; // Ancho de labor
+        this.distance = null; // Distancia recorrida
+        this.method = "direct"; // Uso de velocidad (directa/indirecta)
+        
+        // Variables de distribucion
+        this.fitted_dose = null; // Dosis ajustada
+        this.fitted_work_width = null; // Dosis ajustada
+        this.tray_data = []; // Peso recolectado de bandejas
+        this.tray_distance = null; // Distancia entre bandejas
+        this.tray_number = null; // Cantidad de bandejas (= a tray_data.length)
+        this.tray_area = null; // Area de bandeja
+        this.pass_number = null; // Cantidad de pasadas
+        this.work_pattern = "linear"; // Patron de trabajo, "circular" o "linear"        
+        
+        // Variables de insumos
+        this.work_area = null; // Superficie de lote
+        this.field_name = null; // Nombre del lote
+        this.capacity = null; // Capacidad de la fertilizadora
+        this.products = []; // Lista de prductos
+        this.quantities = []; // Cantidades de productos
+        this.load_number = null; // Numero de cargas
+        this.eq_load_weight = null; // Carga equilibrada
+
+        // Reportes
+        this.reports = [];
+        this.currentReport = get_blank_report();
+
         this.getFromLocalStorage();
     }
+
 
     update(param, value){ // Actualizar uno o mas parametros
         let updated = false;

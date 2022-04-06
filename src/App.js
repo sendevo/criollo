@@ -5,7 +5,7 @@ import {
     Home,
     Params,
     Velocity,
-    Recolected,
+    Control,
     Info,
     About,
     Supplies,
@@ -64,6 +64,14 @@ const f7params = {
                 transition: "f7-cover"        
             }
         },
+        { // Cronometro
+            path: '/control/',
+            component: Control,
+            on:{pageInit: ()=>pushState("control")},
+            options: {
+                transition: "f7-cover"        
+            }
+        },
         { // Medicion de velocidad
             path: '/velocity/',
             component: Velocity,
@@ -72,15 +80,6 @@ const f7params = {
                 transition: "f7-cover"        
             }
         },
-        { // Cronometro
-            path: '/recolected/',
-            component: Recolected,
-            on:{pageInit: ()=>pushState("recolected")},
-            options: {
-                transition: "f7-cover"        
-            }
-        },
-        
         { // Calculo de insumos
             path: '/supplies/',
             component: Supplies,

@@ -1,7 +1,7 @@
 import Home from './Home';
 import Params from './Params';
 import Velocity from './Velocity';
-import Recolected from './Recolected';
+import Control from './Control';
 import Info from './Info';
 import About from './About';
 import Supplies from './Supplies';
@@ -13,7 +13,7 @@ export {
     Home,
     Params,
     Velocity,
-    Recolected,
+    Control,
     Info,
     About,
     Supplies,

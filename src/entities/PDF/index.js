@@ -54,10 +54,12 @@ const reportFooter = {
     alignment: "left"
 };
 
+/*
 const workPattern = {
     linear: "Ida y vuelta",
     circular: "En círculos"
 };
+*/
 
 const PDFExport = (report, share) => {
     //console.log(report);

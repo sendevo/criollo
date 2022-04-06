@@ -72,7 +72,7 @@ const OutputBlock = props => ( // Bloque con resultado final a exportar
 
 const timer = new Timer(defaultTimer, true);
 
-const Recolected = ({f7router}) => {
+const Control = ({f7router}) => {
     
     const model = useContext(ModelCtx);
     const [elapsed, setElapsed] = useState(model.time*1000 || defaultTimer);
@@ -180,4 +180,4 @@ const Recolected = ({f7router}) => {
     );
 };
 
-export default Recolected;
+export default Control;

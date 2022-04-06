@@ -1,11 +1,13 @@
 import { Navbar, Page } from 'framework7-react';
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import { BackButton } from '../../components/Buttons';
 import { ModelCtx } from '../../context';
 
 const Params = props => {
 
     const model = useContext(ModelCtx);
+
+    console.log(model);
     
     return (
         <Page>            
