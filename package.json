@@ -1,0 +1,57 @@
+{
+  "name": "criollo",
+  "version": "4.0.0",
+  "private": true,
+  "dependencies": {
+    "@byteowls/capacitor-filesharer": "^3.0.0",
+    "@capacitor/android": "^3.3.4",
+    "@capacitor/app": "^1.0.7",
+    "@capacitor/cli": "^3.3.4",
+    "@capacitor/core": "^3.3.4",
+    "@capacitor/filesystem": "^1.0.7",
+    "@capacitor/storage": "^1.2.3",
+    "@testing-library/jest-dom": "^5.14.1",
+    "@testing-library/react": "^11.2.7",
+    "@testing-library/user-event": "^12.8.3",
+    "framework7": "^6.3.3",
+    "framework7-react": "^6.3.3",
+    "highcharts": "^9.2.2",
+    "moment": "^2.29.1",
+    "pdfmake": "^0.2.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.2.0",
+    "react-scripts": "4.0.3",
+    "uglifyjs-webpack-plugin": "^2.2.0",
+    "use-sound": "^4.0.1",
+    "web-vitals": "^1.1.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "npm run build:react && npm run build:bundle",
+    "build:react": "react-scripts build",
+    "build:bundle": "webpack --config webpack.config.js",
+    "test": "react-scripts test"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "webpack-cli": "^4.9.2"
+  }
+}
