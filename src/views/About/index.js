@@ -18,18 +18,21 @@ const About = props => (
                     <AccordionContent>
                         <Block>
                             <center>
-                                    <h3>CRIOLLO 4.0</h3>
+                                    <h3>Calibrador CRIOLLO 4.0</h3>
                             </center>
                             <h3>Staff</h3>
                             <p><b>Autor:</b> Juan Pablo D'Amico</p>
-                            <p><b>Desarrollo:</b> Matías J. Micheletto, Santiago J. Crocioni, Gabriel M. Eggly</p>
+                            <p><b>Desarrollo:</b> Matías J. Micheletto, Gabriel M. Eggly, Santiago J. Crocioni</p>
                         </Block>
                     </AccordionContent>
                 </ListItem>
                 <ListItem accordionItem title="Descripción de la app">
                     <AccordionContent>
                         <Block>
-                            <p style={{textAlign: "justify"}}>Criollo....</p>
+                            <p style={{textAlign: "justify"}}>Criollo es una aplicación utilitaria para tablets y smartphones que permite calcular los principales parámetros de operación de pulverizadoras terrestres de botalón y realizar la verificación estática correspondiente.</p>
+		                    <p style={{textAlign: "justify"}}>Al usar la aplicación es posible calcular alternativamente la velocidad de avance del equipo, la presión de trabajo y el volumen de pulverización para un tamaño de pico y una distancia entre picos determinada. También es posible realizar la verificación de los picos y obtener el diagnóstico rápido del estado de los mismos.</p>
+                            <p style={{textAlign: "justify"}}>La información generada a partir del ingreso de los datos y los cálculos realizados se compila en un reporte que puede ser guardado en formato PDF y compartido mediante correo electrónico y/o WhatsApp.</p>
+                            <p style={{textAlign: "justify"}}>Una vez instalada, la utilización de Criollo no requiere disponibilidad de señal ni acceso a la red. Estos servicios sólo son necesarios si se desea compartir los reportes generados.</p>                            
                         </Block>
                     </AccordionContent>
                 </ListItem>
@@ -50,9 +53,9 @@ const About = props => (
                 </ListItem>
                 <ListItem accordionItem title="Fuente de información">
                     <AccordionContent>
-                        <Block>
-                        <p style={{textAlign:"justify"}}>Los criterios de bondad de las determinaciones fueron adaptados de diferentes publicaciones del
-                                Instituto Nacional de Tecnología Agropecuaria. Ediciones, INTA.</p>
+                        <Block>                        
+                        <p style={{textAlign:"justify"}}>La lista de picos con código de color normalizado se basa en los criterios de la norma ISO 10625 (2005) "Equipment for crop protection - Sprayer nozzles - Colour coding for identification"</p>
+                        <p style={{textAlign:"justify"}}>Las ecuaciones de cálculo fueron tomadas del libro "Pulverizaciones agrícolas terrestres" Onorato, Agustín y Tesouro, Omar. Ediciones, INTA. 2006</p>
                         </Block>
                     </AccordionContent>
                 </ListItem>

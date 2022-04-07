@@ -1,6 +1,6 @@
 import { f7, List, Row } from 'framework7-react';
 import ReactDOMServer from 'react-dom/server';
-import IconCollected from '../../assets/icons/peso_recolectado.png';
+import IconCollected from '../../assets/icons/recolectado.png';
 import Input from '../Input';
 import React from 'react';
 

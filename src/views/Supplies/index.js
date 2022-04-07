@@ -19,9 +19,9 @@ import api from '../../entities/API';
 import { error_messages, generate_id, set_2_decimals } from '../../utils';
 import { PresentationSelector } from '../../components/Selectors';
 import iconProduct from '../../assets/icons/calculador.png';
-import iconDose from '../../assets/icons/kg_ha_fert.png';
+import iconDose from '../../assets/icons/dosis.png';
 import iconArea from '../../assets/icons/sup_lote.png';
-import iconName from '../../assets/icons/nombre_lote.png';
+import iconName from '../../assets/icons/reportes.png';
 import iconCapacity from '../../assets/icons/capacidad_carga.png';
 
 const Supplies = props => {

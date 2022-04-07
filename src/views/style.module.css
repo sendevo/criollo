@@ -1,6 +1,6 @@
 .HomePage::after {
 	content: "";	
-	background: url(../assets/backgrounds/fondo3.png);
+	background: url(../assets/backgrounds/fondo1.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -14,7 +14,7 @@
 }
 
 .InfoPage {
-	background: url(../assets/backgrounds/fondo5.png);
+	background: url(../assets/backgrounds/fondo2.png);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;	
@@ -23,7 +23,7 @@
 .Title {
 	margin-top: 0px;
 	margin-bottom: 0px;	
-	line-height: 120%;
+	line-height: 100%;
 }
 
 .Subtitle {	
@@ -51,16 +51,16 @@
 
 .ButtonContainer {
 	position: absolute; 
-	bottom: 10%; 
+	bottom: 6%; 
 	width: 100%; 
 	text-align: center;		
 }
 
 .MenuButton{
-	background-color: rgba(200, 200, 200, .75);	
+	background-color: rgba(200, 200, 200, .85);	
 	color:black;
 	margin: 10px auto;
-	height: 50px;
+	height: 60px;
 	line-height: 18px;
 	border-radius: 5px;
 	z-index: 9999;
@@ -72,7 +72,8 @@
 
 .MenuButton p{
 	margin:20px;
-    font-size: smaller;
+    font-size: 14px;
+	font-weight: bold;
 }
 
 .LogoFooter {

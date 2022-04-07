@@ -1,21 +1,21 @@
 import { Page, Link, PageContent, Block } from 'framework7-react';
-import paramsIcon from '../../assets/icons/parametros_fert.png'
-import controlIcon from '../../assets/icons/parametros_fert.png'
+import paramsIcon from '../../assets/icons/parametros.png'
+import controlIcon from '../../assets/icons/verificacion.png'
 import suppliesIcon from '../../assets/icons/calculador.png';
 import reportsIcon from '../../assets/icons/reportes.png';
 import infoIcon from '../../assets/icons/info.png';
 import logoInta from '../../assets/backgrounds/logoInta.png';
 import logoMin from '../../assets/backgrounds/logomin.png';
-import logo from '../../assets/icons/logo.png';
+import logo from '../../assets/icons/iconocriollo.png';
 import classes from '../style.module.css';
 
 const Home = () => (
     <Page name="home" className={classes.HomePage}>
         <PageContent>
-            <Block style={{textAlign: "center", marginBottom: "0px"}}>
+            <Block style={{textAlign: "center", marginBottom: "0px", marginTop:"20px"}}>
                 <img className="app-logo" src={logo} height="100px" width="100px" alt="logo"/>
             </Block>
-            <Block style={{textAlign: "center", marginTop:"10px"}}>
+            <Block style={{textAlign: "center", marginTop:"5px"}}>
                 <h2 className={classes.Title}>CRIOLLO</h2>                
             </Block>
             <Block className={classes.ButtonContainer}>
