@@ -74,11 +74,11 @@ const ReportDetails = props => {
                             }
                             <tr>
                                 <td><b>Dosis prevista:</b></td>
-                                <td className={classes.DataCell}>{report.dose.expected_dose?.toFixed(2)} kg/ha</td>
+                                <td className={classes.DataCell}>{report.dose.expected_dose?.toFixed(2)} l/ha</td>
                             </tr>
                             <tr>
                                 <td><b>Dosis efectiva:</b></td>
-                                <td className={classes.DataCell}>{report.dose.effective_dose?.toFixed(2)} kg/ha</td>
+                                <td className={classes.DataCell}>{report.dose.effective_dose?.toFixed(2)} l/ha</td>
                             </tr>
                             <tr>
                                 <td><b>Diferencia:</b></td>
@@ -96,7 +96,7 @@ const ReportDetails = props => {
                         <tbody>
                             <tr>
                                 <td><b>Dosis ajustada:</b></td>
-                                <td className={classes.DataCell}>{report.distr.fitted_dose?.toFixed(2)} kg/ha</td>
+                                <td className={classes.DataCell}>{report.distr.fitted_dose?.toFixed(2)} l/ha</td>
                             </tr>
                             <tr>
                                 <td><b>Coeficiente de variación:</b></td>
@@ -176,7 +176,7 @@ const ReportDetails = props => {
                                         </tr>
                                         <tr>
                                             <td><b>Dosis:</b></td>
-                                            <td className={classes.DataCell}>{prod.density?.toFixed(2)} kg/ha</td>
+                                            <td className={classes.DataCell}>{prod.density?.toFixed(2)} l/ha</td>
                                         </tr>
                                         <tr>
                                             <td><b>Total:</b></td>

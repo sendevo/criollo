@@ -128,7 +128,7 @@ const Supplies = props => {
                     label="Capacidad de carga"
                     name="capacity"
                     type="number"
-                    unit="kg"
+                    unit="lts"
                     icon={iconCapacity}
                     value={capacity}
                     onChange={v=>setMainParams('capacity', parseFloat(v.target.value))}
@@ -157,7 +157,7 @@ const Supplies = props => {
                                         slot="list"
                                         label="Dosis"
                                         type="number"
-                                        unit="kg/ha"
+                                        unit="l/ha"
                                         icon={iconDose}
                                         value={p.density || ''}
                                         onInputClear={()=>setProductParams(index, "density", "")}

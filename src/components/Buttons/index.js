@@ -46,14 +46,14 @@ const AddButton = props => (
 );
 
 const PlayButton = props => ( // Boton de control del cronometro
-    <Button style={{minHeight:50}} onClick={props.onClick}>
+    <span style={{minHeight:50}} onClick={props.onClick}>
         {
             props.running ? 
                 <FaStop color="red" size={40}/>
             :
                 <FaPlay color="green" size={40}/>
         }
-    </Button>
+    </span>
 );
 
 export { 

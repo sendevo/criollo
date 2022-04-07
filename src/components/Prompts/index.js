@@ -4,25 +4,19 @@ import IconCollected from '../../assets/icons/recolectado.png';
 import Input from '../Input';
 import React from 'react';
 
-const trayCollectedPrompt = (row, side, n, callback) => { 
+const nozzleCollectedPrompt = (row, callback) => { 
     // Modal ingreso de peso recolectado de la bandeja
 
-    const elId = "collectedweightinput"; // Id del input
-
-    const labels = { // Lado de la bandeja
-        left: "izquierda",
-        middle: "centro",
-        right: "derecha"
-    };
+    const elId = "collectedvolumeinput"; // Id del input
     
     const content = ReactDOMServer.renderToStaticMarkup(
         <List form noHairlinesMd style={{marginBottom:"0px"}}>
             <Input
                 slot="list"
-                label="Peso recolectado"
+                label="Volumen recolectado"
                 icon={IconCollected}
                 type="number"
-                unit="gr"
+                unit="L"
                 inputId={elId}
             ></Input>
         </List>
@@ -43,20 +37,8 @@ const trayCollectedPrompt = (row, side, n, callback) => {
         }
     ];
 
-    if(row+1 < n) // Si no es la ultima bandeja, agregar boton de siguiente
-        buttons.push({
-            text: "Siguiente",
-            onClick: ()=>{
-                returnValue();
-                f7.dialog.close();
-                const nextrow = row+1;
-                const nextside = nextrow === (n-1)/2 ? "middle" : (nextrow+1 < n/2 ? "left" : "right");
-                trayCollectedPrompt(row+1, nextside, n, callback);
-            }
-        });
-
     f7.dialog.create({
-        title: "Bandeja "+(row+1)+" ("+labels[side]+")",
+        title: "Pico controlado "+(row+1),
         content: content,
         buttons: buttons,
         destroyOnClose: true        
@@ -74,7 +56,7 @@ const openRecipientSizePrompt = callback => {
                 <Input
                     label="Capacidad"
                     type="number"
-                    unit="kg"
+                    unit="lts"
                     inputId={elId}
                 ></Input>
             </Row>
@@ -105,16 +87,16 @@ const openRecipientSizePrompt = callback => {
 const timerCollectedPrompt = (callback) => { 
     // Modal ingreso de peso recolectado para dosis
 
-    const elId = "collectedweightinput"; // Id del input
+    const elId = "collectedvolumeinput"; // Id del input
     
     const content = ReactDOMServer.renderToStaticMarkup(
         <List form noHairlinesMd style={{marginBottom:"0px"}}>
             <Input
                 slot="list"
-                label="Peso recolectado"
+                label="Volumen recolectado"
                 icon={IconCollected}
                 type="number"
-                unit="kg"
+                unit="L"
                 inputId={elId}
             ></Input>
         </List>
@@ -136,7 +118,7 @@ const timerCollectedPrompt = (callback) => {
     ];
 
     f7.dialog.create({
-        title: "Indique el peso recolectado",
+        title: "Volumen recolectado",
         content: content,
         buttons: buttons,
         destroyOnClose: true        
@@ -144,5 +126,5 @@ const timerCollectedPrompt = (callback) => {
 };
 
 
-export { trayCollectedPrompt, timerCollectedPrompt, openRecipientSizePrompt };
+export { nozzleCollectedPrompt, timerCollectedPrompt, openRecipientSizePrompt };
 

@@ -26,6 +26,10 @@ export default class CriolloModel {
         this.gear = null; // Regulacion de la maquina
         this.main_prod = null; // Nombre de producto
         this.prod_density = null; // Densidad de fertilizante
+        
+        /* 
+        // variables de campero 
+
         // Variables de dosificacion
         this.expected_dose = null; // Dosis prevista
         this.effective_dose = null; // Dosis efectiva
@@ -46,6 +50,18 @@ export default class CriolloModel {
         this.tray_area = null; // Area de bandeja
         this.pass_number = null; // Cantidad de pasadas
         this.work_pattern = "linear"; // Patron de trabajo, "circular" o "linear"        
+        */
+
+        // Variables de criollo
+        this.time = null;
+        this.workFlow = null;
+        this.nozzleCnt = 0;
+
+        
+        
+        
+        
+        
         
         // Variables de insumos
         this.work_area = null; // Superficie de lote

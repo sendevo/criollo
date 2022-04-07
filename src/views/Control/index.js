@@ -2,83 +2,42 @@ import {
     Page, 
     Navbar, 
     Block, 
-    List, 
-    Row, 
-    Col, 
-    Button
+    List
 } from "framework7-react";
 import { useContext, useState } from "react";
-import { useSound } from "use-sound";
-import Input from "../../components/Input";
 import { ModelCtx } from "../../context";
-import { set_2_decimals } from "../../utils";
+import { useSound } from "use-sound";
 import moment from 'moment';
-import { PlayButton } from "../../components/Buttons";
+import Input from "../../components/Input";
+//import { set_2_decimals } from "../../utils";
+import { PlayButton, BackButton } from "../../components/Buttons";
 import Timer from "../../entities/Timer";
 import Toast from "../../components/Toast";
-import { timerCollectedPrompt } from "../../components/Prompts";
 import { ElapsedSelector } from "../../components/Selectors";
-import { FaMinus } from 'react-icons/fa';
+import DataTable from "../../components/DataTable";
+
+import iconFlow from "../../assets/icons/caudal.png";
+import iconNumber from "../../assets/icons/cant_picos.png";
+
 import oneSfx from '../../assets/sounds/uno.mp3';
 import twoSfx from '../../assets/sounds/dos.mp3';
 import threeSfx from '../../assets/sounds/tres.mp3';
 import readySfx from '../../assets/sounds/listo.mp3';
 import classes from './style.module.css';
 
+
 const defaultTimer = 30000;
-
-const DataTable = props => {
-
-    return ( // Tabla de pesos recolectados
-    <table className={`data-table ${classes.Table}`}>
-        <thead>
-            <tr>
-                <th>#</th>
-                <th>Recolectado</th>
-            </tr>
-        </thead>
-        <tbody>
-        {
-            props.data.map((d, idx) => (
-                <tr key={idx}>
-                    <td>{idx+1}</td>                        
-                    <td>{d?.toFixed(2)} kg</td>
-                </tr>
-            ))
-        }
-        </tbody>
-    </table>
-);
-    }
-
-const OutputBlock = props => ( // Bloque con resultado final a exportar
-    <List form noHairlinesMd style={{marginTop:"0px"}}>
-        <Row slot="list">
-            <Col width={10}></Col>
-            <Col width={80}>
-                <Input
-                    readOnly
-                    value={props.output}
-                    label="Peso recolectado promedio"
-                    type="number"
-                    unit="kg"
-                    clearButton={false}
-                ></Input>
-            </Col>
-            <Col width={10}></Col>
-        </Row>
-    </List>
-);
-
 const timer = new Timer(defaultTimer, true);
 
-const Control = ({f7router}) => {
+const Control = props => {
     
     const model = useContext(ModelCtx);
     const [elapsed, setElapsed] = useState(model.time*1000 || defaultTimer);
     const [time, setTime] = useState(defaultTimer);
     const [running, setRunning] = useState(false);        
+    const [workFlow, setWorkFlow] = useState(model.workFlow || null);    
     const [data, setData] = useState([]);
+
     const [play3] = useSound(threeSfx);
     const [play2] = useSound(twoSfx);
     const [play1] = useSound(oneSfx);
@@ -86,6 +45,7 @@ const Control = ({f7router}) => {
     
     const updateElapsed = value => {
         timer.setInitial(value);
+        model.update("time", value/1000);
         setTime(value);
         setElapsed(value);
         setData([]); // Al cambiar el tiempo, borrar datos anteriores
@@ -94,40 +54,26 @@ const Control = ({f7router}) => {
     const onTimeout = () => {        
         setRunning(false);        
         setTime(elapsed);        
-        timerCollectedPrompt( value => {
-            const temp = [...data];
-            temp.push(parseFloat(value));
-            setData(temp);
-        });
-    };
-
-    const popData = () => { // Quitar último dato medido
-        if(data.length > 0){
-            const temp = [...data];
-            temp.pop();
-            setData(temp);            
-        }
-    };
-
-    const dataAvg = () => data.length > 0 ? data.reduce((r, a) => a + r, 0)/data.length : 0;
-
-    const exportData = () => {           
-        model.recolected = set_2_decimals(dataAvg());
-        model.time = elapsed/1000;
-        f7router.back();
+        Toast("success", "Ingrese el valor recolectado seleccionando la fila correspondiente", 3000, "center");
     };
 
     const toggleRunning = () => {
-        if(data.length >= 3){
-            Toast("info", "Sólo puede ingresar hasta 3 muestras", 2000, "center");
-        }else{
+        if(data.length > 0)
+        {
             if(!running){
                 timer.onChange = setTime;
                 timer.onTimeout = onTimeout;
                 timer.clear();
                 timer.start();
                 setRunning(true);            
-            }        
+            }else{
+                timer.stop();
+                timer.clear();
+                setTime(elapsed);            
+                setRunning(false);
+            }
+        }else{
+            Toast("error", "Indique la cantidad de picos a controlar", 3000, "bottom");
         }
     };
 
@@ -144,38 +90,66 @@ const Control = ({f7router}) => {
         return moment(time).format('mm:ss:S');
     };
 
+    const handleFowChange = e => {
+        setWorkFlow(e.target.value);
+    }
+
+    const handleNozzleCntChange = e => {        
+        const temp = [];
+        for(let i = 0; i < e.target.value; i++){
+            temp.push({
+                value: 0,
+                effectiveFlow: 0,
+                deviation: 0,
+                correct: false
+            });
+        }
+        setData(temp);
+    }
+
     return (
         <Page>
-            <Navbar title="Cronómetro" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
-            <ElapsedSelector value={elapsed} disabled={running} onChange={v => updateElapsed(v)}/>
+            <Navbar title="Verificación de picos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
+            <ElapsedSelector value={elapsed} disabled={running} onChange={updateElapsed}/>
+
+            <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
+                <Input
+                    slot="list"
+                    label="Picos a controlar"
+                    name="nozzleCnt"
+                    type="text"
+                    icon={iconNumber}
+                    value={data.length === 0 ? null : data.length}
+                    onChange={handleNozzleCntChange}
+                    ></Input>
+                <Input
+                    className="help-target-supplies-form"
+                    slot="list"
+                    label="Caudal de trabajo"
+                    name="workFlow"
+                    type="number"
+                    unit="l/min"
+                    icon={iconFlow}
+                    value={workFlow}
+                    onChange={handleFowChange}
+                    ></Input>
+            </List>
+
             <Block style={{marginTop:"20px", textAlign:"center"}}>
-                <p style={{fontSize:"50px", margin:"0px"}}>{getTime()}</p>
-                <PlayButton onClick={toggleRunning} running={running} />
+                <p style={{fontSize:"50px", margin:"0px"}}>{getTime()} <PlayButton onClick={toggleRunning} running={running} /></p>
             </Block>
+
             <Block style={{marginBottom: "0px",textAlign:"center"}}>
-                <Row style={{alignItems:"center"}}>
-                    <Col width={20}>                        
-                        <Row>
-                            <Button disabled={running || data.length===0} onClick={popData}>
-                                <FaMinus color="red" size={30}/>
-                            </Button>
-                        </Row>
-                    </Col>
-                    <Col width={80}>
-                        <DataTable data={data} />
-                    </Col>
-                </Row>
+                <DataTable data={data} onDataChange={setData}/>
             </Block>
-            <Block style={{marginTop:"0px",textAlign:"center"}}>
-                <OutputBlock output={dataAvg().toFixed(2)}/>
+
+            <Block className={classes.OutputBlock}>
+                <p><b>Resultados</b></p>
+                <p>Caudal efectivo promedio: {} l/min</p>
+                <p>Volumen pulverizado efectivo: {} l/ha</p>
+                <p>Diferencia: {} l/ha ({} %)</p>
             </Block>
-            <Block style={{textAlign:"center"}}>
-                <Row>
-                    <Col width={20}></Col>
-                    <Col width={60}><Button disabled={data.length===0} fill onClick={exportData}>Exportar</Button></Col>
-                    <Col width={20}></Col>
-                </Row>
-            </Block>
+            <BackButton {...props} />
         </Page>
     );
 };

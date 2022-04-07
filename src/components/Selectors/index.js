@@ -128,7 +128,7 @@ const ElapsedSelector = props => {
 
     return (
         <Block style={{margin:"0px"}}>
-            <BlockTitle>Duración del muestreo</BlockTitle>
+            <BlockTitle>Tiempo de muestreo</BlockTitle>
             <Row>
                 <Col style={{textAlign:"center"}}>
                     <Radio 
