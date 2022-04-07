@@ -4,8 +4,20 @@
     table-layout:fixed;    
 }
 
-.Table th, td{
+.Table th, td {
     text-align: center;    
+}
+
+.DataCell {
+    padding: 0px;
+    margin: 0px;
+    border-bottom: 1px solid #ddd;
+    border-top: 1px solid #ddd;    
+    font-size: 12px;    
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;    
 }
 
 .EmptyMessage {

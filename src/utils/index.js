@@ -16,11 +16,13 @@ export const error_messages = {
     work_area: "Debe indicar el área de trabajo"
 };
 
-export const generate_id = () => "_" + Math.random().toString(36).substr(2) + Date.now();
+export const set2Decimals = value => parseFloat(value.toFixed(2));
 
-export const set_2_decimals = value => parseFloat(value.toFixed(2));
+export const generateId = () => "_" + Math.random().toString(36).substr(2) + Date.now();
 
-export const get_closest = (array, attr, value) => {
+export const arrayAvg = (arr, attr) => arr.reduce((a, b) => a + b[attr], 0) / arr.length;
+
+export const getClosest = (array, attr, value) => {
     const diffArr = array.map(v => Math.abs(value - v[attr]));
     const closestValue = Math.min(...diffArr);
     const index = diffArr.findIndex(v => v === closestValue);

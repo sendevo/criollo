@@ -7,7 +7,7 @@ import Toast from "../../components/Toast";
 import { useContext, useState } from "react";
 import { FaPlus, FaMinus } from 'react-icons/fa';
 import { ModelCtx } from "../../context";
-import { set_2_decimals } from "../../utils";
+import { set2Decimals } from "../../utils";
 import { PlayButton } from "../../components/Buttons";
 import classes from './style.module.css';
 
@@ -134,7 +134,7 @@ const Velocity = ({f7router}) => { // View
     const dataAvg = () => data.length > 0 ? data.reduce((r, a) => a.vel + r, 0)/data.length : 0;
 
     const exportData = () => {           
-        model.work_velocity = set_2_decimals(dataAvg());
+        model.work_velocity = set2Decimals(dataAvg());
         f7router.back();        
     };
 

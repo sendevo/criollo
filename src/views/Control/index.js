@@ -1,24 +1,19 @@
-import { 
-    Page, 
-    Navbar, 
-    Block, 
-    List
-} from "framework7-react";
-import { useContext, useState } from "react";
+import { Page, Navbar, Block, List, Row, Col, Button } from "framework7-react";
+import { useContext, useEffect, useState } from "react";
 import { ModelCtx } from "../../context";
 import { useSound } from "use-sound";
 import moment from 'moment';
+import * as Model from '../../entities/API/index.js';
+import { KeepAwake } from '@capacitor-community/keep-awake';
 import Input from "../../components/Input";
-//import { set_2_decimals } from "../../utils";
+import { arrayAvg } from "../../utils";
 import { PlayButton, BackButton } from "../../components/Buttons";
 import Timer from "../../entities/Timer";
 import Toast from "../../components/Toast";
 import { ElapsedSelector } from "../../components/Selectors";
 import DataTable from "../../components/DataTable";
-
 import iconFlow from "../../assets/icons/caudal.png";
 import iconNumber from "../../assets/icons/cant_picos.png";
-
 import oneSfx from '../../assets/sounds/uno.mp3';
 import twoSfx from '../../assets/sounds/dos.mp3';
 import threeSfx from '../../assets/sounds/tres.mp3';
@@ -26,54 +21,150 @@ import readySfx from '../../assets/sounds/listo.mp3';
 import classes from './style.module.css';
 
 
-const defaultTimer = 30000;
-const timer = new Timer(defaultTimer, true);
+const timer = new Timer(0, true);
 
 const Control = props => {
     
     const model = useContext(ModelCtx);
-    const [elapsed, setElapsed] = useState(model.time*1000 || defaultTimer);
-    const [time, setTime] = useState(defaultTimer);
-    const [running, setRunning] = useState(false);        
-    const [workFlow, setWorkFlow] = useState(model.workFlow || null);    
-    const [data, setData] = useState([]);
 
+    const [firstRound, setFirstRound] = useState(true); // Muestra indicativo la primera vez
+    const [elapsed, setElapsed] = useState(model.samplingTimeMs || 30000); // Duracion: 30, 60 o 90
+    
+    // Inputs
+    const [workFlow, setWorkFlow] = useState(model.workFlow || undefined);    
+    const [data, setData] = useState([]); // Datos de la tabla
+
+    // Outputs
+    const [outputs, setOutputs] = useState({ // Resultados
+        ready: false,
+        efAvg: undefined,
+        expectedVolume: undefined,
+        effectiveSprayVolume: undefined,
+        diff: undefined,
+        diffp: undefined
+    });
+    
+    // Estado del timer
+    const [time, setTime] = useState(model.samplingTimeMs || 30000); 
+    const [running, setRunning] = useState(false);        
+    
+    // Sonidos de alerta
     const [play3] = useSound(threeSfx);
     const [play2] = useSound(twoSfx);
     const [play1] = useSound(oneSfx);
     const [play0] = useSound(readySfx);
     
-    const updateElapsed = value => {
+    const handleElapsedChange = value => {
         timer.setInitial(value);
-        model.update("time", value/1000);
+        model.update("samplingTimeMs", value);
         setTime(value);
-        setElapsed(value);
-        setData([]); // Al cambiar el tiempo, borrar datos anteriores
+        setElapsed(value);        
     };
 
-    const onTimeout = () => {        
+    const handleWorkFlowChange = e => { // Al cambiar el valor de caudal, actualizar datos de la tabla
+        const wf = parseFloat(e.target.value);
+        if(wf){ // Actualizar tabla, solo con valor de caudal valido
+            const temp = data.map(row => ({
+                ...row,
+                ...Model.computeEffectiveFlow({
+                    c: row.value, 
+                    tms: elapsed,
+                    Qt: wf
+                })
+            }));                           
+            updateData(temp);
+        }
+        model.update("workFlow", wf);
+        setWorkFlow(wf);        
+    };
+
+    const handleNozzleCntChange = e => {        
+        const temp = [];
+        for(let i = 0; i < e.target.value; i++){
+            temp.push({
+                value: 0,
+                updated: false,
+                ef: undefined,
+                s: undefined,
+                c: false
+            });
+        }
+        model.update("nozzleCnt", temp);
+        setData(temp);
+        setOutputs({
+            ...outputs,
+            ready: false
+        });
+    };
+
+    const updateData = (newData) => {
+        model.update("collectedData", newData);
+        const res = {...outputs};
+        res.efAvg = arrayAvg(newData, "ef");        
+        if(res.efAvg){
+            res.effectiveSprayVolume = Model.computeSprayVolume({
+                Q: res.efAvg,
+                d: model.nozzleSeparation,
+                vel: model.workVelocity
+            });
+            res.expectedVolume = Model.computeSprayVolume({
+                Q: workFlow,
+                d: model.nozzleSeparation,
+                vel: model.workVelocity
+            });
+            res.diff = res.effectiveSprayVolume - res.expectedVolume;
+            res.diffp = res.diff/model.workVolume*100;
+            res.ready = true;
+            setOutputs(res);
+        }
+        setData(newData);
+    };
+
+    useEffect(() => { // Como esta creado con initial=0, hay que inicializarlo en el valor correcto
+        timer.setInitial(elapsed);
+    }, []);
+
+    const onTimeout = () => {
+        KeepAwake.allowSleep();
         setRunning(false);        
         setTime(elapsed);        
-        Toast("success", "Ingrese el valor recolectado seleccionando la fila correspondiente", 3000, "center");
+        if(firstRound){ // Mostrar instructivo la primera vez
+            Toast("success", "Ingrese el valor recolectado seleccionando la fila correspondiente", 2000, "center");
+            setFirstRound(false);
+        }
     };
 
     const toggleRunning = () => {
-        if(data.length > 0)
-        {
-            if(!running){
-                timer.onChange = setTime;
-                timer.onTimeout = onTimeout;
-                timer.clear();
-                timer.start();
-                setRunning(true);            
-            }else{
-                timer.stop();
-                timer.clear();
-                setTime(elapsed);            
-                setRunning(false);
+        if(workFlow){
+            if(data.length > 0) // Solo si hay indicado un numero de picos mayor a 0
+            {
+                if(!running){
+                    timer.onChange = setTime;
+                    timer.onTimeout = onTimeout;
+                    timer.clear();
+                    timer.start();
+                    KeepAwake.keepAwake()                
+                    .catch(err => {
+                        console.log("Error de KeepAwake");
+                        console.log(err);                    
+                    });
+                    setRunning(true);
+                }else{
+                    timer.stop();
+                    timer.clear();
+                    setTime(elapsed);            
+                    KeepAwake.allowSleep()
+                    .catch(err => {
+                        console.log("Error de KeepAwake");
+                        console.log(err);                    
+                    });
+                    setRunning(false);
+                }
+            }else{ // Si no hay datos, no se puede iniciar el timer
+                Toast("error", "Indique la cantidad de picos a controlar", 3000, "bottom");
             }
         }else{
-            Toast("error", "Indique la cantidad de picos a controlar", 3000, "bottom");
+            Toast("error", "Indique el caudal de trabajo", 3000, "bottom");
         }
     };
 
@@ -86,31 +177,21 @@ const Control = props => {
             play1();
         if(time < 100)
             play0();
-        // unix to min:seg:ms
+        // formatear de unix a min:seg:ms
         return moment(time).format('mm:ss:S');
     };
 
-    const handleFowChange = e => {
-        setWorkFlow(e.target.value);
-    }
-
-    const handleNozzleCntChange = e => {        
-        const temp = [];
-        for(let i = 0; i < e.target.value; i++){
-            temp.push({
-                value: 0,
-                effectiveFlow: 0,
-                deviation: 0,
-                correct: false
-            });
-        }
-        setData(temp);
+    const addResultsToReport = () => {
+        /*
+        model.addDistributionToreport(results);
+        f7.panel.open();
+        */
     }
 
     return (
         <Page>
             <Navbar title="Verificación de picos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
-            <ElapsedSelector value={elapsed} disabled={running} onChange={updateElapsed}/>
+            <ElapsedSelector value={elapsed} disabled={running} onChange={handleElapsedChange}/>
 
             <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
                 <Input
@@ -121,6 +202,7 @@ const Control = props => {
                     icon={iconNumber}
                     value={data.length === 0 ? null : data.length}
                     onChange={handleNozzleCntChange}
+                    disabled={running}
                     ></Input>
                 <Input
                     className="help-target-supplies-form"
@@ -131,7 +213,8 @@ const Control = props => {
                     unit="l/min"
                     icon={iconFlow}
                     value={workFlow}
-                    onChange={handleFowChange}
+                    onChange={handleWorkFlowChange}
+                    disabled={running}
                     ></Input>
             </List>
 
@@ -139,16 +222,38 @@ const Control = props => {
                 <p style={{fontSize:"50px", margin:"0px"}}>{getTime()} <PlayButton onClick={toggleRunning} running={running} /></p>
             </Block>
 
-            <Block style={{marginBottom: "0px",textAlign:"center"}}>
-                <DataTable data={data} onDataChange={setData}/>
+            <Block style={{marginBottom: "20px",textAlign:"center"}}>
+                <DataTable 
+                    data={data} 
+                    onDataChange={updateData} 
+                    rowSelectDisabled={running || !workFlow}
+                    evalCollected={value => Model.computeEffectiveFlow({ // Funcion para evaluar volumen recolectado
+                        c: value, 
+                        tms: elapsed,
+                        Qt: workFlow
+                    })}/>
             </Block>
 
-            <Block className={classes.OutputBlock}>
-                <p><b>Resultados</b></p>
-                <p>Caudal efectivo promedio: {} l/min</p>
-                <p>Volumen pulverizado efectivo: {} l/ha</p>
-                <p>Diferencia: {} l/ha ({} %)</p>
-            </Block>
+            {outputs.ready && 
+                <Block className={classes.OutputBlock}>
+                    <p><b>Resultados</b></p>
+                    <p>Caudal efectivo promedio: {outputs.efAvg.toFixed(2)} l/min</p>
+                    <p>Volumen pulverizado efectivo: {outputs.effectiveSprayVolume.toFixed(2)} l/ha</p>
+                    <p>Volumen previsto: {outputs.expectedVolume} l/ha</p>
+                    <p>Diferencia: {outputs.diff.toFixed(2)} l/ha ({outputs.diffp.toFixed(2)} %)</p>
+
+                    <Row style={{marginTop:30, marginBottom: 20}}>
+                        <Col width={20}></Col>
+                        <Col width={60}>
+                            <Button fill style={{textTransform:"none"}} onClick={addResultsToReport}>
+                                Agregar a reporte
+                            </Button>
+                        </Col>
+                        <Col width={20}></Col>
+                    </Row>
+                </Block>
+            }
+
             <BackButton {...props} />
         </Page>
     );

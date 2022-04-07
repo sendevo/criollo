@@ -16,7 +16,7 @@ import { BackButton, DeleteButton, AddButton } from '../../components/Buttons';
 import { ModelCtx, WalkthroughCtx } from '../../context';
 import Toast from '../../components/Toast';
 import api from '../../entities/API';
-import { error_messages, generate_id, set_2_decimals } from '../../utils';
+import { error_messages, generateId, set2Decimals } from '../../utils';
 import { PresentationSelector } from '../../components/Selectors';
 import iconProduct from '../../assets/icons/calculador.png';
 import iconDose from '../../assets/icons/dosis.png';
@@ -39,9 +39,9 @@ const Supplies = props => {
     const addProduct = () => {
         const temp = [...products];
         temp.push({
-            key: generate_id(),
+            key: generateId(),
             name: model.main_prod || '',
-            density: set_2_decimals(model.fitted_dose || model.effective_dose || model.expected_dose || 0),
+            density: set2Decimals(model.fitted_dose || model.effective_dose || model.expected_dose || 0),
             presentation: 0 // 0->granel, x->envase de x kg
         });
         model.update("products", temp);        
