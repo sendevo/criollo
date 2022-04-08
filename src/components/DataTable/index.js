@@ -1,6 +1,7 @@
 import { Card } from "framework7-react";
-import { FaCheck, FaTimes, FaQuestion } from 'react-icons/fa';
+import { formatNumber } from "../../utils";
 import { nozzleCollectedPrompt } from "../Prompts";
+import { FaCheck, FaTimes, FaQuestion } from 'react-icons/fa';
 import classes from './style.module.css';
 
 const DataTable = props => {
@@ -58,8 +59,8 @@ const DataTable = props => {
                                 props.data.map((row,idx) => (
                                     <tr key={idx} onClick={()=>handleRowSelect(idx)}>
                                         <td className={classes.DataCell}>{idx+1}</td>
-                                        <td className={classes.DataCell}>{row.updated ? row.ef.toFixed(2)+" l/min" : " - "}</td>
-                                        <td className={classes.DataCell}>{row.updated ? row.s.toFixed(2)+" %" : " - "}</td>
+                                        <td className={classes.DataCell}>{row.updated ? formatNumber(row.ef)+" l/min" : " - "}</td>
+                                        <td className={classes.DataCell}>{row.updated ? formatNumber(row.s)+" %" : " - "}</td>
                                         <td className={classes.DataCell}>
                                             {
                                                 row.updated?

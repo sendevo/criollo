@@ -6,7 +6,7 @@ import moment from 'moment';
 import * as Model from '../../entities/API/index.js';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import Input from "../../components/Input";
-import { arrayAvg } from "../../utils";
+import { arrayAvg, formatNumber } from "../../utils";
 import { PlayButton, BackButton } from "../../components/Buttons";
 import Timer from "../../entities/Timer";
 import Toast from "../../components/Toast";
@@ -38,7 +38,7 @@ const Control = props => {
     const [outputs, setOutputs] = useState({ // Resultados
         ready: false,
         efAvg: undefined,
-        expectedVolume: undefined,
+        expectedSprayVolume: undefined,
         effectiveSprayVolume: undefined,
         diff: undefined,
         diffp: undefined
@@ -61,8 +61,9 @@ const Control = props => {
         setElapsed(value);        
     };
 
-    const handleWorkFlowChange = e => { // Al cambiar el valor de caudal, actualizar datos de la tabla
+    const handleWorkFlowChange = e => { // Al cambiar el valor de caudal, actualizar datos de 
         const wf = parseFloat(e.target.value);
+        console.log(e.target.value, wf);
         if(wf){ // Actualizar tabla, solo con valor de caudal valido
             const temp = data.map(row => ({
                 ...row,
@@ -71,11 +72,11 @@ const Control = props => {
                     tms: elapsed,
                     Qt: wf
                 })
-            }));                           
+            }));                  
+            model.update("workFlow", wf);
             updateData(temp);
         }
-        model.update("workFlow", wf);
-        setWorkFlow(wf);        
+        setWorkFlow(e.target.value);
     };
 
     const handleNozzleCntChange = e => {        
@@ -99,23 +100,22 @@ const Control = props => {
 
     const updateData = (newData) => {
         model.update("collectedData", newData);
-        const res = {...outputs};
-        res.efAvg = arrayAvg(newData, "ef");        
-        if(res.efAvg){
-            res.effectiveSprayVolume = Model.computeSprayVolume({
-                Q: res.efAvg,
+        const efAvg = arrayAvg(newData, "ef");
+        if(efAvg){
+            const effectiveSprayVolume = Model.computeSprayVolume({
+                Q: efAvg,
                 d: model.nozzleSeparation,
                 vel: model.workVelocity
             });
-            res.expectedVolume = Model.computeSprayVolume({
-                Q: workFlow,
+            const expectedSprayVolume = Model.computeSprayVolume({
+                Q: model.workFlow, // La variable de estado aun no esta actualizada, por eso uso la de model
                 d: model.nozzleSeparation,
                 vel: model.workVelocity
             });
-            res.diff = res.effectiveSprayVolume - res.expectedVolume;
-            res.diffp = res.diff/model.workVolume*100;
-            res.ready = true;
-            setOutputs(res);
+            const diff = effectiveSprayVolume - expectedSprayVolume;
+            const diffp = diff/model.workVolume*100;
+            const ready = true;
+            setOutputs({efAvg, effectiveSprayVolume, expectedSprayVolume, diff, diffp, ready});
         }
         setData(newData);
     };
@@ -186,6 +186,7 @@ const Control = props => {
         model.addDistributionToreport(results);
         f7.panel.open();
         */
+       Toast("info", "Funcionalidad aún no disponible", 2000, "bottom");
     }
 
     return (
@@ -198,14 +199,13 @@ const Control = props => {
                     slot="list"
                     label="Picos a controlar"
                     name="nozzleCnt"
-                    type="text"
+                    type="number"
                     icon={iconNumber}
-                    value={data.length === 0 ? null : data.length}
+                    value={data.length === 0 ? undefined : data.length}
                     onChange={handleNozzleCntChange}
-                    disabled={running}
-                    ></Input>
+                    disabled={running}>
+                </Input>
                 <Input
-                    className="help-target-supplies-form"
                     slot="list"
                     label="Caudal de trabajo"
                     name="workFlow"
@@ -214,8 +214,8 @@ const Control = props => {
                     icon={iconFlow}
                     value={workFlow}
                     onChange={handleWorkFlowChange}
-                    disabled={running}
-                    ></Input>
+                    disabled={running}>
+                </Input>
             </List>
 
             <Block style={{marginTop:"20px", textAlign:"center"}}>
@@ -237,10 +237,10 @@ const Control = props => {
             {outputs.ready && 
                 <Block className={classes.OutputBlock}>
                     <p><b>Resultados</b></p>
-                    <p>Caudal efectivo promedio: {outputs.efAvg.toFixed(2)} l/min</p>
-                    <p>Volumen pulverizado efectivo: {outputs.effectiveSprayVolume.toFixed(2)} l/ha</p>
-                    <p>Volumen previsto: {outputs.expectedVolume} l/ha</p>
-                    <p>Diferencia: {outputs.diff.toFixed(2)} l/ha ({outputs.diffp.toFixed(2)} %)</p>
+                    <p>Caudal efectivo promedio: {formatNumber(outputs.efAvg)} l/min</p>
+                    <p>Volumen pulverizado efectivo: {formatNumber(outputs.effectiveSprayVolume)} l/ha</p>
+                    <p>Volumen previsto: {formatNumber(outputs.expectedSprayVolume)} l/ha</p>
+                    <p>Diferencia: {formatNumber(outputs.diff)} l/ha ({formatNumber(outputs.diffp)} %)</p>
 
                     <Row style={{marginTop:30, marginBottom: 20}}>
                         <Col width={20}></Col>

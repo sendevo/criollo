@@ -16,7 +16,9 @@ export const error_messages = {
     work_area: "Debe indicar el área de trabajo"
 };
 
-export const set2Decimals = value => parseFloat(value.toFixed(2));
+export const set2Decimals = value => Math.round(value*100)/100;
+
+export const formatNumber = value => value.toFixed(2).replace('.',',');
 
 export const generateId = () => "_" + Math.random().toString(36).substr(2) + Date.now();
 
