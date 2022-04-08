@@ -2,6 +2,14 @@ const round2 = x => Math.round(x*100)/100;
 
 const K = (Qnom, Pnom) => 600*Qnom/Math.sqrt(Pnom);
 
+
+export const presentationUnits = [
+    "ml/ha",
+    "gr/ha",
+    "ml/100l",
+    "gr/100l"
+];
+
 export const computeQt = params => {
     const { Pt, Vt, d, Qnom, Pnom } = params;
     const Qt = Math.sqrt(Pt) * K(Qnom, Pnom) / Vt / d;
@@ -35,37 +43,26 @@ export const computeSprayVolume = params => {
     return round2(vol);
 }
 
-const computeSuppliesList = params => {    
-    const {products, work_area, capacity} = params;
+const computeProductVolume = (prod, vol, Qt) => { // Cantidad de insumo (gr o ml) por volumen de agua
+    return prod.presentation === 0 || prod.presentation === 1 ? vol*prod.dose/Qt : vol*prod.dose/100;
+}
 
-    const quantities = [];
-    let total_weight = 0; // Peso total para calculo de cargas
-    for(let p in products){
-        const quant = products[p].density*work_area;
-        total_weight += quant;
-        if(products[p].presentation === 0)
-            quantities.push(quant); // A granel -> cantidad
-        else
-            quantities.push(quant/products[p].presentation); // Cantidad de envases
-    }
-    
-    // Calculo de cargas
-    // Numero total de cargas (en decimal)
-    const load_number = capacity ? total_weight/capacity : 0; 
-    // Numero de cargas completas
-    const complete_loads = Math.floor(load_number); 
-    // Parte decimal de la carga
-    const fraction_weight = capacity ? (load_number - complete_loads)*capacity : 0; 
-    // Peso de cargas equilibradas
-    const eq_load_weight = total_weight/Math.ceil(load_number);
-    // Resumen a retornar
-    const loads_data = capacity ? {load_number, complete_loads, fraction_weight, eq_load_weight} : null;
+export const computeSuppliesList = params => { // Lista de insumos y cargas para mezcla   
+    const { A, T, Qt, products } = params;
+    const Nc = A*Qt/T; // Cantidad de cargas
+    const Ncc = Math.floor(Nc); // Cantidad de cargas completas
+    const Vf = (Nc - Ncc)*T; // Volumen fraccional [L]
+    const Ncb = Math.ceil(Nc); // Cantidad de cargas balanceadas
+    const Vcb = A*Qt/Ncb; // Volumen de cargas balanceadas
+    const Vftl = Vf/T < 0.2; // Detectar volumen fraccional total menor a 20%
+    // Calcular cantidades de cada producto
+    const pr = products.map(p => ({
+        ...p,
+        cpp: computeProductVolume(p, T, Qt)/1000, // Cantidad por carga completa [l o kg]
+        cfc: computeProductVolume(p, Vf, Qt)/1000, // Cantidad por carga fraccional [l o kg]
+        ceq: computeProductVolume(p, Vcb, Qt)/1000, // Cantidad por carga equilibrada [l o kg]
+        total: computeProductVolume(p, T, Qt)*Nc/1000, // Cantidad total de insumo [l o kg]
+    }));
 
-    return {status: "success", quantities, loads_data};
+    return {pr, Nc, Ncc, Vf, Ncb, Vcb, Vftl};
 };
-
-const exported = {    
-    computeSuppliesList
-};
-
-export default exported;

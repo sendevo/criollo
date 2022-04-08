@@ -2,7 +2,13 @@ import { generateId } from "../../utils";
 import { Storage } from '@capacitor/storage';
 import { Capacitor } from "@capacitor/core";
 
-const version = '4.0.0'; // Ante cualquier cambio en el modelo, se debe incrementar la version
+// Esta clase Singleton se encarga de manejar el estado persistente de las variables globales.
+
+
+// El almacenamiento de datos se realiza con el valor de la version.
+// Las migraciones entre versiones no estan implementadas. 
+// Ante cualquier cambio en el modelo, se debe incrementar la version.
+const version = '4.0.0'; 
 
 const get_blank_report = () => {
     return {
@@ -36,14 +42,12 @@ export default class CriolloModel {
         this.collectedData = []; // Datos de jarreo
 
         // Variables de insumos
-        this.work_area = null; // Superficie de lote
-        this.field_name = null; // Nombre del lote
+        this.workArea = null; // Superficie de lote
+        this.fieldName = null; // Nombre del lote
+        this.gpsEnabled = false;
         this.fieldCoordinates = []; // Ubicacion del lote
         this.capacity = null; // Capacidad del tanque
         this.products = []; // Lista de prductos
-        this.quantities = []; // Cantidades de productos
-        this.load_number = null; // Numero de cargas
-        this.eq_load_weight = null; // Carga equilibrada
 
         // Reportes
         this.reports = [];

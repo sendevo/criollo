@@ -1,58 +1,56 @@
 import { Block, Radio, Row, Col, BlockTitle } from 'framework7-react';
-import { openRecipientSizePrompt } from '../Prompts';
 
-const PresentationSelector = props => {    
+const label = {
+    display:"flex", 
+    flexDirection: "column", 
+    alignContent:"center", 
+    alignItems: "center",
+    color: "#777777"
+};
 
-    const setBulk = checked => { // Configurar para granel
-        if(checked)
-            props.onChange({
-                target: {
-                    name: 'presentation',                    
-                    value: 0
-                }
-            });
-    };
-
-    const openPrompt = checked => { // Configurar para envases
-        if(checked)
-            openRecipientSizePrompt(v=>props.onChange(
-                {
-                    target: {
-                        name: 'presentation',                        
-                        value: v
-                    }
-                }
-            ));
-    };
-    
-    return (
-        <Row style={{fontSize:12}}>
-            <Col width={33}>
-                Presentación
+const PresentationSelector = props => (
+    <div>
+        <Row style={{fontSize:"0.8em", marginBottom: 5, marginTop: 10}}>
+            <Col width={50}>
+                <div style={label}>
+                    Líquidos
+                </div>
             </Col>
-            <Col  width={33}>
+            <Col width={50}>
+                <div style={label}>
+                    Sólidos
+                </div>
+            </Col>
+        </Row>
+        <Row style={{fontSize:"0.7em"}}>
+            <Col  width={25}>
                 <Radio 
                     name="input-type" 
                     checked={props.value === 0} 
-                    onChange={e=>setBulk(e.target.checked)}/> A granel
+                    onChange={e=>props.onChange(0)}/> ml/ha
             </Col>
-            <Col width={33}>
+            <Col width={25}>
                 <Radio 
                     name="input-type" 
-                    checked={props.value > 0} 
-                    onChange={e=>openPrompt(e.target.checked)}/> En envase
-                    <br/>
-                {
-                    props.value>0?
-                    <span style={{color:"darkgray", marginLeft:20}}> (de {props.value} kg)</span>
-                    :
-                    null
-                }
-                
+                    checked={props.value === 2} 
+                    onChange={e=>props.onChange(2)}/> ml/100l
+            </Col>
+            <Col  width={25}>
+                <Radio 
+                    name="input-type" 
+                    checked={props.value === 1} 
+                    onChange={e=>props.onChange(1)}/> gr/ha
+            </Col>
+            <Col width={25}>
+                <Radio 
+                    name="input-type" 
+                    checked={props.value === 3} 
+                    onChange={e=>props.onChange(3)}/> gr/100l
             </Col>
         </Row>
-    );
-};
+    </div>
+);
+
 
 const ElapsedSelector = props => {
 

@@ -32,10 +32,10 @@ const Control = props => {
     
     // Inputs
     const [workFlow, setWorkFlow] = useState(model.workFlow || undefined);    
-    const [data, setData] = useState([]); // Datos de la tabla
+    const [data, setData] = useState(model.collectedData || []); // Datos de la tabla
 
     // Outputs
-    const [outputs, setOutputs] = useState({ // Resultados
+    const [outputs, setOutputs] = useState(model.verificationOutput || { // Resultados
         ready: false,
         efAvg: undefined,
         expectedSprayVolume: undefined,
@@ -63,7 +63,6 @@ const Control = props => {
 
     const handleWorkFlowChange = e => { // Al cambiar el valor de caudal, actualizar datos de 
         const wf = parseFloat(e.target.value);
-        console.log(e.target.value, wf);
         if(wf){ // Actualizar tabla, solo con valor de caudal valido
             const temp = data.map(row => ({
                 ...row,
@@ -90,12 +89,14 @@ const Control = props => {
                 c: false
             });
         }
-        model.update("nozzleCnt", temp);
-        setData(temp);
-        setOutputs({
+        const temp2 = {
             ...outputs,
             ready: false
-        });
+        };
+        model.update("collectedData", temp);
+        model.update("verificationOutput", temp2);
+        setData(temp);
+        setOutputs(temp2);
     };
 
     const updateData = (newData) => {
@@ -115,7 +116,9 @@ const Control = props => {
             const diff = effectiveSprayVolume - expectedSprayVolume;
             const diffp = diff/model.workVolume*100;
             const ready = true;
-            setOutputs({efAvg, effectiveSprayVolume, expectedSprayVolume, diff, diffp, ready});
+            const result = {efAvg, effectiveSprayVolume, expectedSprayVolume, diff, diffp, ready};
+            model.update("verificationOutput", result);
+            setOutputs(result);
         }
         setData(newData);
     };

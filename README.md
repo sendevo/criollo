@@ -17,12 +17,7 @@ $ npm start
 
 Compilar versión web optimizada
 ```bash
-$ npm run build
-```
-
-Ejecutar módulo de pruebas
-```bash
-$ npm run test
+$ npm run build:react
 ```
 
 Compilar apk (android)
@@ -51,3 +46,31 @@ zipalign 4 app-release-unsigned.apk app-release.apk
 
 ### Backlog
 
+  - [ ] Seccion parametros de pulverizacion.  
+    - [ ] Vista con formulario.  
+    - [ ] Calculo de resultados.  
+    - [ ] Medidor de velocidad.  
+    - [ ] Cargar resultados a reporte.  
+  - [ ] Seccion verificacion de picos.  
+    - [x] Vista con formulario.  
+    - [x] Cálculo de resultados.  
+    - [ ] Cargar resultados a reporte.  
+  - [ ] Seccion calculo de mezclas.  
+    - [ ] Vista con formulario.  
+    - [ ] Cálculo de insumos.  
+    - [ ] Capacitor GPS.  
+    - [ ] Vista de resultados.  
+    - [ ] Cargar resultados a reporte.  
+  - [ ] Seccion reportes.  
+    - [ ] Vista de listado de reportes.  
+    - [ ] Gestion de reportes.  
+    - [ ] Vista de presentación de reportes.  
+    - [ ] Exportar reporte a PDF y compartir.  
+  - [ ] Sección Información y ayuda.  
+    - [x] Menu de enlaces.  
+    - [x] Seccion acerca de.  
+    - [x] Enlace informacion adicional.  
+    - [ ] Recorrido por la app (modo ayuda).  
+
+
+Progreso total: 5/24 = 20.83%
