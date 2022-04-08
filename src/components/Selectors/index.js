@@ -1,5 +1,45 @@
 import { Block, Radio, Row, Col, BlockTitle } from 'framework7-react';
 
+
+const NozzleSeparationSelector = props => {
+
+    const setValue = (el, value) => {
+        if(el.target.checked){
+            props.onChange(value);
+        }
+    };
+
+    return (
+        <Block style={{margin:"0px"}}>
+            <BlockTitle>Configuración de botalón</BlockTitle>
+            <Row>
+                <Col style={{textAlign:"center"}}>
+                    <Radio 
+                        disabled={props.disabled}
+                        name="input-type" 
+                        checked={props.value===0.35} 
+                        onChange={e=>setValue(e,0.35)}/> 0,35 m
+                </Col>
+                <Col style={{textAlign:"center"}}>
+                    <Radio 
+                        disabled={props.disabled}
+                        name="input-type" 
+                        checked={props.value===0.52} 
+                        onChange={e=>setValue(e,0.52)}/> 0,52 m
+                </Col>
+                <Col style={{textAlign:"center"}}>
+                    <Radio 
+                        disabled={props.disabled}
+                        name="input-type" 
+                        checked={props.value===0.7} 
+                        onChange={e=>setValue(e,0.7)}/> 0,7 m
+                </Col>
+            </Row>
+        </Block>
+    );
+};
+
+
 const label = {
     display:"flex", 
     flexDirection: "column", 
@@ -91,4 +131,4 @@ const ElapsedSelector = props => {
 };
 
 
-export { PresentationSelector, ElapsedSelector };
+export { NozzleSeparationSelector, PresentationSelector, ElapsedSelector };

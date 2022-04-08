@@ -54,12 +54,14 @@ zipalign 4 app-release-unsigned.apk app-release.apk
   - [ ] Seccion verificacion de picos.  
     - [x] Vista con formulario.  
     - [x] Cálculo de resultados.  
+    - [x] Control de campos.  
     - [ ] Cargar resultados a reporte.  
   - [ ] Seccion calculo de mezclas.  
     - [x] Vista con formulario.  
     - [x] Cálculo de insumos.  
     - [x] Navigator/Capacitor GPS.  
     - [x] Vista de resultados.  
+    - [ ] Control de campos.  
     - [ ] Cargar resultados a reporte.  
   - [ ] Seccion reportes.  
     - [ ] Vista de listado de reportes.  
@@ -73,4 +75,4 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [ ] Recorrido por la app (modo ayuda).  
 
 
-Progreso total: 5/24 = 20.83%
+Progreso total: 10/22 = 45%
