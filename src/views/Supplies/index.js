@@ -11,12 +11,11 @@ import {
     Card, 
     CardContent
 } from 'framework7-react';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import Input from '../../components/Input';
 import { BackButton, DeleteButton, AddButton } from '../../components/Buttons';
 import { ModelCtx } from '../../context';
-import Toast from '../../components/Toast';
-import * as Model from '../../entities/API';
+import * as API from '../../entities/API';
 import { generateId } from '../../utils';
 import { PresentationSelector } from '../../components/Selectors';
 import iconProduct from '../../assets/icons/calculador.png';
@@ -42,7 +41,7 @@ const Supplies = props => {
         fieldName: model.fieldName || '', // Nombre de lote
         gpsEnabled: false, // Habilitar GPS
         fieldCoordinates: model.fieldCoordinates || [], // Ubicacion del lote
-        loadBalancingEnabled: model.loadBalancingEnabled || false, // Habilitar balanceo de carga
+        loadBalancingEnabled: model.loadBalancingEnabled || true, // Habilitar balanceo de carga
         workArea: model.workArea || '', // Superficie
         capacity: model.capacity || '' // Capacidad carga
     });
@@ -94,11 +93,9 @@ const Supplies = props => {
             Qt: model.workVolume,
             products
         };
-        console.log(params);
-        const res = Model.computeSuppliesList(params);
-        model.update('mixResult', res);
-        console.log(res);
-        //props.f7router.navigate("/suppliesList/");
+        const res = API.computeSuppliesList(params);
+        model.update('supplies', res);
+        props.f7router.navigate("/suppliesList/");
     };
 
     return (
@@ -176,7 +173,7 @@ const Supplies = props => {
                                         slot="list"
                                         label="Dosis"
                                         type="number"
-                                        unit={Model.presentationUnits[p.presentation]}
+                                        unit={API.presentationUnits[p.presentation]}
                                         icon={iconDose}
                                         value={p.dose || ''}
                                         onInputClear={()=>setProductParams(index, "dose", "")}

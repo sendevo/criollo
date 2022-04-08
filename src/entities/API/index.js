@@ -57,7 +57,7 @@ export const computeSuppliesList = params => { // Lista de insumos y cargas para
     const Vftl = Vf/T < 0.2; // Detectar volumen fraccional total menor a 20%
     // Calcular cantidades de cada producto
     const pr = products.map(p => ({
-        ...p,
+        ...p, // Por comodidad, dejar resto de los detalles en este arreglo
         cpp: computeProductVolume(p, T, Qt)/1000, // Cantidad por carga completa [l o kg]
         cfc: computeProductVolume(p, Vf, Qt)/1000, // Cantidad por carga fraccional [l o kg]
         ceq: computeProductVolume(p, Vcb, Qt)/1000, // Cantidad por carga equilibrada [l o kg]

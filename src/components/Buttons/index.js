@@ -1,4 +1,4 @@
-import { Link, Block, Button } from 'framework7-react';
+import { Link, Block } from 'framework7-react';
 import { FaPlay, FaStop, FaArrowLeft, FaPlus, FaStopwatch, FaTrash } from 'react-icons/fa';
 import classes from './style.module.css';
 

@@ -14,12 +14,12 @@ const get_blank_report = () => {
     return {
         id: generateId(),
         name: "Sin nombre",
-        dose:{},
-        distr: {},
+        params:{},
+        control: {},
         supplies: {},
         completed: {
-            dose: false,
-            distribution: false,
+            params: false,
+            control: false,
             supplies: false
         },
         selected: false // Esto se usa en la vista de listado
@@ -44,10 +44,12 @@ export default class CriolloModel {
         // Variables de insumos
         this.workArea = null; // Superficie de lote
         this.fieldName = null; // Nombre del lote
-        this.gpsEnabled = false;
+        this.gpsEnabled = false; // Habilitacion coordenadas lote
+        this.loadBalancingEnabled = true; // Habilitacion balanceo de carga
         this.fieldCoordinates = []; // Ubicacion del lote
         this.capacity = null; // Capacidad del tanque
         this.products = []; // Lista de prductos
+        this.supplies = {}; // Insumos y cantidades
 
         // Reportes
         this.reports = [];
@@ -125,7 +127,15 @@ export default class CriolloModel {
 
 
     /// Reportes
+    addParamsToReport(params) {
+        this.currentReport.params = params;
+        this.currentReport.completed.params = true;
+    }
 
+    addControlToReport(control) {
+        this.currentReport.control = control;
+        this.currentReport.completed.control = true;
+    }
 
     addSuppliesToReport(results) {
         if(results.field_name.length > 1)

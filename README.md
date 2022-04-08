@@ -56,10 +56,10 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [x] Cálculo de resultados.  
     - [ ] Cargar resultados a reporte.  
   - [ ] Seccion calculo de mezclas.  
-    - [ ] Vista con formulario.  
-    - [ ] Cálculo de insumos.  
-    - [ ] Capacitor GPS.  
-    - [ ] Vista de resultados.  
+    - [x] Vista con formulario.  
+    - [x] Cálculo de insumos.  
+    - [x] Navigator/Capacitor GPS.  
+    - [x] Vista de resultados.  
     - [ ] Cargar resultados a reporte.  
   - [ ] Seccion reportes.  
     - [ ] Vista de listado de reportes.  

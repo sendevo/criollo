@@ -125,6 +125,7 @@ const Control = props => {
 
     useEffect(() => { // Como esta creado con initial=0, hay que inicializarlo en el valor correcto
         timer.setInitial(elapsed);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const onTimeout = () => {

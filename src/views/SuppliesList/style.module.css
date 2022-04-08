@@ -1,0 +1,31 @@
+.SectionTitle {
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-bottom: 0px;
+    margin-top: 10px;
+}
+
+.MainTable {
+    table-layout: fixed;
+    margin-top: 20px!important;
+}
+
+.MainTable td{
+    text-align: left;
+    font-size: 12px;
+}
+
+.SuppliesTable {
+    margin-top: 10px!important;
+    table-layout:fixed;    
+}
+
+.SuppliesTable > tr > th{
+    background-color: rgb(200,200,200,0.6);
+    font-size: 12px;
+    text-align: center;
+}
+
+.SuppliesTable td {
+    font-size: 11px;
+}
