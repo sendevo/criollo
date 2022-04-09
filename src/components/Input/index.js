@@ -11,7 +11,15 @@ const Input = props => (
             {...props}>
             {
             props.icon ?
-                <img className={classes.InputIcon} src={props.icon} slot="media" alt="icon"/>
+                <img className={classes.InputIcon} 
+                    style={props.borderColor ? {
+                        border: "3px solid "+props.borderColor, 
+                        borderRadius: "10px", 
+                        marginLeft: -5
+                    } : {}}
+                    src={props.icon} 
+                    onClick={props.onIconClick}
+                    slot="media" alt="icon"/>
             :
                 null
             }   

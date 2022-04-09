@@ -1,8 +1,33 @@
 import { f7, Row, Col, Button } from 'framework7-react';
 import React from 'react';
-//import CustomInput from '../Inputs';
+import nozzles from '../../entities/nozzles.json';
 
-class Picker extends React.Component {
+const getNozzleKeyList = nozzleLeaf => Object.keys(nozzleLeaf);
+const getNozzleNameList =nozzleLeaf => getNozzleKeyList(nozzleLeaf).map(key => nozzleLeaf[key].name);
+const getNozzleKeyFromIndex = (index, nozzleLeaf) => getNozzleKeyList(nozzleLeaf)[index];
+    
+const pickerCols = [
+    {
+        values: new Array(Object.keys(nozzles).length).fill(0).map((_, i) => i),
+        displayValues: Object.keys(nozzles).map(key => nozzles[key].name),        
+        onChange: function (picker, value) {
+            if (picker.cols[1].replaceValues) {
+                const nozzleKey = getNozzleKeyFromIndex(value, nozzles);
+                const childs = nozzles[nozzleKey].childs;
+                picker.cols[1].replaceValues(
+                    getNozzleKeyList(childs),
+                    getNozzleNameList(childs)
+                );
+            }
+        }
+    },
+    {        
+        values: new Array(Object.keys(nozzles["iso"].childs).length).fill(0).map((_, i) => i),
+        displayValues: Object.keys(nozzles["iso"].childs).map(key => nozzles["iso"].childs[key].name)
+    }
+];
+
+class NozzlePicker extends React.Component {
     
         constructor(props) {
             super(props);            
@@ -32,7 +57,7 @@ class Picker extends React.Component {
                         if(this.props.onChange) this.props.onChange(v.value);
                     }
                 },
-                cols: this.props.cols,
+                cols: pickerCols,
                 value: this.props.value
             }); 
         }
@@ -72,4 +97,4 @@ class Picker extends React.Component {
         }
 }
 
-export default Picker;
+export default NozzlePicker;

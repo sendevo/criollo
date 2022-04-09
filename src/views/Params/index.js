@@ -1,13 +1,15 @@
-import { Navbar, Page, List } from 'framework7-react';
+import { Navbar, Page, List, BlockTitle, Row, Col } from 'framework7-react';
 import { useContext, useState } from 'react';
 import { BackButton } from '../../components/Buttons';
 import { NozzleSeparationSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
-import Picker from '../../components/Picker';
 import { ModelCtx } from '../../context';
+import * as API from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzle from '../../assets/nozzles/iso_0.png';
-import nozzles from '../../entities/nozzles.json';
+import iconVelocity from '../../assets/icons/velocidad.png';
+import iconPressure from '../../assets/icons/presion.png';
+import iconVolume from '../../assets/icons/dosis.png';
 
 const Params = props => {
 
@@ -15,10 +17,26 @@ const Params = props => {
 
     const [inputs, setInputs] = useState({
         nozzleSeparation: model.nozzleSeparation || 0.35,
+        nominalFlow: model.nominalFlow || 0.8,
+        nominalPressure: model.nominalPressure || 3,
+        workVelocity: model.workVelocity || 20,
+        workVelocityUpdated: false,
+        workPressure: model.workPressure || 2,
+        workPressureUpdated: false,
+        workVolume: model.workVolume || 56,
+        workVolumeUpdated: false
     });
 
     const {
-        nozzleSeparation
+        nozzleSeparation,
+        nominalFlow,
+        nominalPressure,
+        workVelocity,
+        workVelocityUpdated,
+        workPressure,
+        workPressureUpdated,
+        workVolume,
+        workVolumeUpdated
     } = inputs;
 
     const handleNozzleSeparationChange = value => {
@@ -30,35 +48,119 @@ const Params = props => {
         model.update("nozzleSeparation", ns);
     };
 
-    const handlePickerChange = v => {
-        console.log(v);
+    const handleNominalFlowChange = e => {
+        const nf = parseFloat(e.target.value);
+        setInputs({
+            ...inputs,
+            nominalFlow: nf,
+            workPressureUpdated: false,
+            workVelocityUpdated: false,
+            workVolumeUpdated: false
+        });
+        model.update("nominalFlow", nf);
     };
 
-    const pickerCols = [
-        {
-            values: [0, 1, 2, 3],
-            displayValues: ['ISO', 'DyN', 'CEN', 'AMT'],
-            onChange: function (picker, value) {
-                if (picker.cols[1].replaceValues) {
-                    picker.cols[1].replaceValues(nozzles[value]);
-                }
-            }
-        },
-        {
-            textAlign: 'left',
-            values: [0, 1],
-            displayValues: ['Cono Hueco', 'Cono Lleno']
-        },
-        {
-            values: [0, 1, 2, 3, 4, 5],
-            displayValues: ['D1', 'D1.5', 'D2', 'D3', 'D4', 'D5']
-        },
-        ,
-        {
-            values: [0, 1, 2, 3, 4],
-            displayValues: ['DC13', 'DC23', 'DC25', 'DC45', 'DC46']
-        }
-    ];
+    const handleNominalPressureChange = e => {
+        const np = parseFloat(e.target.value);
+        setInputs({
+            ...inputs,
+            nominalPressure: np,
+            workPressureUpdated: false,
+            workVelocityUpdated: false,
+            workVolumeUpdated: false
+        });
+        model.update("nominalPressure", np);
+    };
+
+    const handleWorkVelocityChange = e => {
+        const wv = parseFloat(e.target.value);
+        setInputs({
+            ...inputs,
+            workVelocity: wv,
+            workVelocityUpdated: true,
+            workPressureUpdated: false,
+            workVolumeUpdated: false
+        });
+        model.update("workVelocity", wv);
+    };
+
+    const handleWorkPressureChange = e => {
+        const wp = parseFloat(e.target.value);
+        setInputs({
+            ...inputs,
+            workPressure: wp,
+            workPressureUpdated: true,
+            workVelocityUpdated: false,
+            workVolumeUpdated: false
+        });
+        model.update("workPressure", wp);
+    };
+
+    const handleWorkVolumeChange = e => {
+        const wv = parseFloat(e.target.value);
+        setInputs({
+            ...inputs,
+            workVolume: wv,
+            workVolumeUpdated: true,
+            workPressureUpdated: false,
+            workVelocityUpdated: false
+        });
+        model.update("workVolume", wv);
+    };
+
+    const computeWorkVelocity = () => {
+        const newVel = API.computeVt({
+            Qt: workVolume,
+            Pt: workPressure,
+            d: nozzleSeparation,
+            Qnom: nominalFlow,
+            Pnom: nominalPressure
+        });
+        setInputs({
+            ...inputs,
+            workVelocity: newVel,
+            workVelocityUpdated: true,
+            workPressureUpdated: true,
+            workVolumeUpdated: true
+        });
+        model.update("workVelocity", newVel);
+    };
+
+    const computeWorkPressure = () => {
+        const newPres = API.computePt({
+            Qt: workVolume,
+            Vt: workVelocity,            
+            d: nozzleSeparation,
+            Qnom: nominalFlow,
+            Pnom: nominalPressure
+        });
+        setInputs({
+            ...inputs,
+            workPressure: newPres,
+            workVelocityUpdated: true,
+            workPressureUpdated: true,
+            workVolumeUpdated: true
+        });
+        model.update("workPressure", newPres);
+    };
+
+    const computeWorkVolume = () => {
+        const newVol = API.computeQt({
+            Pt: workPressure,
+            Vt: workVelocity,
+            d: nozzleSeparation,
+            Qnom: nominalFlow,
+            Pnom: nominalPressure
+        });
+        setInputs({
+            ...inputs,
+            workVolume: newVol,
+            workVelocityUpdated: true,
+            workPressureUpdated: true,
+            workVolumeUpdated: true
+        });
+        model.update("workVolume", newVol);
+    };
     
     return (
         <Page>            
@@ -77,14 +179,72 @@ const Params = props => {
                 </Input>
             </List>
 
-            <Picker                 
-                pattern={"linear"}
-                title={"Ancho de labor"} 
-                cols={pickerCols} 
-                value={[0]}
-                onChange={handlePickerChange}
-                icon={iconNozzle}
-                />
+            <BlockTitle style={{marginBottom: "5px"}}>Capacidad del pico</BlockTitle>
+            <List form noHairlinesMd style={{marginBottom:"10px"}}>    
+                <Row slot="list">
+                    <Col>
+                        <Input
+                            label="Caudal nominal"
+                            name="nominalFlow"
+                            type="number"
+                            unit="l/min"                    
+                            value={nominalFlow}
+                            onChange={handleNominalFlowChange}>
+                        </Input>
+                    </Col>
+                    <Col>
+                        <Input
+                            label="Presión nominal"
+                            name="nominalPressure"
+                            type="number"
+                            unit="bar"                    
+                            value={nominalPressure}
+                            onChange={handleNominalPressureChange}>
+                        </Input>
+                    </Col>
+                </Row>
+            </List>
+
+            <BlockTitle style={{marginBottom: "5px"}}>Parámetros de pulverización</BlockTitle>
+            <List form noHairlinesMd style={{marginBottom:"10px"}}>
+                <Input
+                    slot="list"
+                    borderColor={workVelocityUpdated ? "green":"#F2D118"}
+                    label="Velocidad avance"
+                    name="workVelocity"
+                    type="number"
+                    unit="km/h"
+                    icon={iconVelocity}
+                    value={workVelocity}
+                    onIconClick={computeWorkVelocity}
+                    onChange={handleWorkVelocityChange}>
+                </Input>
+                <Input
+                    slot="list"
+                    borderColor={workPressureUpdated ? "green":"#F2D118"}
+                    label="Presión de trabajo"
+                    name="workPressure"
+                    type="number"
+                    unit="bar"
+                    icon={iconPressure}
+                    value={workPressure}
+                    onIconClick={computeWorkPressure}
+                    onChange={handleWorkPressureChange}>
+                </Input>
+                <Input
+                    slot="list"
+                    borderColor={workVolumeUpdated ? "green":"#F2D118"}
+                    label="Volumen de aplicación"
+                    name="workVolume"
+                    type="number"
+                    unit="l/ha"
+                    icon={iconVolume}
+                    value={workVolume}
+                    onIconClick={computeWorkVolume}
+                    onChange={handleWorkVolumeChange}>
+                </Input>
+            </List>
+
 
             <BackButton {...props} />
         </Page>
