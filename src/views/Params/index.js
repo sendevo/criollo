@@ -6,7 +6,6 @@ import Input from "../../components/Input";
 import { ModelCtx } from '../../context';
 import * as API from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
-import iconNozzle from '../../assets/nozzles/iso_0.png';
 import iconVelocity from '../../assets/icons/velocidad.png';
 import iconPressure from '../../assets/icons/presion.png';
 import iconVolume from '../../assets/icons/dosis.png';

@@ -47,8 +47,9 @@ zipalign 4 app-release-unsigned.apk app-release.apk
 ### Backlog
 
   - [ ] Seccion parametros de pulverizacion.  
-    - [ ] Vista con formulario.  
-    - [ ] Calculo de resultados.  
+    - [x] Vista con formulario.  
+    - [ ] Selector de picos.  
+    - [x] Calculo de resultados.  
     - [ ] Medidor de velocidad.  
     - [ ] Cargar resultados a reporte.  
   - [ ] Seccion verificacion de picos.  
@@ -75,4 +76,4 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [ ] Recorrido por la app (modo ayuda).  
 
 
-Progreso total: 10/22 = 45%
+Progreso total: 12/23 = 51%

@@ -1,4 +1,4 @@
-import { f7, Navbar, Page, Row, Col, Button, BlockTitle} from 'framework7-react';
+import { Navbar, Page, Row, Col, Button, BlockTitle} from 'framework7-react';
 import React, { useContext } from 'react';
 import { BackButton } from '../../components/Buttons';
 import { ModelCtx } from '../../context';
