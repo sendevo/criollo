@@ -51,19 +51,19 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [ ] Seleccion de picos.  
     - [x] Calculo de resultados.  
     - [x] Medidor de velocidad.  
-    - [ ] Control de campos.  
+    - [x] Control de campos.  
     - [x] Cargar resultados a reporte.  
   - [x] Seccion verificacion de picos.  
     - [x] Vista con formulario.  
     - [x] Cálculo de resultados.  
     - [x] Control de campos.  
     - [x] Cargar resultados a reporte.  
-  - [ ] Seccion calculo de mezclas.  
+  - [x] Seccion calculo de mezclas.  
     - [x] Vista con formulario.  
     - [x] Cálculo de insumos.  
     - [x] Navigator/Capacitor GPS.  
     - [x] Vista de resultados.  
-    - [ ] Control de campos.  
+    - [x] Control de campos.  
     - [x] Cargar resultados a reporte.  
   - [x] Seccion reportes.  
     - [x] Vista de listado de reportes.  

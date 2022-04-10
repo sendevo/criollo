@@ -14,6 +14,7 @@ import {
 import { useContext, useState } from 'react';
 import Input from '../../components/Input';
 import { BackButton, DeleteButton, AddButton } from '../../components/Buttons';
+import Toast from '../../components/Toast';
 import { ModelCtx } from '../../context';
 import * as API from '../../entities/API';
 import { generateId } from '../../utils';
@@ -23,6 +24,7 @@ import iconDose from '../../assets/icons/recolectado.png';
 import iconArea from '../../assets/icons/sup_lote.png';
 import iconName from '../../assets/icons/reportes.png';
 import iconCapacity from '../../assets/icons/capacidad_carga.png';
+
 
 
 const Supplies = props => {
@@ -93,9 +95,13 @@ const Supplies = props => {
             Qt: model.workVolume,
             products
         };
-        const res = API.computeSuppliesList(params);
-        model.update('supplies', res);
-        props.f7router.navigate("/suppliesList/");
+        try{
+            const res = API.computeSuppliesList(params);
+            model.update('supplies', res);
+            props.f7router.navigate("/suppliesList/");
+        }catch(err){
+            Toast("error", err, 3000, "bottom");
+        }
     };
 
     return (

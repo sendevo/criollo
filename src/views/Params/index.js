@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { BackButton, CalculatorButton } from '../../components/Buttons';
 import { NozzleSeparationSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
+import Toast from '../../components/Toast';
 import { ModelCtx } from '../../context';
 import * as API from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
@@ -122,60 +123,72 @@ const Params = props => {
     };
 
     const computeWorkVelocity = () => {
-        const newVel = API.computeVt({
-            Qt: workVolume,
-            Pt: workPressure,
-            d: nozzleSeparation,
-            Qnom: nominalFlow,
-            Pnom: nominalPressure
-        });
-        model.update({
-            workVelocity: newVel,
-            velocityMeasured: false
-        });
-        setInputs({
-            ...inputs,
-            workVelocity: newVel,
-            workVelocityUpdated: true,
-            workPressureUpdated: true,
-            workVolumeUpdated: true
-        });
+        try{
+            const newVel = API.computeVt({
+                Qt: workVolume,
+                Pt: workPressure,
+                d: nozzleSeparation,
+                Qnom: nominalFlow,
+                Pnom: nominalPressure
+            });
+            model.update({
+                workVelocity: newVel,
+                velocityMeasured: false
+            });
+            setInputs({
+                ...inputs,
+                workVelocity: newVel,
+                workVelocityUpdated: true,
+                workPressureUpdated: true,
+                workVolumeUpdated: true
+            });
+        } catch(err) {
+            Toast("error", err);
+        }
     };
 
     const computeWorkPressure = () => {
-        const newPres = API.computePt({
-            Qt: workVolume,
-            Vt: workVelocity,            
-            d: nozzleSeparation,
-            Qnom: nominalFlow,
-            Pnom: nominalPressure
-        });
-        model.update("workPressure", newPres);
-        setInputs({
-            ...inputs,
-            workPressure: newPres,
-            workVelocityUpdated: true,
-            workPressureUpdated: true,
-            workVolumeUpdated: true
-        });
+        try{
+            const newPres = API.computePt({
+                Qt: workVolume,
+                Vt: workVelocity,            
+                d: nozzleSeparation,
+                Qnom: nominalFlow,
+                Pnom: nominalPressure
+            });
+            model.update("workPressure", newPres);
+            setInputs({
+                ...inputs,
+                workPressure: newPres,
+                workVelocityUpdated: true,
+                workPressureUpdated: true,
+                workVolumeUpdated: true
+            });
+        } catch(err) {
+            Toast("error", err);
+        }
     };
 
     const computeWorkVolume = () => {
-        const newVol = API.computeQt({
-            Pt: workPressure,
-            Vt: workVelocity,
-            d: nozzleSeparation,
-            Qnom: nominalFlow,
-            Pnom: nominalPressure
-        });
-        model.update("workVolume", newVol);
-        setInputs({
-            ...inputs,
-            workVolume: newVol,
-            workVelocityUpdated: true,
-            workPressureUpdated: true,
-            workVolumeUpdated: true
-        });
+        try{
+            const newVol = API.computeQt({
+                Pt: workPressure,
+                Vt: workVelocity,
+                d: nozzleSeparation,
+                Qnom: nominalFlow,
+                Pnom: nominalPressure
+            });
+            model.update("workVolume", newVol);
+            setInputs({
+                ...inputs,
+                workVolume: newVol,
+                workVelocityUpdated: true,
+                workPressureUpdated: true,
+                workVolumeUpdated: true
+            });
+        } catch(err) {
+            Toast("error", err);
+        }
     };
 
     const addParamsToReport = () => {
