@@ -8,7 +8,7 @@ import classes from './style.module.css';
 const ReportsPanel = () => {
     
     const model = useContext(ModelCtx);
-    const [completedSections, setCompletedSections] = useState(model.currentReport?.completed || {dose: false, distribution: false, supplies: false});
+    const [completedSections, setCompletedSections] = useState(model.currentReport?.completed || {params: false, control: false, supplies: false});
  
     const onOpened = () => {
         setCompletedSections({...model.currentReport.completed});
@@ -87,7 +87,7 @@ const ReportsPanel = () => {
                                         <td>Parámetros de pulverización</td>
                                         <td className={classes.SectionStatus}>
                                         {
-                                            completedSections.dose ? 
+                                            completedSections.params ? 
                                             <FaCheck size={20} color="green"/> 
                                             : 
                                             <FaTimes size={20} color="red"/>
@@ -95,10 +95,10 @@ const ReportsPanel = () => {
                                         </td>
                                     </tr>
                                     <tr>
-                                        <td>Distribución y ancho de labor</td>
+                                        <td>Verificación de picos</td>
                                         <td className={classes.SectionStatus}>
                                         {
-                                            completedSections.distribution ? 
+                                            completedSections.control ? 
                                             <FaCheck size={20} color="green"/> 
                                             : 
                                             <FaTimes size={20} color="red"/>
@@ -106,7 +106,7 @@ const ReportsPanel = () => {
                                         </td>
                                     </tr>                        
                                     <tr>
-                                        <td>Cálculo de insumos</td>
+                                        <td>Cálculo de mezcla</td>
                                         <td className={classes.SectionStatus}>
                                         {
                                             completedSections.supplies ? 

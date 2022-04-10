@@ -9,6 +9,26 @@
     width: 100%;
 }
 
+.Table td {
+    text-align: left;
+    padding-left: 15px;
+}
+
+.SuppliesTable {
+    margin-top: 10px!important;
+    table-layout:fixed;    
+}
+
+.SuppliesTable td {
+    font-size: 10px;
+}
+
+.SuppliesTable > tr > th{
+    background-color: rgb(200,200,200,0.6);
+    font-size: 10px;
+    text-align: center;
+}
+
 .DataCell {
     text-align: left;
     font-size: 90%;

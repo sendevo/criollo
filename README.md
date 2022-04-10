@@ -48,25 +48,26 @@ zipalign 4 app-release-unsigned.apk app-release.apk
 
   - [ ] Seccion parametros de pulverizacion.  
     - [x] Vista con formulario.  
-    - [ ] Selector de picos.  
+    - [ ] Seleccion de picos.  
     - [x] Calculo de resultados.  
-    - [ ] Medidor de velocidad.  
-    - [ ] Cargar resultados a reporte.  
-  - [ ] Seccion verificacion de picos.  
+    - [x] Medidor de velocidad.  
+    - [ ] Control de campos.  
+    - [x] Cargar resultados a reporte.  
+  - [x] Seccion verificacion de picos.  
     - [x] Vista con formulario.  
     - [x] Cálculo de resultados.  
     - [x] Control de campos.  
-    - [ ] Cargar resultados a reporte.  
+    - [x] Cargar resultados a reporte.  
   - [ ] Seccion calculo de mezclas.  
     - [x] Vista con formulario.  
     - [x] Cálculo de insumos.  
     - [x] Navigator/Capacitor GPS.  
     - [x] Vista de resultados.  
     - [ ] Control de campos.  
-    - [ ] Cargar resultados a reporte.  
+    - [x] Cargar resultados a reporte.  
   - [ ] Seccion reportes.  
-    - [ ] Vista de listado de reportes.  
-    - [ ] Gestion de reportes.  
+    - [x] Vista de listado de reportes.  
+    - [x] Gestion de reportes.  
     - [ ] Vista de presentación de reportes.  
     - [ ] Exportar reporte a PDF y compartir.  
   - [ ] Sección Información y ayuda.  
@@ -76,4 +77,4 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [ ] Recorrido por la app (modo ayuda).  
 
 
-Progreso total: 12/23 = 51%
+Progreso total: 18/24 = 75%

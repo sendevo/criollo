@@ -30,6 +30,7 @@ export default class CriolloModel {
     constructor(){
         // Parametros de pulverizacion
         this.workVelocity = 20; // Velocidad de trabajo (km/h)
+        this.velocityMeasured = false; // Para disparar render en vista de parametros
         this.workPressure = 2; // Presion de trabajo (bar)
         this.workVolume = 56; // Volumen de aplicacion (l/ha)
         this.workFlow = 0.65; // Caudal de trabajo efectivo (l/min)
@@ -138,8 +139,8 @@ export default class CriolloModel {
     }
 
     addSuppliesToReport(results) {
-        if(results.field_name.length > 1)
-            this.currentReport.name = results.field_name;
+        if(results.fieldName.length > 1)
+            this.currentReport.name = results.fieldName;
         this.currentReport.supplies = results;
         this.currentReport.completed.supplies = true;        
     }
