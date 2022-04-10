@@ -5,7 +5,12 @@
 }
 
 .Table th, td {
-    text-align: center;    
+    text-align: center;
+    font-size: 12px;    
+}
+
+.Header {
+    background-color:rgb(200,200,200, 0.6);
 }
 
 .DataCell {

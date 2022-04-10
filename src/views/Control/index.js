@@ -11,7 +11,7 @@ import { PlayButton, BackButton } from "../../components/Buttons";
 import Timer from "../../entities/Timer";
 import Toast from "../../components/Toast";
 import { ElapsedSelector } from "../../components/Selectors";
-import DataTable from "../../components/DataTable";
+import NozzlesTable from "../../components/NozzlesTable";
 import iconFlow from "../../assets/icons/caudal.png";
 import iconNumber from "../../assets/icons/cant_picos.png";
 import oneSfx from '../../assets/sounds/uno.mp3';
@@ -238,7 +238,7 @@ const Control = props => {
             </Block>
 
             <Block style={{marginBottom: "20px",textAlign:"center"}}>
-                <DataTable 
+                <NozzlesTable 
                     data={data} 
                     onDataChange={updateData} 
                     rowSelectDisabled={running || !workFlow}

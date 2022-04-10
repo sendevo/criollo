@@ -65,11 +65,11 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [x] Vista de resultados.  
     - [ ] Control de campos.  
     - [x] Cargar resultados a reporte.  
-  - [ ] Seccion reportes.  
+  - [x] Seccion reportes.  
     - [x] Vista de listado de reportes.  
     - [x] Gestion de reportes.  
-    - [ ] Vista de presentación de reportes.  
-    - [ ] Exportar reporte a PDF y compartir.  
+    - [x] Vista de presentación de reportes.  
+    - [x] Exportar reporte a PDF y compartir.  
   - [ ] Sección Información y ayuda.  
     - [x] Menu de enlaces.  
     - [x] Seccion acerca de.  

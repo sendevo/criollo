@@ -30,7 +30,7 @@ const InputBlock = props => ( // Input de distancia
     </List>
 );
 
-const DataTable = props => ( // Tabla de resultados parciales
+const NozzlesTable = props => ( // Tabla de resultados parciales
     <table className={`data-table ${classes.Table}`}>
         <thead>
             <tr>
@@ -169,7 +169,7 @@ const Velocity = props => { // View
                         </Row>
                     </Col>
                     <Col width={80}>
-                        <DataTable data={data} />
+                        <NozzlesTable data={data} />
                     </Col>
                 </Row>
             </Block>

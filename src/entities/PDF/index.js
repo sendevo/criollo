@@ -4,6 +4,7 @@ import pdfMake from "pdfmake/build/pdfmake";
 import pdfFonts from "pdfmake/build/vfs_fonts";
 import moment from 'moment';
 import Toast from '../../components/Toast';
+import { formatNumber } from "../../utils";
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { FileSharer } from '@byteowls/capacitor-filesharer';
@@ -26,6 +27,11 @@ const styles = { // Definicion de estilos de las secciones del reporte
     section: {
         fontSize: 14,
         bold: true,
+        margin: [0, 10, 0, 10]
+    },
+    subsection: {
+        fontSize: 14,
+        bold: false,
         margin: [0, 10, 0, 10]
     },
     text: {
@@ -54,12 +60,6 @@ const reportFooter = {
     alignment: "left"
 };
 
-/*
-const workPattern = {
-    linear: "Ida y vuelta",
-    circular: "En círculos"
-};
-*/
 
 const PDFExport = (report, share) => {
     //console.log(report);
@@ -83,7 +83,139 @@ const PDFExport = (report, share) => {
         }
     ];
 
-    
+    if(report.completed.params) {
+        reportContent.push({
+            text: "Parámetros de aplicación",
+            style: "section"
+        });
+        reportContent.push({
+            text: "Capacidad de pico",
+            style: "subsection"
+        });
+        reportContent.push({
+            layout: 'lightHorizontalLines',
+            table: {
+                headerRows: 0,
+                widths: ['*', '*'],
+                body: [
+                    [{
+                        text: "Pico seleccionado:",
+                        style: "tableHeader"
+                    }, report.params.nozzleName ? report.params.nozzleName : "Otro"],
+                    [{
+                        text: "Caudal nominal:",
+                        style: "tableHeader"
+                    }, formatNumber(report.params.nominalFlow) + " l/min"],
+                    [{
+                        text: "Presión nominal:",
+                        style: "tableHeader"
+                    }, formatNumber(report.params.nominalPressure) + " bar"]
+                ]
+            },
+            margin: [0, 0, 0, 15]
+        });
+
+        reportContent.push({
+            text: "Parámetros de pulverización",
+            style: "subsection"
+        });
+        reportContent.push({
+            layout: 'lightHorizontalLines',
+            table: {
+                headerRows: 0,
+                widths: ['*', '*'],
+                body: [
+                    [{
+                        text: "Distancia entre picos:",
+                        style: "tableHeader"
+                    }, formatNumber(report.params.nozzleSeparation)+" m"],
+                    [{
+                        text: "Velocidad de trabajo:",
+                        style: "tableHeader"
+                    }, formatNumber(report.params.workVelocity) + " km/h"],
+                    [{
+                        text: "Presión de trabajo:",
+                        style: "tableHeader"
+                    }, formatNumber(report.params.workPressure) + " bar"],
+                    [{
+                        text: "Volumen de aplicación:",
+                        style: "tableHeader"
+                    }, formatNumber(report.params.workVolume) + " l/ha"]
+                ]
+            },
+            margin: [0, 0, 0, 15]
+        });
+    }
+
+    if(report.completed.control) {
+        reportContent.push({
+            text: "Verificación de picos",
+            style: "section"
+        });
+        reportContent.push({
+            layout: 'lightHorizontalLines',
+            table: {
+                headerRows: 0,
+                widths: ['*', '*'],
+                body: [
+                    [{
+                        text: "Caudal ef. promedio:",
+                        style: "tableHeader"
+                    }, formatNumber(report.control.efAvg)+" l/min"],
+                    [{
+                        text: "Volumen pulverizado:",
+                        style: "tableHeader"
+                    }, formatNumber(report.control.effectiveSprayVolume) + " l/ha"],
+                    [{
+                        text: "Volumen previsto:",
+                        style: "tableHeader"
+                    }, formatNumber(report.control.expectedSprayVolume) + " l/ha"],
+                    [{
+                        text: "Diferencia:",
+                        style: "tableHeader"
+                    }, formatNumber(report.control.diff) + " l/ha, " + formatNumber(report.control.diffp)+" %"]
+                ]
+            },
+            margin: [0, 0, 0, 15]
+        });
+        const rows = [
+            [
+                {
+                    text: "Pico",
+                    style: "tableHeader"
+                },
+                {
+                    text: "Caudal efectivo",
+                    style: "tableHeader"
+                },
+                {
+                    text: "Desvío",
+                    style: "tableHeader"
+                },
+                {
+                    text: "Correcto",
+                    style: "tableHeader"
+                }
+            ]
+        ];
+        report.control.data.forEach((row, idx) => {
+            rows.push([
+                idx+1,
+                formatNumber(row.ef)+" l/min",
+                formatNumber(row.s)+" %",
+                row.ok? "v" : "x",
+            ]);
+        });
+        reportContent.push({
+            layout: 'lightHorizontalLines',
+            table: {
+                headerRows: 1,
+                widths: ['*', '*', '*', '*'],
+                body: rows
+            },
+            margin: [0, 0, 0, 15]
+        });
+    }
 
     if (report.completed.supplies) {
         reportContent.push({
@@ -95,34 +227,68 @@ const PDFExport = (report, share) => {
             style: "text"
         });
         reportContent.push({
-            text: "Superficie: " + report.supplies.work_area + " ha",
+            text: "Superficie: " + formatNumber(report.supplies.workArea) + " ha",
+            style: "text"
+        });
+        reportContent.push({
+            text: "Capacidad tanque: " + formatNumber(report.supplies.capacity) + " litros",
+            style: "text"
+        });
+        reportContent.push({
+            text: "Cantidad de cargas: " + report.supplies.loadsText,
             style: "text"
         });
 
-        const rows = [
+        const rows = report.supplies.loadBalancingEnabled ? 
+        [
             [
                 {
                     text: "Producto",
                     style: "tableHeader"
                 },
                 {
-                    text: "Dosis",
+                    text: "Carga",
                     style: "tableHeader"
                 },
                 {
-                    text: "Total",
+                    text: "Total insumos",
                     style: "tableHeader"
                 }
+
+            ]
+        ] : [
+            [
+                {
+                    text: "Producto",
+                    style: "tableHeader"
+                },
+                {
+                    text: "Carga completa",
+                    style: "tableHeader"
+                },
+                {
+                    text: "Fracción de carga",
+                    style: "tableHeader"
+                },
+                {
+                    text: "Total insumos",
+                    style: "tableHeader"
+                }
+
             ]
         ];
 
-        report.supplies.products.forEach((prod, index) => {
-            rows.push([
+        report.supplies.pr.forEach(prod => {
+            const unit = prod.presentation === 0 || prod.presentation === 2 ? " l" : " kg";
+            rows.push( report.supplies.loadBalancingEnabled ? [
                 prod.name,
-                prod.density.toFixed(2) + " kg/ha",
-                prod.presentation === 0 ?
-                    report.supplies.quantities[index].toFixed(2) + " kg" :
-                    Math.ceil(report.supplies.quantities[index]) + " envases de " + prod.presentation + " kg"
+                formatNumber(prod.ceq) + unit,
+                prod.total + unit
+            ]:[
+                prod.name,
+                formatNumber(prod.cpp) + unit,
+                formatNumber(prod.cfc) + unit,
+                formatNumber(prod.total) + unit
             ]);
         });
 
@@ -130,7 +296,7 @@ const PDFExport = (report, share) => {
             layout: 'lightHorizontalLines',
             table: {
                 headerRows: 1,
-                widths: ['*', '*', '*'],
+                widths: report.supplies.loadBalancingEnabled ? ['*', '*', '*'] : ['*', '*', '*', '*'],
                 body: rows
             },
             margin: [0, 0, 0, 15]
@@ -141,7 +307,8 @@ const PDFExport = (report, share) => {
         header: reportHeader,
         footer: reportFooter,
         content: reportContent,
-        styles: styles
+        styles: styles,
+        pageMargins: [ 40, 80, 40, 60 ]
     };
 
     // Generar y guardar

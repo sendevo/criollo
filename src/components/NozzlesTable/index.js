@@ -4,7 +4,7 @@ import { nozzleCollectedPrompt } from "../Prompts";
 import { FaCheck, FaTimes, FaQuestion } from 'react-icons/fa';
 import classes from './style.module.css';
 
-const DataTable = props => {
+const NozzlesTable = props => {
 
     const addCollected = (row, value) => { 
         // Callback prompt
@@ -35,15 +35,13 @@ const DataTable = props => {
                             <col span={1} style={{width: "30%"}} />
                             <col span={1} style={{width: "20%"}} />
                         </colgroup>
-                        <thead style={{backgroundColor:"rgb(200,200,200)"}}>
-                            <tr style={{maxHeight:"40px!important"}}>
-                                <th className="label-cell" style={{margin:0, padding:0}}>Pico #</th>
-                                <th className="label-cell" style={{margin:0, padding:0}}>
-                                    <div>Caudal</div><div>efectivo</div></th>
-                                <th className="label-cell" style={{margin:0, padding:0}}>Desvío</th>
-                                <th className="label-cell" style={{margin:0, padding:0}}>Correcto</th>
-                            </tr>
-                        </thead>
+                        <tr className={classes.Header}>
+                            <th className="label-cell" style={{margin:0, padding:0}}>Pico #</th>
+                            <th className="label-cell" style={{margin:0, padding:0}}>
+                                <div>Caudal</div><div>efectivo</div></th>
+                            <th className="label-cell" style={{margin:0, padding:0}}>Desvío</th>
+                            <th className="label-cell" style={{margin:0, padding:0}}>Correcto</th>
+                        </tr>
                     </table>
                 </div>
                 <div style={{maxHeight:"300px",overflow: "auto"}}>
@@ -90,4 +88,4 @@ const DataTable = props => {
     );
 }
 
-export default DataTable;
+export default NozzlesTable;

@@ -1,25 +1,22 @@
 import { Navbar, Page, Block, Row, Col, Button } from 'framework7-react';
 import { useContext } from 'react';
 import { BackButton } from '../../components/Buttons';
-import DataTable from '../../components/DataTable';
+import NozzlesTable from '../../components/NozzlesTable';
+import SuppliesTable from '../../components/SuppliesTable';
 import { ModelCtx } from '../../context';
 import { formatNumber } from '../../utils';
 import moment from 'moment';
 import { Capacitor } from '@capacitor/core';
-//import PDFExport from '../../entities/PDF';
+import PDFExport from '../../entities/PDF';
 import classes from './style.module.css';
-import Toast from '../../components/Toast';
 
 const ReportDetails = props => {
     
     const model = useContext(ModelCtx);
     const report = model.getReport(props.id);
 
-    console.log(report);
-
     const exportReport = share => {
-        //PDFExport(report, share);
-        Toast("info", "Funcionalidad aún no disponible", 2000, "center");
+        PDFExport(report, share);
     };
 
     return (
@@ -94,7 +91,7 @@ const ReportDetails = props => {
                             </tr>
                         </tbody>
                     </table>
-                    <DataTable 
+                    <NozzlesTable 
                         data={report.control.data} 
                         onDataChange={()=>{}} 
                         rowSelectDisabled={true}
@@ -127,28 +124,7 @@ const ReportDetails = props => {
                         </tbody>
                     </table>
                     <div>Insumos</div>
-                    <table className={["data-table", classes.SuppliesTable].join(' ')}>
-                        <tr>
-                            <th height="40" className="label-cell">Producto</th>
-                            {!report.supplies.loadBalancingEnabled && <th className="label-cell"><div>Carga</div><div>completa</div></th>}
-                            {!report.supplies.loadBalancingEnabled && <th className="label-cell"><div>Fracción</div><div>de carga</div></th>}
-                            {report.supplies.loadBalancingEnabled && <th className="label-cell">Carga</th>}
-                            <th className="label-cell"><div>Total</div><div>insumos</div></th>
-                        </tr>
-                        <tbody>
-                        {
-                            report.supplies.products?.map(prod => (
-                                <tr key={prod.key}>
-                                    <td>{prod.name}</td>
-                                    {!report.supplies.loadBalancingEnabled && <td>{formatNumber(prod.cpp)} {prod.presentation === 0 || prod.presentation === 2 ? "l" : "kg"}</td>}
-                                    {!report.supplies.loadBalancingEnabled && <td>{formatNumber(prod.cfc)} {prod.presentation === 0 || prod.presentation === 2 ? "l" : "kg"}</td>}
-                                    {report.supplies.loadBalancingEnabled && <td>{formatNumber(prod.ceq)} {prod.presentation === 0 || prod.presentation === 2 ? "l" : "kg"}</td>}
-                                    <td>{formatNumber(prod.total)} {prod.presentation === 0 || prod.presentation === 2 ? "l" : "kg"}</td>
-                                </tr>
-                            ))
-                        }
-                        </tbody>
-                    </table>
+                    <SuppliesTable supplies={report.supplies} />
                 </Block>
             }
             <Row style={{marginTop:10, marginBottom: 10}}>
