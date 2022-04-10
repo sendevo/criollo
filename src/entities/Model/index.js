@@ -139,8 +139,8 @@ export default class CriolloModel {
     }
 
     addSuppliesToReport(results) {
-        if(results.field_name.length > 1)
-            this.currentReport.name = results.field_name;
+        if(results.fieldName.length > 1)
+            this.currentReport.name = results.fieldName;
         this.currentReport.supplies = results;
         this.currentReport.completed.supplies = true;        
     }

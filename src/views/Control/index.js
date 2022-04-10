@@ -1,4 +1,4 @@
-import { Page, Navbar, Block, List, Row, Col, Button } from "framework7-react";
+import { f7, Page, Navbar, Block, List, Row, Col, Button } from "framework7-react";
 import { useContext, useEffect, useState } from "react";
 import { ModelCtx } from "../../context";
 import { useSound } from "use-sound";
@@ -186,11 +186,22 @@ const Control = props => {
     };
 
     const addResultsToReport = () => {
-        /*
-        model.addDistributionToreport(results);
-        f7.panel.open();
-        */
-       Toast("info", "Funcionalidad aún no disponible", 2000, "bottom");
+        const {            
+            efAvg,
+            expectedSprayVolume,
+            effectiveSprayVolume,
+            diff,
+            diffp
+        } = outputs;
+        model.addControlToReport({
+            efAvg,
+            expectedSprayVolume,
+            effectiveSprayVolume,
+            diff,
+            diffp,
+            data
+        });
+        f7.panel.open();       
     }
 
     return (

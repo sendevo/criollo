@@ -1,4 +1,4 @@
-import { Navbar, Page, Row, Col, Button, BlockTitle} from 'framework7-react';
+import { f7, Navbar, Page, Row, Col, Button, BlockTitle} from 'framework7-react';
 import React, { useContext } from 'react';
 import { BackButton } from '../../components/Buttons';
 import { ModelCtx } from '../../context';
@@ -10,11 +10,24 @@ const SuppliesList = props => {
     const model = useContext(ModelCtx);
 
     const addSuppliesToReport = () => {
-        /*
-        const results = {};
-        model.addSuppliesToReport(results);
+        const {
+            loadBalancingEnabled,
+            supplies,
+            fieldName,
+            workArea,
+            workVolume,
+            capacity
+        } = model;
+        model.addSuppliesToReport({
+            loadsText,
+            loadBalancingEnabled,
+            products: supplies.pr,
+            fieldName,
+            workArea,
+            workVolume,
+            capacity
+        });
         f7.panel.open();
-        */
     };
 
     const loadsText = model.loadBalancingEnabled ? 

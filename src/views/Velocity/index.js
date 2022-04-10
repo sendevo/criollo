@@ -1,5 +1,6 @@
 import { Page, Navbar, Block, List, Row, Col, Button } from "framework7-react";
 import Input from "../../components/Input";
+import { BackButton } from "../../components/Buttons";
 import DistanceIcon from "../../assets/icons/distancia.png";
 import moment from 'moment';
 import Timer from '../../entities/Timer';
@@ -73,7 +74,7 @@ const OutputBlock = props => ( // Bloque con resultado final a exportar
 
 const timer = new Timer(0, false);
 
-const Velocity = ({f7router}) => { // View
+const Velocity = props => { // View
     
     const model = useContext(ModelCtx);
     const [time, setTime] = useState(0);
@@ -139,7 +140,7 @@ const Velocity = ({f7router}) => { // View
             workVelocity: vel,
             velocityMeasured: true
         });
-        f7router.back();        
+        props.f7router.back();        
     };
 
     return (
@@ -172,16 +173,20 @@ const Velocity = ({f7router}) => { // View
                     </Col>
                 </Row>
             </Block>
+
             <Block style={{marginTop:"0px",textAlign:"center"}}>
                 <OutputBlock output={dataAvg().toFixed(2)}/>
             </Block>
-            <Block style={{textAlign:"center"}}>
+
+            <Block style={{textAlign:"center", marginBottom: 15}}>
                 <Row>
                     <Col width={20}></Col>
                     <Col width={60}><Button disabled={data.length===0} fill onClick={exportData}>Exportar</Button></Col>
                     <Col width={20}></Col>
                 </Row>
             </Block>
+
+            <BackButton {...props} />
         </Page>
     );
 };

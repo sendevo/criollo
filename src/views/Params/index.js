@@ -1,4 +1,4 @@
-import { Navbar, Page, List, BlockTitle, Row, Col } from 'framework7-react';
+import { f7, Navbar, Page, List, BlockTitle, Row, Col, Button } from 'framework7-react';
 import { useContext, useEffect, useState } from 'react';
 import { BackButton, CalculatorButton } from '../../components/Buttons';
 import { NozzleSeparationSelector } from '../../components/Selectors';
@@ -177,6 +177,26 @@ const Params = props => {
             workVolumeUpdated: true
         });
     };
+
+    const addParamsToReport = () => {
+        const {
+            nozzleSeparation,
+            nominalFlow,
+            nominalPressure,
+            workVelocity,
+            workPressure,
+            workVolume
+        } = inputs;
+        model.addParamsToReport({
+            nozzleSeparation,
+            nominalFlow,
+            nominalPressure,
+            workVelocity,
+            workPressure,
+            workVolume
+        });
+        f7.panel.open();
+    };
     
     return (
         <Page>            
@@ -269,6 +289,20 @@ const Params = props => {
                     onChange={handleWorkVolumeChange}>
                 </Input>
             </List>
+
+            <Row style={{marginTop:20, marginBottom: 20}}>
+                <Col width={20}></Col>
+                <Col width={60}>
+                    <Button 
+                        fill    
+                        style={{textTransform:"none"}} 
+                        disabled={!(workVelocityUpdated && workPressureUpdated && workVolumeUpdated)} 
+                        onClick={addParamsToReport}>
+                            Agregar a reporte
+                    </Button>
+                </Col>
+                <Col width={20}></Col>
+            </Row>
 
 
             <BackButton {...props} />
