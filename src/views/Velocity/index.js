@@ -133,8 +133,12 @@ const Velocity = ({f7router}) => { // View
 
     const dataAvg = () => data.length > 0 ? data.reduce((r, a) => a.vel + r, 0)/data.length : 0;
 
-    const exportData = () => {           
-        model.work_velocity = set2Decimals(dataAvg());
+    const exportData = () => { 
+        const vel = set2Decimals(dataAvg());
+        model.update({
+            workVelocity: vel,
+            velocityMeasured: true
+        });
         f7router.back();        
     };
 

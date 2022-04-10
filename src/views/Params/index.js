@@ -1,12 +1,11 @@
 import { Navbar, Page, List, BlockTitle, Row, Col } from 'framework7-react';
-import { useContext, useState } from 'react';
-import { BackButton } from '../../components/Buttons';
+import { useContext, useEffect, useState } from 'react';
+import { BackButton, CalculatorButton } from '../../components/Buttons';
 import { NozzleSeparationSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
 import { ModelCtx } from '../../context';
 import * as API from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
-import iconNozzle from '../../assets/nozzles/iso_0.png';
 import iconVelocity from '../../assets/icons/velocidad.png';
 import iconPressure from '../../assets/icons/presion.png';
 import iconVolume from '../../assets/icons/dosis.png';
@@ -39,11 +38,25 @@ const Params = props => {
         workVolumeUpdated
     } = inputs;
 
+    useEffect(() => {
+        if(model.velocityMeasured)
+            setInputs(prevState => ({
+                ...prevState,
+                workVelocity: model.workVelocity,
+                workVelocityUpdated: true,
+                workPressureUpdated: false,
+                workVolumeUpdated: false
+            }));
+    }, [model.workVelocity, model.velocityMeasured]);   
+
     const handleNozzleSeparationChange = value => {
         const ns = parseFloat(value);
         setInputs({
             ...inputs,
-            nozzleSeparation: ns
+            nozzleSeparation: ns,
+            workPressureUpdated: false,
+            workVelocityUpdated: false,
+            workVolumeUpdated: false
         });
         model.update("nozzleSeparation", ns);
     };
@@ -116,6 +129,10 @@ const Params = props => {
             Qnom: nominalFlow,
             Pnom: nominalPressure
         });
+        model.update({
+            workVelocity: newVel,
+            velocityMeasured: false
+        });
         setInputs({
             ...inputs,
             workVelocity: newVel,
@@ -123,7 +140,6 @@ const Params = props => {
             workPressureUpdated: true,
             workVolumeUpdated: true
         });
-        model.update("workVelocity", newVel);
     };
 
     const computeWorkPressure = () => {
@@ -134,6 +150,7 @@ const Params = props => {
             Qnom: nominalFlow,
             Pnom: nominalPressure
         });
+        model.update("workPressure", newPres);
         setInputs({
             ...inputs,
             workPressure: newPres,
@@ -141,7 +158,6 @@ const Params = props => {
             workPressureUpdated: true,
             workVolumeUpdated: true
         });
-        model.update("workPressure", newPres);
     };
 
     const computeWorkVolume = () => {
@@ -152,6 +168,7 @@ const Params = props => {
             Qnom: nominalFlow,
             Pnom: nominalPressure
         });
+        model.update("workVolume", newVol);
         setInputs({
             ...inputs,
             workVolume: newVol,
@@ -159,7 +176,6 @@ const Params = props => {
             workPressureUpdated: true,
             workVolumeUpdated: true
         });
-        model.update("workVolume", newVol);
     };
     
     return (
@@ -207,18 +223,27 @@ const Params = props => {
 
             <BlockTitle style={{marginBottom: "5px"}}>Parámetros de pulverización</BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
-                <Input
-                    slot="list"
-                    borderColor={workVelocityUpdated ? "green":"#F2D118"}
-                    label="Velocidad avance"
-                    name="workVelocity"
-                    type="number"
-                    unit="km/h"
-                    icon={iconVelocity}
-                    value={workVelocity}
-                    onIconClick={computeWorkVelocity}
-                    onChange={handleWorkVelocityChange}>
-                </Input>
+                <Row slot="list">
+                    <Col width="80">
+                        <Input
+                            slot="list"
+                            borderColor={workVelocityUpdated ? "green":"#F2D118"}
+                            label="Velocidad avance"
+                            name="workVelocity"
+                            type="number"
+                            unit="km/h"
+                            icon={iconVelocity}
+                            value={workVelocity}
+                            onIconClick={computeWorkVelocity}
+                            onChange={handleWorkVelocityChange}>
+                        </Input>        
+                    </Col>
+                    <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                        <CalculatorButton href="/velocity/" tooltip="Medir velocidad"/>
+                    </Col>
+                </Row>
+
+                
                 <Input
                     slot="list"
                     borderColor={workPressureUpdated ? "green":"#F2D118"}
