@@ -223,7 +223,7 @@ const PDFExport = (report, share) => {
             style: "section"
         });
         reportContent.push({
-            text: "Lote: " + report.supplies.fieldName,
+            text: "Lote: " + report.supplies.lotName,
             style: "text"
         });
         reportContent.push({

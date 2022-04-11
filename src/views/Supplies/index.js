@@ -33,16 +33,16 @@ const Supplies = props => {
     const model = useContext(ModelCtx);
 
     const [{
-        fieldName, 
+        lotName, 
         gpsEnabled, 
-        fieldCoordinates, 
+        lotCoordinates, 
         loadBalancingEnabled,
         workArea, 
         capacity
     }, setInputs] = useState({
-        fieldName: model.fieldName || '', // Nombre de lote
+        lotName: model.lotName || '', // Nombre de lote
         gpsEnabled: false, // Habilitar GPS
-        fieldCoordinates: model.fieldCoordinates || [], // Ubicacion del lote
+        lotCoordinates: model.lotCoordinates || [], // Ubicacion del lote
         loadBalancingEnabled: model.loadBalancingEnabled || true, // Habilitar balanceo de carga
         workArea: model.workArea || '', // Superficie
         capacity: model.capacity || '' // Capacidad carga
@@ -75,7 +75,8 @@ const Supplies = props => {
         if(attr === "gpsEnabled" && value){
             navigator.geolocation.getCurrentPosition( position => {
                 const coords = [position.coords.latitude, position.coords.longitude];
-                setInputs(prevState => ({ ...prevState, fieldCoordinates: coords }));
+                setInputs(prevState => ({ ...prevState, lotCoordinates: coords }));
+                // El valor de model.lotCoordinates se actualiza al hacer submit
             });
         }
         setInputs(prevState => ({ ...prevState, [attr]: value }));
@@ -97,7 +98,10 @@ const Supplies = props => {
         };
         try{
             const res = API.computeSuppliesList(params);
-            model.update('supplies', res);
+            model.update({
+                supplies: res,
+                lotCoordinates: gpsEnabled ? lotCoordinates : null
+            });
             props.f7router.navigate("/suppliesList/");
         }catch(err){
             Toast("error", err, 3000, "bottom");
@@ -112,11 +116,11 @@ const Supplies = props => {
                 <Input
                     slot="list"
                     label="Lote"
-                    name="fieldName"
+                    name="lotName"
                     type="text"
                     icon={iconName}
-                    value={fieldName}
-                    onChange={v=>setMainParams('fieldName', v.target.value)}
+                    value={lotName}
+                    onChange={v=>setMainParams('lotName', v.target.value)}
                     ></Input>
                 <Input
                     className="help-target-supplies-form"
@@ -133,7 +137,7 @@ const Supplies = props => {
                     <Checkbox
                         checked={gpsEnabled}
                         onChange={v=>setMainParams('gpsEnabled', v.target.checked)}/>
-                    <span style={{paddingLeft: 10, color: gpsEnabled ? "#000000" : "#999999", fontSize: "0.8em"}}>Geoposición [{fieldCoordinates[0]?.toFixed(4) || '?'}, {fieldCoordinates[1]?.toFixed(4) || '?'}] </span>
+                    <span style={{paddingLeft: 10, color: gpsEnabled ? "#000000" : "#999999", fontSize: "0.8em"}}>Geoposición [{lotCoordinates[0]?.toFixed(4) || '?'}, {lotCoordinates[1]?.toFixed(4) || '?'}] </span>
                 </div>
             </List>
             <BlockTitle style={{marginBottom:"0px", marginTop: "20px"}}>Datos de aplicación</BlockTitle>

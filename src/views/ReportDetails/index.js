@@ -107,8 +107,15 @@ const ReportDetails = props => {
                         <tbody>
                             <tr>
                                 <td><b>Lote:</b></td>
-                                <td className={classes.DataCell}>{report.supplies.fieldName}</td>
+                                <td className={classes.DataCell}>{report.supplies.lotName}</td>
                             </tr>
+                            {
+                                report.supplies.lotCoordinates &&
+                                <tr>
+                                    <td><b>Ubicación:</b></td>
+                                    <td className={classes.DataCell}>lat: {report.supplies.lotCoordinates.join(', long:')}</td>
+                                </tr>
+                            }
                             <tr>
                                 <td><b>Superficie:</b></td>
                                 <td className={classes.DataCell}>{formatNumber(report.supplies.workArea)} ha</td>

@@ -14,7 +14,8 @@ const SuppliesList = props => {
         const {
             loadBalancingEnabled,
             supplies,
-            fieldName,
+            lotName,
+            lotCoordinates,
             workArea,
             workVolume,
             capacity
@@ -23,7 +24,8 @@ const SuppliesList = props => {
             loadsText,
             loadBalancingEnabled,
             pr: supplies.pr,
-            fieldName,
+            lotName,
+            lotCoordinates,
             workArea,
             workVolume,
             capacity
@@ -44,8 +46,15 @@ const SuppliesList = props => {
                 <table className={["data-table", classes.MainTable].join(' ')}>
                     <tr>
                         <td><b>Lote:</b></td>
-                        <td>{model.fieldName}</td>
+                        <td>{model.lotName}</td>
                     </tr>
+                    {
+                        model.lotCoordinates && 
+                        <tr>
+                            <td><b>Ubicación:</b></td>
+                            <td>lat: {model.lotCoordinates.join(', long:')}</td>
+                        </tr>
+                    }
                     <tr>
                         <td><b>Superficie:</b></td>
                         <td>{model.workArea} ha</td>

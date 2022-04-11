@@ -8,7 +8,7 @@ import { Capacitor } from "@capacitor/core";
 // El almacenamiento de datos se realiza con el valor de la version.
 // Las migraciones entre versiones no estan implementadas. 
 // Ante cualquier cambio en el modelo, se debe incrementar la version.
-const version = '4.0.0'; 
+const version = '4.0.1'; 
 
 const get_blank_report = () => {
     return {
@@ -44,10 +44,10 @@ export default class CriolloModel {
 
         // Variables de insumos
         this.workArea = null; // Superficie de lote
-        this.fieldName = null; // Nombre del lote
+        this.lotName = null; // Nombre del lote
+        this.lotCoordinates = null; // Coordenadas del lote
         this.gpsEnabled = false; // Habilitacion coordenadas lote
         this.loadBalancingEnabled = true; // Habilitacion balanceo de carga
-        this.fieldCoordinates = []; // Ubicacion del lote
         this.capacity = null; // Capacidad del tanque
         this.products = []; // Lista de prductos
         this.supplies = {}; // Insumos y cantidades
@@ -139,8 +139,8 @@ export default class CriolloModel {
     }
 
     addSuppliesToReport(results) {
-        if(results.fieldName.length > 1)
-            this.currentReport.name = results.fieldName;
+        if(results.lotName.length > 1)
+            this.currentReport.name = results.lotName;
         this.currentReport.supplies = results;
         this.currentReport.completed.supplies = true;        
     }
