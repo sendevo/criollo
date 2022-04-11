@@ -25,9 +25,11 @@
 .NameCell {
     white-space:nowrap; 
     overflow:hidden;       
+    text-align: left;
 }
 
 .DateCell {
     white-space:nowrap;
-    overflow:hidden;    
+    overflow:hidden; 
+    text-align: left;   
 }

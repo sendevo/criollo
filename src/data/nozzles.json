@@ -2,64 +2,77 @@
     "iso": {
         "name": "ISO",
         "long_name": "Norma ISO",
+        "img": "iso.png",
         "childs": {
             "iso005": {
                 "name": "005 Purpura",
+                "img": "iso005.png",
                 "b": 0,
                 "c": 0.1155
             },
             "iso0075": {
                 "name": "0075 Rosa",
+                "img": "iso0075.png",
                 "b": 0,
                 "c": 0.1732
             },
             "iso01": {
                 "name": "010 Naranja",
+                "img": "iso01.png",
                 "b": 0,
                 "c": 0.2309
             },
             "iso015": {
                 "name": "015 Verde",
+                "img": "iso015.png",
                 "b": 0,
                 "c": 0.3464
             },
             "iso02": {
                 "name": "020 Amarillo",
+                "img": "iso02.png",
                 "b": 0,
                 "c": 0.4619
             },
             "iso025": {
                 "name": "025 Lila",
+                "img": "iso025.png",
                 "b": 0,
                 "c": 0.5774
             },
             "iso03": {
                 "name": "030 Azul",
+                "img": "iso03.png",
                 "b": 0,
                 "c": 0.6928
             },
             "iso04": {
                 "name": "040 Rojo",
+                "img": "iso04.png",
                 "b": 0,
                 "c": 0.9238
             },
             "iso05": {
                 "name": "050 Marrón",
+                "img": "iso05.png",
                 "b": 0,
                 "c": 1.1547
             },
             "iso06": {
                 "name": "060 Gris",
+                "img": "iso06.png",
                 "b": 0,
                 "c": 1.3856
             },
             "iso08": {
                 "name": "080 Blanco",
+                "img": "iso08.png",
                 "b": 0,
                 "c": 1.8475
             },
             "iso10": {
                 "name": "100 Negro",
+                "img": "iso10.png",
                 "b": 0,
                 "c": 2.3094
             }
@@ -68,30 +81,36 @@
     "dyn": {
         "name": "DyN",
         "long_name": "Disco y Núcleo",
+        "img": "dyn.png",
         "childs": {
             "ch":{
                 "name": "Cono hueco",
                 "childs": {
                     "d1": {
                         "name": "D1",
+                        "img": "d1.png",
                         "childs": {
                             "dc13": {
                                 "name": "DC13",
+                                "img": "dc13.png",
                                 "b": 0.0655,
                                 "c": 0.1125833025
                             },
                             "dc23": {
                                 "name": "DC23",
+                                "img": "dc23.png",
                                 "b": 0.0789,
                                 "c": 0.1196269758
                             },
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.05,
                                 "c": 0.2009178937
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": 0.04,
                                 "c": 0.2549578789
                             },
@@ -104,29 +123,35 @@
                     },
                     "d1_5": {
                         "name": "D1.5",
+                        "img": "d1_5.png",
                         "childs": {
                             "dc13": {
                                 "name": "DC13",
+                                "img": "dc13.png",
                                 "b": 0.0839,
                                 "c": 0.1238993678
                             },
                             "dc23": {
                                 "name": "DC23",
+                                "img": "dc23.png",
                                 "b": 0.0647,
                                 "c": 0.1609652551
                             },
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.11,
                                 "c": 0.2478564706
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": -0.03,
                                 "c": 0.3805892974
                             },
                             "dc46": {
                                 "name": "DC46",
+                                "img": "dc46.png",
                                 "b": 0.07,
                                 "c": 0.4510260303
                             }
@@ -134,29 +159,35 @@
                     },
                     "d2": {
                         "name": "D2",
+                        "img": "d2.png",
                         "childs": {
                             "dc13": {
                                 "name": "DC13",
+                                "img": "dc13.png",
                                 "b": 0.1,
                                 "c": 0.1352731681
                             },
                             "dc23": {
                                 "name": "DC23",
+                                "img": "dc23.png",
                                 "b":  0.12,
                                 "c": 0.1812302495
                             },
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.07,
                                 "c": 0.3185818785
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": 0.04,
                                 "c": 0.4341674024
                             },
                             "dc46": {
                                 "name": "DC46",
+                                "img": "dc46.png",
                                 "b": 0.18,
                                 "c": 0.5207699428
                             }
@@ -164,29 +195,35 @@
                     },
                     "d3": {
                         "name": "D3",
+                        "img": "d3.png",
                         "childs": {
                             "dc13": {
                                 "name": "DC13",
+                                "img": "dc13.png",
                                 "b": 0.1057,
                                 "c": 0.1495337197
                             },
                             "dc23": {
                                 "name": "DC23",
+                                "img": "dc23.png",
                                 "b": 0.0623,
                                 "c": 0.2283997665
                             },
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.08,
                                 "c": 0.3897114317
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": 0.03,
                                 "c": 0.5096270826
                             },
                             "dc46": {
                                 "name": "DC46",
+                                "img": "dc46.png",
                                 "b": 0.07,
                                 "c": 0.6980164755
                             }
@@ -194,29 +231,35 @@
                     },
                     "d4": {
                         "name": "D4",
+                        "img": "d4.png",
                         "childs": {
                             "dc13": {
                                 "name": "DC13",
+                                "img": "dc13.png",
                                 "b": 0.1537,
                                 "c": 0.1899482386
                             },
                             "dc23": {
                                 "name": "DC23",
+                                "img": "dc23.png",
                                 "b": 0.1043,
                                 "c": 0.2993561146
                             },
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.06,
                                 "c": 0.6096818843
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": 0.01,
                                 "c": 0.8002074731
                             },
                             "dc46": {
                                 "name": "DC46",
+                                "img": "dc46.png",
                                 "b": 0.01,
                                 "c": 1.270170592
                             }
@@ -224,29 +267,35 @@
                     },
                     "d5": {
                         "name": "D5",
+                        "img": "d5.png",
                         "childs": {
                             "dc13": {
                                 "name": "DC13",
+                                "img": "dc13.png",
                                 "b": 0.08,
                                 "c": 0.27
                             },
                             "dc23": {
                                 "name": "DC23",
+                                "img": "dc23.png",
                                 "b": 0.1033,
                                 "c": 0.3616522086
                             },
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.18,
                                 "c": 0.6951297241
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": 0.06,
                                 "c": 0.9872689603
                             },
                             "dc46": {
                                 "name": "DC46",
+                                "img": "dc46.png",
                                 "b": -0.07,
                                 "c": 1.784012332
                             }
@@ -254,24 +303,29 @@
                     },
                     "d6": {
                         "name": "D6",
+                        "img": "d6.png",
                         "childs": {
                             "dc23": {
                                 "name": "DC23",
+                                "img": "dc23.png",
                                 "b": 0.1189,
                                 "c": 0.4289804876
                             },
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.15,
                                 "c": 0.9456997409
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": -0.09,
                                 "c": 1.3943009
                             },
                             "dc46": {
                                 "name": "DC46",
+                                "img": "dc46.png",
                                 "b": -0.05,
                                 "c": 2.540341184
                             }
@@ -279,19 +333,23 @@
                     },
                     "d7": {
                         "name": "D7",
+                        "img": "d7.png",
                         "childs": {
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.05,
                                 "c": 1.143153533
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": -0.17,
                                 "c": 1.636788013
                             },
                             "dc46": {
                                 "name": "DC46",
+                                "img": "dc46.png",
                                 "b": 0.22,
                                 "c": 3.080163686
                             }
@@ -299,19 +357,23 @@
                     },
                     "d8": {
                         "name": "D8",
+                        "img": "d8.png",
                         "childs": {
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.04,
                                 "c": 1.37178424
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": -0.19,
                                 "c": 2.019571242
                             },
                             "dc46": {
                                 "name": "DC46",
+                                "img": "dc46.png",
                                 "b": -0.1903,
                                 "c": 4.240060377
                             }
@@ -319,19 +381,23 @@
                     },
                     "d10": {
                         "name": "D10",
+                        "img": "d10.png",
                         "childs": {
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.05,
                                 "c": 1.714730299
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": -0.15,
                                 "c": 2.591148008
                             },
                             "dc46": {
                                 "name": "DC46",
+                                "img": "dc46.png",
                                 "b": 0.04,
                                 "c": 5.600297611
                             }
@@ -339,14 +405,17 @@
                     },
                     "d12": {
                         "name": "D12",
+                        "img": "d12.png",
                         "childs": {
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.05,
                                 "c": 2.114834036
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": -0.17,
                                 "c": 3.15175512
                             }
@@ -354,14 +423,17 @@
                     },
                     "d14": {
                         "name": "D14",
+                        "img": "d14.png",
                         "childs": {
                             "dc25": {
                                 "name": "DC25",
+                                "img": "dc25.png",
                                 "b": 0.05,
                                 "c": 2.319793382
                             },
                             "dc45": {
                                 "name": "DC45",
+                                "img": "dc45.png",
                                 "b": -0.2,
                                 "c": 3.60266568
                             }
@@ -374,14 +446,17 @@
                 "childs": {
                     "d1": {
                         "name": "D1",
+                        "img": "d1.png",
                         "childs": {
                             "dc31": {
                                 "name": "DC31",
+                                "img": "dc31.png",
                                 "b": 0.0844,
                                 "c": 0.2619
                             },
                             "dc35": {
                                 "name": "DC35",
+                                "img": "dc35.png",
                                 "b": 0.0844,
                                 "c": 0.2619
                             }
@@ -389,19 +464,23 @@
                     },
                     "d2": {
                         "name": "D2",
+                        "img": "d2.png",
                         "childs": {
                             "dc31": {
                                 "name": "DC31",
+                                "img": "dc31.png",
                                 "b": 0.1296,
                                 "c": 0.402
                             },
                             "dc35": {
                                 "name": "DC35",
+                                "img": "dc35.png",
                                 "b": 0.1471,
                                 "c": 0.4517
                             },
                             "dc56": {
                                 "name": "DC56",
+                                "img": "dc56.png",
                                 "b": 0.1296,
                                 "c": 0.4358
                             }
@@ -409,19 +488,23 @@
                     },
                     "d3": {
                         "name": "D3",
+                        "img": "d3.png",
                         "childs": {
                             "dc31": {
                                 "name": "DC31",
+                                "img": "dc31.png",
                                 "b": 0.1329,
                                 "c": 0.4301
                             },
                             "dc35": {
                                 "name": "DC35",
+                                "img": "dc35.png",
                                 "b": 0.2058,
                                 "c": 0.6273
                             },
                             "dc56": {
                                 "name": "DC56",
+                                "img": "dc56.png",
                                 "b": 0.1868,
                                 "c": 0.5863
                             }
@@ -429,14 +512,17 @@
                     },
                     "d4": {
                         "name": "D4",
+                        "img": "d4.png",
                         "childs": {
                             "dc35": {
                                 "name": "DC35",
+                                "img": "dc35.png",
                                 "b": 0.3214,
                                 "c": 1.0254
                             },
                             "dc56": {
                                 "name": "DC56",
+                                "img": "dc56.png",
                                 "b": 0.3213,
                                 "c": 1.007
                             }
@@ -444,14 +530,17 @@
                     },
                     "d5": {
                         "name": "D5",
+                        "img": "d5.png",
                         "childs": {
                             "dc35": {
                                 "name": "DC35",
+                                "img": "dc35.png",
                                 "b": 0.4046,
                                 "c": 1.2917
                             },
                             "dc56": {
                                 "name": "DC56",
+                                "img": "dc56.png",
                                 "b": 0.5335,
                                 "c": 1.706
                             }
@@ -459,9 +548,11 @@
                     },
                     "d6": {
                         "name": "D6",
+                        "img": "d6.png",
                         "childs": {
                             "dc56": {
                                 "name": "DC56",
+                                "img": "dc56.png",
                                 "b": 0.8021,
                                 "c": 2.5117
                             }
@@ -469,9 +560,11 @@
                     },
                     "d7": {
                         "name": "D7",
+                        "img": "d7.png",
                         "childs": {
                             "dc56": {
                                 "name": "DC56",
+                                "img": "dc56.png",
                                 "b": 1.0753,
                                 "c": 3.3758
                             }
@@ -487,51 +580,61 @@
         "childs": {
             "blanco": {
                 "name": "Blanco",
+                "img": "blanco.png",
                 "b": 0.02,
                 "c": 0.1126
             },
             "lila": {
                 "name": "Lila",
+                "img": "lila.png",
                 "b": 0.0278,
                 "c": 0.1494
             },
             "marron": {
                 "name": "Marron",
+                "img": "marron.png",
                 "b": 0.0274,
                 "c": 0.2026
             },
             "amarillo": {
                 "name": "Amarillo",
+                "img": "amarillo.png",
                 "b": 0.0174,
                 "c": 0.3186
             },
             "naranja": {
                 "name": "Naranja",
+                "img": "naranja.png",
                 "b": 0.0477,
                 "c": 0.4228
             },
             "rojo": {
                 "name": "Rojo",
+                "img": "rojo.png",
                 "b": 0.1081,
                 "c": 0.5724
             },
             "gris": {
                 "name": "Gris",
+                "img": "gris.png",
                 "b": 0.1334,
                 "c": 0.6139
             },
             "verde": {
                 "name": "Verde",
+                "img": "verde.png",
                 "b": 0.1634,
                 "c": 0.7279
             },
             "negro": {
                 "name": "Negro",
+                "img": "negro.png",
                 "b": 0.1686,
                 "c": 0.8239
             },
             "azul": {
                 "name": "Azul",
+                "img": "azul.png",
                 "b": 0.1972,
                 "c": 1.021
             }
@@ -541,47 +644,57 @@
     "amt": {
         "name": "AMT",
         "long_name": "Albuz AMT",
+        "img": "amt.png",
         "childs": {
             "fu": {
                 "name": "Fresado arriba",
+                "img": "amt_arriba.png",
                 "childs": {
                     "a007": {
                         "name": ".007",
+                        "img": "amt_arriba.png",
                         "b": 0.0344,
                         "c": 0.276
                     },
                     "a008": {
                         "name": ".008",
+                        "img": "amt_arriba.png",
                         "b": 0.0703,
                         "c": 0.3404
                     },
                     "a010": {
                         "name": ".010",
+                        "img": "amt_arriba.png",
                         "b": 0.1625,
                         "c": 0.5439
                     },
                     "a012": {
                         "name": ".012",
+                        "img": "amt_arriba.png",
                         "b": 0.0425,
                         "c": 0.7785
                     },
                     "a015": {
                         "name": ".015",
+                        "img": "amt_arriba.png",
                         "b": 0.2379,
                         "c": 1.1819
                     },
                     "a018": {
                         "name": ".018",
+                        "img": "amt_arriba.png",
                         "b": 0.0038,
                         "c": 1.8033
                     },
                     "a020": {
                         "name": ".020",
+                        "img": "amt_arriba.png",
                         "b": 0.0591,
                         "c": 2.1456
                     },
                     "a023": {
                         "name": ".023",
+                        "img": "amt_arriba.png",
                         "b": -0.3,
                         "c": 3
                     }
@@ -589,44 +702,53 @@
             },
             "fd": {
                 "name": "Fresado abajo",
+                "img": "amt_abajo.png",
                 "childs": {
                     "a007": {
                         "name": ".007",
+                        "img": "amt_abajo.png",
                         "b": 0.0324,
                         "c": 0.2704
                     },
                     "a008": {
                         "name": ".008",
+                        "img": "amt_abajo.png",
                         "b": 0.0197,
                         "c": 0.2948
                     },
                     "a010": {
                         "name": ".010",
+                        "img": "amt_abajo.png",
                         "b": 0.0235,
                         "c": 0.4423
                     },
                     "a012": {
                         "name": ".012",
+                        "img": "amt_abajo.png",
                         "b": 0.0272,
                         "c": 0.6464
                     },
                     "a015": {
                         "name": ".015",
+                        "img": "amt_abajo.png",
                         "b": 0.025,
                         "c": 0.9928
                     },
                     "a018": {
                         "name": ".018",
+                        "img": "amt_abajo.png",
                         "b": 0.0025,
                         "c": 1.4005
                     },
                     "a020": {
                         "name": ".020",
+                        "img": "amt_abajo.png",
                         "b": -0.101,
                         "c": 1.7994
                     },
                     "a023": {
                         "name": ".023",
+                        "img": "amt_abajo.png",
                         "b": 0.0044,
                         "c": 2.2526
                     }

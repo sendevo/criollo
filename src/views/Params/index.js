@@ -3,6 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import { BackButton, CalculatorButton } from '../../components/Buttons';
 import { NozzleSeparationSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
+import NozzleMenu from "../../components/NozzleMenu";
 import Toast from '../../components/Toast';
 import { ModelCtx } from '../../context';
 import * as API from '../../entities/API';
@@ -60,6 +61,10 @@ const Params = props => {
             workVolumeUpdated: false
         });
         model.update("nozzleSeparation", ns);
+    };
+
+    const handleNozzleSelect = e => {
+        console.log(e.target.value);
     };
 
     const handleNominalFlowChange = e => {
@@ -228,8 +233,11 @@ const Params = props => {
                 </Input>
             </List>
 
-            <BlockTitle style={{marginBottom: "5px"}}>Capacidad del pico</BlockTitle>
-            <List form noHairlinesMd style={{marginBottom:"10px"}}>    
+            <BlockTitle>Capacidad del pico</BlockTitle>
+            
+            <NozzleMenu />
+
+            <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "0px"}}>    
                 <Row slot="list">
                     <Col>
                         <Input
