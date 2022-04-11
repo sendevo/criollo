@@ -63,8 +63,8 @@ const Params = props => {
         model.update("nozzleSeparation", ns);
     };
 
-    const handleNozzleSelect = e => {
-        console.log(e.target.value);
+    const handleNozzleSelected = e => {
+        console.log(e);
     };
 
     const handleNominalFlowChange = e => {
@@ -235,7 +235,7 @@ const Params = props => {
 
             <BlockTitle>Capacidad del pico</BlockTitle>
             
-            <NozzleMenu />
+            <NozzleMenu onSelected={handleNozzleSelected}/>
 
             <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "0px"}}>    
                 <Row slot="list">
