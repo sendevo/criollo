@@ -10,7 +10,7 @@ const schemas = { // Esquemas de validación de parametros
         c: v => isFloat(v),
         Pnom: v => isFloat(v)
     },
-    computeQt:{        
+    computeVa:{        
         Pt: v => isFloat(v),
         Vt: v => isPositiveFloat(v),
         d: v => isPositiveFloat(v),
@@ -18,23 +18,34 @@ const schemas = { // Esquemas de validación de parametros
         Pnom: v => isPositiveFloat(v)
     },
     computePt:{
-        Qt: v => isPositiveFloat(v),
+        Va: v => isPositiveFloat(v),
         Vt: v => isPositiveFloat(v),
         d: v => isPositiveFloat(v),
         Qnom: v => isPositiveFloat(v),
         Pnom: v => isPositiveFloat(v)
     },
     computeVt:{
-        Qt: v => isPositiveFloat(v),
+        Va: v => isPositiveFloat(v),
         Pt: v => isPositiveFloat(v),
         d: v => isPositiveFloat(v),
         Qnom: v => isPositiveFloat(v),
         Pnom: v => isPositiveFloat(v)
     },
+    computeQt: {
+        Qnom: v => isPositiveFloat(v),
+        Pnom: v => isPositiveFloat(v),
+        Pt: v => isPositiveFloat(v)
+    },
+    computeQb: {
+        n: v => isPositiveFloat(v),
+        Qnom: v => isPositiveFloat(v),
+        Pnom: v => isPositiveFloat(v),
+        Pt: v => isPositiveFloat(v)
+    },
     computeEffectiveFlow:{
         c: v => isPositiveFloat(v),
         tms: v => isPositiveFloat(v),
-        Qt: v => isPositiveFloat(v)
+        Va: v => isPositiveFloat(v)
     },
     computeSprayVolume:{
         Q: v => isPositiveFloat(v),
@@ -44,7 +55,7 @@ const schemas = { // Esquemas de validación de parametros
     computeSuppliesList: {
         A: v => isPositiveFloat(v),
         T: v => isPositiveFloat(v),
-        Qt: v => isPositiveFloat(v),
+        Va: v => isPositiveFloat(v),
         products: v => v?.length > 0 && v.every(x => isPositiveFloat(x.dose) && isString(x.name) && Number.isInteger(x.presentation))
     }
 };
@@ -57,9 +68,11 @@ const validate = (schema, object) => Object.keys(schema)
 const parameterNames = { // Nombres de los parametros para mostrar en mensajes de error
     Qnom: "Caudal nominal",
     Pnom: "Presión nominal",
+    Qb: "Caudal de bomba",
     d: "Distancia entre picos",
+    n: "Número de picos",
     Pt: "Presión de trabajo",
-    Qt: "Caudal de trabajo",
+    Va: "Volumen de aplicación",
     Vt: "Velocidad de trabajo",
     c: "Volumen recolectado",
     tms: "Tiempo de muestreo",
@@ -91,33 +104,46 @@ export const computeQNom = params => {
 
 const K = (Qnom, Pnom) => 600*Qnom/Math.sqrt(Pnom);
 
-export const computeQt = params => {
-    checkParams(schemas.computeQt, params);
+export const computeVa = params => {
+    checkParams(schemas.computeVa, params);
     const { Pt, Vt, d, Qnom, Pnom } = params;
-    const Qt = Math.sqrt(Pt) * K(Qnom, Pnom) / Vt / d;
-    return round2(Qt);
+    const Va = Math.sqrt(Pt) * K(Qnom, Pnom) / Vt / d;
+    return round2(Va);
 };
 
 export const computePt = params => {
     checkParams(schemas.computePt, params);
-    const { Qt, Vt, d, Qnom, Pnom } = params;
-    const sqPt = Qt * Vt * d / K(Qnom, Pnom);
+    const { Va, Vt, d, Qnom, Pnom } = params;
+    const sqPt = Va * Vt * d / K(Qnom, Pnom);
     return round2(sqPt*sqPt);
 };
 
 export const computeVt = params => {
     checkParams(schemas.computeVt, params);
-    const { Qt, Pt, d, Qnom, Pnom } = params;
-    const Vt = K(Qnom, Pnom) * Math.sqrt(Pt) / Qt / d;
+    const { Va, Pt, d, Qnom, Pnom } = params;
+    const Vt = K(Qnom, Pnom) * Math.sqrt(Pt) / Va / d;
     return round2(Vt);
+};
+
+export const computeQt = params => {
+    checkParams(schemas.computeQb, params);
+    const { Qnom, Pnom, Pt } = params;
+    const Qt = Math.sqrt(Pt/Pnom)*Qnom;
+    return round2(Qt);
+};
+
+export const computeQb = params => {
+    checkParams(schemas.computeQb, params);    
+    const Qb = computeQt(params)*params.n;
+    return round2(Qb);
 };
 
 export const computeEffectiveFlow = params => {
     checkParams(schemas.computeEffectiveFlow, params);
-    const { c, tms, Qt } = params;
+    const { c, tms, Va } = params;
     const th = 10; // Umbral en porcentaje
     const ef = round2(c / tms * 60000);
-    const s = round2((ef - Qt) / Qt * 100);
+    const s = round2((ef - Va) / Va * 100);
     const ok = Math.abs(s) <= th;
     return { ef, s, ok };
 };
@@ -129,26 +155,26 @@ export const computeSprayVolume = params => {
     return round2(vol);
 };
 
-const computeProductVolume = (prod, vol, Qt) => { // Cantidad de insumo (gr o ml) por volumen de agua
-    return prod.presentation === 0 || prod.presentation === 1 ? vol*prod.dose/Qt : vol*prod.dose/100;
+const computeProductVolume = (prod, vol, Va) => { // Cantidad de insumo (gr o ml) por volumen de agua
+    return prod.presentation === 0 || prod.presentation === 1 ? vol*prod.dose/Va : vol*prod.dose/100;
 };
 
 export const computeSuppliesList = params => { // Lista de insumos y cargas para mezcla   
     checkParams(schemas.computeSuppliesList, params);
-    const { A, T, Qt, products } = params;
-    const Nc = A*Qt/T; // Cantidad de cargas
+    const { A, T, Va, products } = params;
+    const Nc = A*Va/T; // Cantidad de cargas
     const Ncc = Math.floor(Nc); // Cantidad de cargas completas
     const Vf = (Nc - Ncc)*T; // Volumen fraccional [L]
     const Ncb = Math.ceil(Nc); // Cantidad de cargas balanceadas
-    const Vcb = A*Qt/Ncb; // Volumen de cargas balanceadas
+    const Vcb = A*Va/Ncb; // Volumen de cargas balanceadas
     const Vftl = Vf/T < 0.2; // Detectar volumen fraccional total menor a 20%
     // Calcular cantidades de cada producto
     const pr = products.map(p => ({
         ...p, // Por comodidad, dejar resto de los detalles en este arreglo
-        cpp: computeProductVolume(p, T, Qt)/1000, // Cantidad por carga completa [l o kg]
-        cfc: computeProductVolume(p, Vf, Qt)/1000, // Cantidad por carga fraccional [l o kg]
-        ceq: computeProductVolume(p, Vcb, Qt)/1000, // Cantidad por carga equilibrada [l o kg]
-        total: computeProductVolume(p, T, Qt)*Nc/1000, // Cantidad total de insumo [l o kg]
+        cpp: computeProductVolume(p, T, Va)/1000, // Cantidad por carga completa [l o kg]
+        cfc: computeProductVolume(p, Vf, Va)/1000, // Cantidad por carga fraccional [l o kg]
+        ceq: computeProductVolume(p, Vcb, Va)/1000, // Cantidad por carga equilibrada [l o kg]
+        total: computeProductVolume(p, T, Va)*Nc/1000, // Cantidad total de insumo [l o kg]
     }));
 
     return {pr, Nc, Ncc, Vf, Ncb, Vcb, Vftl};

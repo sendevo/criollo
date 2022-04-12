@@ -8,6 +8,7 @@ const Input = props => (
             outline
             floatingLabel
             clearButton
+            inputStyle={{boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)"}}
             {...props}>
             {
             props.icon ?
@@ -15,7 +16,7 @@ const Input = props => (
                     style={props.borderColor ? {
                         border: "3px solid "+props.borderColor, 
                         borderRadius: "10px", 
-                        marginLeft: -5
+                        marginLeft: -5                        
                     } : {}}
                     src={props.icon} 
                     onClick={props.onIconClick}

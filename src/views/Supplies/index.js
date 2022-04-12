@@ -93,7 +93,7 @@ const Supplies = props => {
         const params = {
             A: workArea, 
             T: capacity,
-            Qt: model.workVolume,
+            Va: model.workVolume,
             products
         };
         try{

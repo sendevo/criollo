@@ -17,8 +17,6 @@ const SelectedOption = props => (
 
 const NozzleMenu = props => { 
     
-    console.log("menu", props.selection);
-
     const level1 = props.selection[0] > -1 ? nozzles[props.selection[0]].childs : [];
     const level2 = props.selection[1] > -1 && nozzles[props.selection[0]].childs[props.selection[1]].childs ? nozzles[props.selection[0]].childs[props.selection[1]].childs : [];
     const level3 = props.selection[2] > -1 && nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs ? nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs : [];
@@ -45,7 +43,7 @@ const NozzleMenu = props => {
     return (
         <div className={classes.MenuContainer}>
             <Menu>
-                <MenuItem text={<SelectedOption selection={nozzles[props.selection[0]]} />} dropdown>
+                <MenuItem className={classes.MenuItem} text={<SelectedOption selection={nozzles[props.selection[0]]} />} dropdown>
                     <MenuDropdown left>                    
                         {
                             nozzles.map((op, idx) => (
@@ -61,7 +59,7 @@ const NozzleMenu = props => {
                 </MenuItem>
                 {
                     level1.length > 0 && 
-                    <MenuItem text={<SelectedOption selection={level1[props.selection[1]]} />} dropdown>
+                    <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level1[props.selection[1]]} />} dropdown>
                         <MenuDropdown center contentHeight="200px">
                             {
                                 level1.map((op, idx) => (
@@ -78,7 +76,7 @@ const NozzleMenu = props => {
                 }
                 {
                     level2.length > 0 && 
-                    <MenuItem text={<SelectedOption selection={level2[props.selection[2]]} />} dropdown>
+                    <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level2[props.selection[2]]} />} dropdown>
                         <MenuDropdown center contentHeight="200px">                        
                             {
                                 level2.map((op, idx) => (
@@ -95,7 +93,7 @@ const NozzleMenu = props => {
                 }
                 {
                     level3.length > 0 && 
-                    <MenuItem text={<SelectedOption selection={level3[props.selection[3]]} />} dropdown>
+                    <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level3[props.selection[3]]} />} dropdown>
                         <MenuDropdown right contentHeight="200px">                        
                             {
                                 level3.map((op, idx) => (

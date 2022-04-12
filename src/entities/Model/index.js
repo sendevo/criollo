@@ -37,6 +37,7 @@ export default class CriolloModel {
         this.nominalFlow = 0.8; // Caudal nominal de pico seleccionado
         this.nominalPressure = 3; // Presion nominal de pico seleccionado
         this.nozzleSeparation = 0.35; // Distancia entre picos (m)
+        this.nozzleNumber = null; // Numero de picos
         this.nozzleSelection = [-1, -1, -1, -1]; // Indices de picos seleccionados
         
         // Verificacion de picos

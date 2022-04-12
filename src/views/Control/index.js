@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from "react";
 import { ModelCtx } from "../../context";
 import { useSound } from "use-sound";
 import moment from 'moment';
-import * as Model from '../../entities/API/index.js';
+import * as API from '../../entities/API/index.js';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import Input from "../../components/Input";
 import { arrayAvg, formatNumber } from "../../utils";
@@ -66,10 +66,10 @@ const Control = props => {
         if(wf){ // Actualizar tabla, solo con valor de caudal valido
             const temp = data.map(row => ({
                 ...row,
-                ...Model.computeEffectiveFlow({
+                ...API.computeEffectiveFlow({
                     c: row.value, 
                     tms: elapsed,
-                    Qt: wf
+                    Va: wf
                 })
             }));                  
             model.update("workFlow", wf);
@@ -103,12 +103,12 @@ const Control = props => {
         model.update("collectedData", newData);
         const efAvg = arrayAvg(newData, "ef");
         if(efAvg){
-            const effectiveSprayVolume = Model.computeSprayVolume({
+            const effectiveSprayVolume = API.computeSprayVolume({
                 Q: efAvg,
                 d: model.nozzleSeparation,
                 vel: model.workVelocity
             });
-            const expectedSprayVolume = Model.computeSprayVolume({
+            const expectedSprayVolume = API.computeSprayVolume({
                 Q: model.workFlow, // La variable de estado aun no esta actualizada, por eso uso la de model
                 d: model.nozzleSeparation,
                 vel: model.workVelocity
@@ -242,10 +242,10 @@ const Control = props => {
                     data={data} 
                     onDataChange={updateData} 
                     rowSelectDisabled={running || !workFlow}
-                    evalCollected={value => Model.computeEffectiveFlow({ // Funcion para evaluar volumen recolectado
+                    evalCollected={value => API.computeEffectiveFlow({ // Funcion para evaluar volumen recolectado
                         c: value, 
                         tms: elapsed,
-                        Qt: workFlow
+                        Va: workFlow
                     })}/>
             </Block>
 
@@ -254,7 +254,9 @@ const Control = props => {
                     <p><b>Resultados</b></p>
                     <p>Caudal efectivo promedio: {formatNumber(outputs.efAvg)} l/min</p>
                     <p>Volumen pulverizado efectivo: {formatNumber(outputs.effectiveSprayVolume)} l/ha</p>
-                    <p>Volumen previsto: {formatNumber(outputs.expectedSprayVolume)} l/ha</p>
+                    {
+                    //<p>Volumen previsto: {formatNumber(outputs.expectedSprayVolume)} l/ha</p>
+                    }
                     <p>Diferencia: {formatNumber(outputs.diff)} l/ha ({formatNumber(outputs.diffp)} %)</p>
 
                     <Row style={{marginTop:30, marginBottom: 20}}>

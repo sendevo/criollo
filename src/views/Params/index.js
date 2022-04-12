@@ -8,6 +8,7 @@ import Toast from '../../components/Toast';
 import { ModelCtx } from '../../context';
 import * as API from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
+import iconNozzles from '../../assets/icons/cant_picos2.png';
 import iconVelocity from '../../assets/icons/velocidad.png';
 import iconPressure from '../../assets/icons/presion.png';
 import iconVolume from '../../assets/icons/dosis.png';
@@ -18,6 +19,7 @@ const Params = props => {
 
     const [inputs, setInputs] = useState({
         nozzleSeparation: model.nozzleSeparation || 0.35,        
+        nozzleNumber: model.nozzleNumber || '',        
         nominalFlow: model.nominalFlow || 0.8,
         nominalPressure: model.nominalPressure || 3,
         workVelocity: model.workVelocity || 20,
@@ -31,7 +33,8 @@ const Params = props => {
     const [nozzleSelection, setNozzleSelection] = useState(model.nozzleSelection || [-1, -1, -1, -1]);
 
     const {
-        nozzleSeparation,        
+        nozzleSeparation,
+        nozzleNumber,
         nominalFlow,
         nominalPressure,
         workVelocity,
@@ -41,6 +44,18 @@ const Params = props => {
         workVolume,
         workVolumeUpdated
     } = inputs;
+
+
+    let pumpFlow;
+    try{
+        pumpFlow = API.computeQb({
+            n: nozzleNumber,
+            Qnom: nominalFlow,
+            Pnom: nominalPressure,
+            Pt: workPressure
+        });        
+    }catch(e){
+    }
 
     useEffect(() => {
         if(model.velocityMeasured)
@@ -65,8 +80,16 @@ const Params = props => {
         model.update("nozzleSeparation", ns);
     };
 
-    const handleNozzleSelected = (selection, nozzle) => {
-        console.log("params", selection);
+    const handleNozzleNumberChange = value => {
+        const n = parseInt(value);
+        setInputs({
+            ...inputs,
+            nozzleNumber: n
+        });
+        model.update("nozzleNumber", n);
+    };
+
+    const handleNozzleSelected = (selection, nozzle) => {        
         setNozzleSelection(selection);
         model.update("nozzleSelection", selection);
         if(nozzle){
@@ -153,7 +176,7 @@ const Params = props => {
     const computeWorkVelocity = () => {
         try{
             const newVel = API.computeVt({
-                Qt: workVolume,
+                Va: workVolume,
                 Pt: workPressure,
                 d: nozzleSeparation,
                 Qnom: nominalFlow,
@@ -178,7 +201,7 @@ const Params = props => {
     const computeWorkPressure = () => {
         try{
             const newPres = API.computePt({
-                Qt: workVolume,
+                Va: workVolume,
                 Vt: workVelocity,            
                 d: nozzleSeparation,
                 Qnom: nominalFlow,
@@ -199,7 +222,7 @@ const Params = props => {
 
     const computeWorkVolume = () => {
         try{
-            const newVol = API.computeQt({
+            const newVol = API.computeVa({
                 Pt: workPressure,
                 Vt: workVelocity,
                 d: nozzleSeparation,
@@ -253,6 +276,15 @@ const Params = props => {
                     icon={iconDistance}
                     value={nozzleSeparation}
                     onChange={v => handleNozzleSeparationChange(v.target.value)}>
+                </Input>
+                <Input
+                    slot="list"
+                    label="Cantidad de picos"
+                    name="nozzleNumber"
+                    type="number"                    
+                    icon={iconNozzles}
+                    value={nozzleNumber}
+                    onChange={v => handleNozzleNumberChange(v.target.value)}>
                 </Input>
             </List>
 
@@ -310,7 +342,6 @@ const Params = props => {
                         <CalculatorButton href="/velocity/" tooltip="Medir velocidad"/>
                     </Col>
                 </Row>
-
                 
                 <Input
                     slot="list"
@@ -324,6 +355,12 @@ const Params = props => {
                     onIconClick={computeWorkPressure}
                     onChange={handleWorkPressureChange}>
                 </Input>
+                {pumpFlow && <div slot="list">
+                    <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
+                        Caudal pulverizado: {pumpFlow} l/min
+                    </span>
+                </div>}
+
                 <Input
                     slot="list"
                     borderColor={workVolumeUpdated ? "green":"#F2D118"}
