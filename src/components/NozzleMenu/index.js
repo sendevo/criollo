@@ -1,134 +1,117 @@
-import { useState } from 'react';
 import { Menu, MenuDropdown, MenuDropdownItem, MenuItem } from 'framework7-react';
+import { importAll } from '../../utils';
 import nozzles from '../../data/nozzles';
 import classes from './style.module.css';
 
-function importAll(r) {
-    let images = {};
-    r.keys().forEach((item, index) => { images[item.replace('./', '')] = r(item); });
-    return images
-}
-const images = importAll(require.context('../../assets/nozzles', false, /\.(png|jpe?g|svg)$/));
+const images = importAll(require.context('../../assets/nozzles', false, /\.(png)$/));
 
-const SelectedOption = props => {
-    return (
-        props.selection ? 
-        <div className={classes.SelectedOptionContainer}>
-            {props.selection.img && <img className={classes.SelectedOptionIcon} src={images[props.selection.img].default} alt={"icon"} />}
-            <span className={classes.SelectedOptionText} >{props.selection.name} </span>
-        </div> 
-        : 
-        "Elegir..."
-    )
-}
+const SelectedOption = props => (
+    props.selection ? 
+    <div className={classes.SelectedOptionContainer}>
+        {props.selection.img && <img className={classes.SelectedOptionIcon} src={images[props.selection.img].default} alt={"icon"} />}
+        <span className={classes.SelectedOptionText} >{props.selection.name} </span>
+    </div> 
+    : 
+    "Elegir..."
+);
 
 const NozzleMenu = props => { 
+    
+    console.log("menu", props.selection);
 
-    const [level0] = useState(nozzles);
-    const [level1, setLevel1] = useState([]);
-    const [level2, setLevel2] = useState([]);
-    const [level3, setLevel3] = useState([]);
+    const level1 = props.selection[0] > -1 ? nozzles[props.selection[0]].childs : [];
+    const level2 = props.selection[1] > -1 && nozzles[props.selection[0]].childs[props.selection[1]].childs ? nozzles[props.selection[0]].childs[props.selection[1]].childs : [];
+    const level3 = props.selection[2] > -1 && nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs ? nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs : [];
 
-    const [selection, setSelection] = useState([0, 0, 0, 0]);
-
-    const handleClickLvl0 = idx => {        
-        setLevel1(nozzles[idx].childs);
-        setLevel2([]);
-        setLevel3([]);
-        setSelection([idx, -1, -1, -1]);
-    };
-
-    const handleClickLvl1 = idx => {
-        if(nozzles[selection[0]].childs[idx].childs)
-            setLevel2(nozzles[selection[0]].childs[idx].childs);
-        else
-            props.onSelected(nozzles[selection[0]].childs[idx]);
-        setLevel3([]);
-        setSelection([selection[0], idx, -1, -1]);
-    };
-
-    const handleClickLvl2 = idx => {
-        if(nozzles[selection[0]].childs[selection[1]].childs[idx].childs)
-            setLevel3(nozzles[selection[0]].childs[selection[1]].childs[idx].childs);
-        else
-            props.onSelected(nozzles[selection[0]].childs[selection[1]].childs[idx]);
-        setSelection([selection[0], selection[1], idx, -1]);
-    };
-
-    const handleClickLvl3 = idx => {
-        props.onSelected(nozzles[selection[0]].childs[selection[1]].childs[selection[2]].childs[idx]);
-        setSelection([selection[0], selection[1], selection[2], idx]);
+    const handleClick = (lvl, idx) => {
+        switch(lvl){
+            case 0:
+                props.onOptionSelected([idx, -1, -1, -1]);
+                break;
+            case 1:
+                props.onOptionSelected([props.selection[0], idx, -1, -1], nozzles[props.selection[0]].childs[idx].childs ? null : nozzles[props.selection[0]].childs[idx]);
+                break;
+            case 2: 
+                props.onOptionSelected([props.selection[0], props.selection[1], idx, -1], nozzles[props.selection[0]].childs[props.selection[1]].childs[idx].childs ? null : nozzles[props.selection[0]].childs[props.selection[1]].childs[idx]);    
+                break;
+            case 3:
+                props.onOptionSelected([props.selection[0], props.selection[1], props.selection[2], idx], nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs[idx]);                    
+                break;
+            default:
+                break;
+        }
     };
 
     return (
-        <Menu>
-            <MenuItem
-                text={<SelectedOption selection={level0[selection[0]]} />} dropdown>
-                <MenuDropdown left>                    
-                    {
-                        level0.map((op, idx) => (
-                            <MenuDropdownItem 
-                                key={idx} 
-                                text={op.name} 
-                                onClick={()=>handleClickLvl0(idx)}>
-                                {op.img && <img src={images[op.img].default} alt="icon" height="25px"/>}
-                            </MenuDropdownItem>
-                        ))
-                    }
-                </MenuDropdown>
-            </MenuItem>
-            {
-                level1.length > 0 && 
-                <MenuItem text={<SelectedOption selection={level1[selection[1]]} />} dropdown>
-                    <MenuDropdown center contentHeight="200px">
+        <div className={classes.MenuContainer}>
+            <Menu>
+                <MenuItem text={<SelectedOption selection={nozzles[props.selection[0]]} />} dropdown>
+                    <MenuDropdown left>                    
                         {
-                            level1.map((op, idx) => (
+                            nozzles.map((op, idx) => (
                                 <MenuDropdownItem 
                                     key={idx} 
                                     text={op.name} 
-                                    onClick={()=>handleClickLvl1(idx)}>
+                                    onClick={()=>handleClick(0, idx)}>
                                     {op.img && <img src={images[op.img].default} alt="icon" height="25px"/>}
                                 </MenuDropdownItem>
                             ))
                         }
                     </MenuDropdown>
                 </MenuItem>
-            }
-            {
-                level2.length > 0 && 
-                <MenuItem text={<SelectedOption selection={level2[selection[2]]} />} dropdown>
-                    <MenuDropdown center contentHeight="200px">                        
-                        {
-                            level2.map((op, idx) => (
-                                <MenuDropdownItem 
-                                    key={idx} 
-                                    text={op.name} 
-                                    onClick={()=>handleClickLvl2(idx)}>
-                                    {op.img && <img src={images[op.img].default} alt="icon" height="25px"/>}
-                                </MenuDropdownItem>
-                            ))
-                        }
-                    </MenuDropdown>
-                </MenuItem>
-            }
-            {
-                level3.length > 0 && 
-                <MenuItem text={<SelectedOption selection={level3[selection[3]]} />} dropdown>
-                    <MenuDropdown right contentHeight="200px">                        
-                        {
-                            level3.map((op, idx) => (
-                                <MenuDropdownItem 
-                                    key={idx} 
-                                    text={op.name} 
-                                    onClick={()=>handleClickLvl3(idx)}>
-                                    {op.img && <img src={images[op.img].default} alt="icon" height="25px"/>}
-                                </MenuDropdownItem>
-                            ))
-                        }
-                    </MenuDropdown>
-                </MenuItem>
-            }            
-        </Menu>
+                {
+                    level1.length > 0 && 
+                    <MenuItem text={<SelectedOption selection={level1[props.selection[1]]} />} dropdown>
+                        <MenuDropdown center contentHeight="200px">
+                            {
+                                level1.map((op, idx) => (
+                                    <MenuDropdownItem 
+                                        key={idx} 
+                                        text={op.name} 
+                                        onClick={()=>handleClick(1, idx)}>
+                                        {op.img && <img src={images[op.img].default} alt="icon" height="25px"/>}
+                                    </MenuDropdownItem>
+                                ))
+                            }
+                        </MenuDropdown>
+                    </MenuItem>
+                }
+                {
+                    level2.length > 0 && 
+                    <MenuItem text={<SelectedOption selection={level2[props.selection[2]]} />} dropdown>
+                        <MenuDropdown center contentHeight="200px">                        
+                            {
+                                level2.map((op, idx) => (
+                                    <MenuDropdownItem 
+                                        key={idx} 
+                                        text={op.name} 
+                                        onClick={()=>handleClick(2, idx)}>
+                                        {op.img && <img src={images[op.img].default} alt="icon" height="25px"/>}
+                                    </MenuDropdownItem>
+                                ))
+                            }
+                        </MenuDropdown>
+                    </MenuItem>
+                }
+                {
+                    level3.length > 0 && 
+                    <MenuItem text={<SelectedOption selection={level3[props.selection[3]]} />} dropdown>
+                        <MenuDropdown right contentHeight="200px">                        
+                            {
+                                level3.map((op, idx) => (
+                                    <MenuDropdownItem 
+                                        key={idx} 
+                                        text={op.name} 
+                                        onClick={()=>handleClick(3, idx)}>
+                                        {op.img && <img src={images[op.img].default} alt="icon" height="25px"/>}
+                                    </MenuDropdownItem>
+                                ))
+                            }
+                        </MenuDropdown>
+                    </MenuItem>
+                }            
+            </Menu>
+        </div>
     );
 };
 

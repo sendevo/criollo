@@ -1,12 +1,17 @@
 const round2 = x => Math.round(x*100)/100;
 const isString = value => (typeof value === 'string' || value instanceof String) && value !== "";
 //const isPositiveInteger = value => Number.isInteger(value) && value > 0;
-//const isFloat = value => Number.isFinite(value);
+const isFloat = value => Number.isFinite(value);
 const isPositiveFloat = value => Number.isFinite(value) && value > 0;
 
 const schemas = { // Esquemas de validación de parametros
+    computeQNom:{
+        b: v => isFloat(v),
+        c: v => isFloat(v),
+        Pnom: v => isFloat(v)
+    },
     computeQt:{        
-        Pt: v => isPositiveFloat(v),
+        Pt: v => isFloat(v),
         Vt: v => isPositiveFloat(v),
         d: v => isPositiveFloat(v),
         Qnom: v => isPositiveFloat(v),
@@ -77,6 +82,12 @@ export const presentationUnits = [
     "ml/100l", // 2
     "gr/100l" // 3
 ];
+
+export const computeQNom = params => {
+    checkParams(schemas.computeQNom, params);
+    const {b, c, Pnom} = params;
+    return round2(b + c * Math.sqrt(Pnom));
+}
 
 const K = (Qnom, Pnom) => 600*Qnom/Math.sqrt(Pnom);
 

@@ -13,3 +13,11 @@ export const getClosest = (array, attr, value) => {
     const index = diffArr.findIndex(v => v === closestValue);
     return array[index];
 };
+
+export const importAll = r => {
+    let images = {};
+    r.keys().forEach(item => { 
+        images[item.replace('./', '')] = r(item); 
+    });
+    return images
+};

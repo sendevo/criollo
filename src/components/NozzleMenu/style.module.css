@@ -1,3 +1,16 @@
+.MenuContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 93%;         
+    /*box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1);*/
+    border: 1px solid rgba(150,150,150,0.6);
+    border-radius: 5px;    
+    margin-bottom: 5px;
+    padding: 5px 0px;
+}
+
 .SelectedOptionContainer {
     display: flex;
     flex-direction: row;

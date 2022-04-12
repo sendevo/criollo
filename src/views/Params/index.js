@@ -17,7 +17,7 @@ const Params = props => {
     const model = useContext(ModelCtx);
 
     const [inputs, setInputs] = useState({
-        nozzleSeparation: model.nozzleSeparation || 0.35,
+        nozzleSeparation: model.nozzleSeparation || 0.35,        
         nominalFlow: model.nominalFlow || 0.8,
         nominalPressure: model.nominalPressure || 3,
         workVelocity: model.workVelocity || 20,
@@ -28,8 +28,10 @@ const Params = props => {
         workVolumeUpdated: false
     });
 
+    const [nozzleSelection, setNozzleSelection] = useState(model.nozzleSelection || [-1, -1, -1, -1]);
+
     const {
-        nozzleSeparation,
+        nozzleSeparation,        
         nominalFlow,
         nominalPressure,
         workVelocity,
@@ -63,20 +65,41 @@ const Params = props => {
         model.update("nozzleSeparation", ns);
     };
 
-    const handleNozzleSelected = e => {
-        console.log(e);
+    const handleNozzleSelected = (selection, nozzle) => {
+        console.log("params", selection);
+        setNozzleSelection(selection);
+        model.update("nozzleSelection", selection);
+        if(nozzle){
+            const res = API.computeQNom({
+                b: nozzle.b,
+                c: nozzle.c,
+                Pnom: nominalPressure
+            });
+            setInputs({
+                ...inputs,
+                nominalFlow: res,
+                workPressureUpdated: false,
+                workVelocityUpdated: false,
+                workVolumeUpdated: false
+            });        
+            model.update("nominalFlow", res);
+        }
     };
 
-    const handleNominalFlowChange = e => {
+    const handleNominalFlowChange = e => {        
         const nf = parseFloat(e.target.value);
         setInputs({
             ...inputs,
-            nominalFlow: nf,
+            nominalFlow: nf,            
             workPressureUpdated: false,
             workVelocityUpdated: false,
             workVolumeUpdated: false
         });
-        model.update("nominalFlow", nf);
+        setNozzleSelection([-1, -1, -1, -1]);
+        model.update({
+            nominalFlow: nf,
+            nozzleSelection: [-1, -1, -1, -1]
+        });
     };
 
     const handleNominalPressureChange = e => {
@@ -233,9 +256,13 @@ const Params = props => {
                 </Input>
             </List>
 
-            <BlockTitle>Capacidad del pico</BlockTitle>
+            <BlockTitle style={{marginBottom: 5}}>Capacidad del pico</BlockTitle>
             
-            <NozzleMenu onSelected={handleNozzleSelected}/>
+            <center>
+                <NozzleMenu 
+                    onOptionSelected={handleNozzleSelected} 
+                    selection={nozzleSelection} />
+            </center>
 
             <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "0px"}}>    
                 <Row slot="list">
