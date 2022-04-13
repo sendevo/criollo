@@ -1,6 +1,6 @@
 .HomePage::after {
 	content: "";	
-	background: url(../assets/backgrounds/fondo1.png);
+	background: url(../assets/backgrounds/fondo4.jpg);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
@@ -24,6 +24,7 @@
 	margin-top: 0px;
 	margin-bottom: 0px;	
 	line-height: 100%;
+	color: white;
 }
 
 .Subtitle {	

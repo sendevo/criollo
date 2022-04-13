@@ -27,7 +27,7 @@ const NozzlesTable = props => {
         {
             props.data?.length > 0 ?
             <div>
-                <div>
+                <div className="help-target-control-table">
                     <table className={["data-table", classes.Table].join(' ')} >
                         <colgroup>
                             <col span={1} style={{width: "15%"}} />

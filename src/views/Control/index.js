@@ -1,6 +1,6 @@
 import { f7, Page, Navbar, Block, List, Row, Col, Button } from "framework7-react";
 import { useContext, useEffect, useState } from "react";
-import { ModelCtx } from "../../context";
+import { ModelCtx, WalkthroughCtx } from "../../context";
 import { useSound } from "use-sound";
 import moment from 'moment';
 import * as API from '../../entities/API/index.js';
@@ -99,7 +99,7 @@ const Control = props => {
         setOutputs(temp2);
     };
 
-    const updateData = (newData) => {
+    const updateData = newData => {
         model.update("collectedData", newData);
         const efAvg = arrayAvg(newData, "ef");
         if(efAvg){
@@ -205,14 +205,24 @@ const Control = props => {
             data
         });
         f7.panel.open();       
-    }
+    };
+
+    const wlk = useContext(WalkthroughCtx);
+    Object.assign(wlk.callbacks, {
+        control_nozzles: () => {            
+            handleNozzleCntChange({target: {value: 3}});
+        },
+        control_results: () => {
+            updateData(model.collectedData);
+        }
+    });
 
     return (
         <Page>
             <Navbar title="Verificación de picos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
             <ElapsedSelector value={elapsed} disabled={running} onChange={handleElapsedChange}/>
 
-            <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
+            <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}} className="help-target-control-nozzles">    
                 <Input
                     slot="list"
                     label="Picos a controlar"
@@ -236,7 +246,7 @@ const Control = props => {
                 </Input>
             </List>
 
-            <Block style={{marginTop:"20px", textAlign:"center"}}>
+            <Block style={{marginTop:"20px", textAlign:"center"}} className="help-target-control-play">
                 <p style={{fontSize:"50px", margin:"0px"}}>{getTime()} <PlayButton onClick={toggleRunning} running={running} /></p>
             </Block>
 
@@ -254,7 +264,7 @@ const Control = props => {
 
             {outputs.ready && 
                 <Block className={classes.OutputBlock}>
-                    <p><b>Resultados</b></p>
+                    <p className="help-target-control-results"><b>Resultados</b></p>
                     <p>Caudal efectivo promedio: {formatNumber(outputs.efAvg)} l/min</p>
                     <p>Volumen pulverizado efectivo: {formatNumber(outputs.effectiveSprayVolume)} l/ha</p>
                     {
@@ -262,7 +272,7 @@ const Control = props => {
                     }
                     <p>Diferencia: {formatNumber(outputs.diff)} l/ha ({formatNumber(outputs.diffp)} %)</p>
 
-                    <Row style={{marginTop:30, marginBottom: 20}}>
+                    <Row style={{marginTop:30, marginBottom: 20}} className="help-target-control-reports">
                         <Col width={20}></Col>
                         <Col width={60}>
                             <Button fill style={{textTransform:"none"}} onClick={addResultsToReport}>

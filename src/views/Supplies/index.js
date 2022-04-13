@@ -15,7 +15,7 @@ import { useContext, useState } from 'react';
 import Input from '../../components/Input';
 import { BackButton, DeleteButton, AddButton } from '../../components/Buttons';
 import Toast from '../../components/Toast';
-import { ModelCtx } from '../../context';
+import { ModelCtx, WalkthroughCtx } from '../../context';
 import * as API from '../../entities/API';
 import { generateId } from '../../utils';
 import { PresentationSelector } from '../../components/Selectors';
@@ -54,8 +54,8 @@ const Supplies = props => {
         const temp = [...products];
         temp.push({
             key: generateId(),
-            name: model.main_prod || '',
-            dose: model.dose || '',
+            name: '',
+            dose: '',
             presentation: 0 // 0: ml/ha, 1: gr/ha, 2: ml/100L, 3: gr/100L
         });
         model.update("products", temp);        
@@ -108,10 +108,32 @@ const Supplies = props => {
         }
     };
 
+    const wlk = useContext(WalkthroughCtx);
+    Object.assign(wlk.callbacks, {
+        supplies_capacity: () => {
+            setInputs(prevState => ({ 
+                ...prevState, 
+                lotName: model.lotName,
+                workArea: model.workArea,
+                capacity: model.capacity 
+            }));
+        },
+        supplies_add: () => {
+            setProducts(model.products)
+        },
+        supplies_results: () => {
+            submit()
+        }
+    });
+
     return (
         <Page>            
             <Navbar title="Calculador de insumos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
-            <BlockTitle style={{marginBottom:"0px", marginTop: "0px"}}>Datos del lote</BlockTitle>
+            <BlockTitle 
+                style={{marginBottom:"0px", marginTop: "0px"}}
+                className="help-target-supplies-form">
+                    Datos del lote
+            </BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>    
                 <Input
                     slot="list"
@@ -133,14 +155,17 @@ const Supplies = props => {
                     value={workArea}
                     onChange={v=>setMainParams('workArea', parseFloat(v.target.value))}
                     ></Input>
-                <div slot="list" style={{paddingLeft: 30, paddingBottom: 10}}>
+                <div 
+                    slot="list" 
+                    style={{paddingLeft: 30, paddingBottom: 10}}
+                    className="help-target-supplies-gps">
                     <Checkbox
                         checked={gpsEnabled}
                         onChange={v=>setMainParams('gpsEnabled', v.target.checked)}/>
                     <span style={{paddingLeft: 10, color: gpsEnabled ? "#000000" : "#999999", fontSize: "0.8em"}}>Geoposición [{lotCoordinates[0]?.toFixed(4) || '?'}, {lotCoordinates[1]?.toFixed(4) || '?'}] </span>
                 </div>
             </List>
-            <BlockTitle style={{marginBottom:"0px", marginTop: "20px"}}>Datos de aplicación</BlockTitle>
+            <BlockTitle style={{marginBottom:"0px", marginTop: "20px"}} className="help-target-supplies-capacity">Datos de aplicación</BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
                 <Input
                     className="help-target-load-number"
@@ -153,7 +178,10 @@ const Supplies = props => {
                     value={capacity}
                     onChange={v=>setMainParams('capacity', parseFloat(v.target.value))}
                     ></Input>
-                <div slot="list" style={{paddingLeft: 30, paddingBottom: 10}}>
+                <div 
+                    slot="list" 
+                    style={{paddingLeft: 30, paddingBottom: 10}}
+                    className="help-target-supplies-balancing">
                     <Checkbox
                         checked={loadBalancingEnabled}
                         onChange={v=>setMainParams('loadBalancingEnabled', v.target.checked)}/>
@@ -161,7 +189,7 @@ const Supplies = props => {
                 </div>
             </List>
             <Block style={{marginTop: "0px", marginBottom: "0px"}}>
-                <BlockTitle style={{marginBottom:"0px", marginTop: "0px"}}>Lista de insumos</BlockTitle>
+                <BlockTitle className="help-target-supplies-add" style={{marginBottom:"0px", marginTop: "0px"}}>Lista de insumos</BlockTitle>
                 {
                     products.map((p, index) =>(
                         <Card key={p.key} style={{margin:"0px 0px 10px 0px"}}>
@@ -207,7 +235,7 @@ const Supplies = props => {
             <Block style={{margin:0}}>
                 <AddButton onClick={()=>addProduct()}/>
             </Block>
-            <Row style={{marginBottom:"15px"}}>
+            <Row style={{marginBottom:"15px"}} className="help-target-supplies-results">
                 <Col width={20}></Col>
                 <Col width={60}>
                     <Button fill onClick={submit} style={{textTransform:"none"}}>Calcular insumos</Button>

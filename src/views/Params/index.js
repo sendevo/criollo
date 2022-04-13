@@ -5,7 +5,7 @@ import { NozzleSeparationSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
 import NozzleMenu from "../../components/NozzleMenu";
 import Toast from '../../components/Toast';
-import { ModelCtx } from '../../context';
+import { ModelCtx, WalkthroughCtx } from '../../context';
 import * as API from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzles from '../../assets/icons/cant_picos2.png';
@@ -46,15 +46,16 @@ const Params = props => {
     } = inputs;
 
 
-    let pumpFlow;
+    let nozzleFlow;
     try{
-        pumpFlow = API.computeQb({
-            n: nozzleNumber,
+        nozzleFlow = API.computeQt({
+            //n: nozzleNumber,
             Qnom: nominalFlow,
             Pnom: nominalPressure,
             Pt: workPressure
         });        
     }catch(e){
+        console.log(e.message);
     }
 
     useEffect(() => {
@@ -261,6 +262,14 @@ const Params = props => {
         });
         f7.panel.open();
     };
+
+    // Callbacks del modo ayuda
+    const wlk = useContext(WalkthroughCtx);
+    Object.assign(wlk.callbacks, {
+        params_2: () => {            
+            computeWorkVelocity();
+        }
+    });
     
     return (
         <Page>            
@@ -268,6 +277,7 @@ const Params = props => {
             <NozzleSeparationSelector value={nozzleSeparation} onChange={handleNozzleSeparationChange}/>
             <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
                 <Input
+                    className="help-target-dist-nozzle"
                     slot="list"
                     label="Distancia entre picos"
                     name="nozzleSeparation"
@@ -278,6 +288,7 @@ const Params = props => {
                     onChange={v => handleNozzleSeparationChange(v.target.value)}>
                 </Input>
                 <Input
+                    className="help-target-nozzle-cnt"
                     slot="list"
                     label="Cantidad de picos"
                     name="nozzleNumber"
@@ -290,7 +301,7 @@ const Params = props => {
 
             <BlockTitle style={{marginBottom: 5}}>Capacidad del pico</BlockTitle>
             
-            <center>
+            <center className="help-target-nozzle-select">
                 <NozzleMenu 
                     onOptionSelected={handleNozzleSelected} 
                     selection={nozzleSelection} />
@@ -323,7 +334,7 @@ const Params = props => {
 
             <BlockTitle style={{marginBottom: "5px"}}>Parámetros de pulverización</BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
-                <Row slot="list">
+                <Row slot="list" className="help-target-params-1 help-target-params-2">
                     <Col width="80">
                         <Input
                             slot="list"
@@ -355,9 +366,9 @@ const Params = props => {
                     onIconClick={computeWorkPressure}
                     onChange={handleWorkPressureChange}>
                 </Input>
-                {pumpFlow && <div slot="list">
+                {nozzleFlow && <div slot="list">
                     <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
-                        Caudal pulverizado: {pumpFlow} l/min
+                        Caudal de trabajo: {nozzleFlow} l/min
                     </span>
                 </div>}
 
@@ -377,7 +388,7 @@ const Params = props => {
 
             <Row style={{marginTop:20, marginBottom: 20}}>
                 <Col width={20}></Col>
-                <Col width={60}>
+                <Col width={60} className="help-target-params-report">
                     <Button 
                         fill    
                         style={{textTransform:"none"}} 

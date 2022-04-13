@@ -126,7 +126,7 @@ export const computeVt = params => {
 };
 
 export const computeQt = params => {
-    checkParams(schemas.computeQb, params);
+    checkParams(schemas.computeQt, params);
     const { Qnom, Pnom, Pt } = params;
     const Qt = Math.sqrt(Pt/Pnom)*Qnom;
     return round2(Qt);

@@ -101,7 +101,7 @@ const ElapsedSelector = props => {
     };
 
     return (
-        <Block style={{margin:"0px"}}>
+        <Block style={{margin:"0px"}} className="help-target-control-sampling">
             <BlockTitle>Tiempo de muestreo</BlockTitle>
             <Row>
                 <Col style={{textAlign:"center"}}>
