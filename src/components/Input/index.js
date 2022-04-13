@@ -7,7 +7,6 @@ const Input = props => (
             className={classes.Input}
             outline
             floatingLabel
-            clearButton
             inputStyle={{boxShadow: "2px 2px 5px rgba(0, 0, 0, 0.2)"}}
             {...props}>
             {

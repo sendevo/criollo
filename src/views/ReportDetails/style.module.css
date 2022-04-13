@@ -3,6 +3,19 @@
     line-height: 10px;
 }
 
+.SectionTitle {
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.CommentsBlock {
+    margin: 0px 5px;
+    text-align: justify;
+    text-justify: inter-word;
+}
+
 .Table {
     padding: 0px !important;
     margin: 0 auto;

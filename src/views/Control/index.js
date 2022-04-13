@@ -108,11 +108,14 @@ const Control = props => {
                 d: model.nozzleSeparation,
                 vel: model.workVelocity
             });
+            /*
             const expectedSprayVolume = API.computeSprayVolume({
                 Q: model.workFlow, // La variable de estado aun no esta actualizada, por eso uso la de model
                 d: model.nozzleSeparation,
                 vel: model.workVelocity
             });
+            */
+            const expectedSprayVolume = model.workVolume;
             const diff = effectiveSprayVolume - expectedSprayVolume;
             const diffp = diff/model.workVolume*100;
             const ready = true;

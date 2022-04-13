@@ -1,4 +1,4 @@
-import { Navbar, Page, Block, Row, Col, Button } from 'framework7-react';
+import { Navbar, Page, Block, Row, Col, Button, BlockTitle } from 'framework7-react';
 import { useContext } from 'react';
 import { BackButton } from '../../components/Buttons';
 import NozzlesTable from '../../components/NozzlesTable';
@@ -102,7 +102,7 @@ const ReportDetails = props => {
                 report.completed.supplies &&
                 <Block className={classes.SectionBlock}>
                     <h3>Cálculo de mezcla</h3>
-                    <div>Parámetros de mezcla</div>
+                    <BlockTitle className={classes.SectionTitle}>Parámetros de mezcla</BlockTitle>
                     <table className={classes.Table}>
                         <tbody>
                             <tr>
@@ -130,8 +130,16 @@ const ReportDetails = props => {
                             </tr>
                         </tbody>
                     </table>
-                    <div>Insumos</div>
+                    
+                    <BlockTitle className={classes.SectionTitle}>Insumos</BlockTitle>
                     <SuppliesTable supplies={report.supplies} />
+                    
+                    {report.supplies.comments && 
+                    <div>
+                        <BlockTitle className={classes.SectionTitle}>Observaciones</BlockTitle> 
+                        <p className={classes.CommentsBlock}>{report.supplies.comments.length > 0 ? report.supplies.comments : " - "}</p>
+                    </div>
+                    }
                 </Block>
             }
             <Row style={{marginTop:10, marginBottom: 10}}>

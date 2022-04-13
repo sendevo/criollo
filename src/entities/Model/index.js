@@ -14,6 +14,7 @@ const get_blank_report = () => {
     return {
         id: generateId(),
         name: "Sin nombre",
+        comments: "",
         params:{},
         control: {},
         supplies: {},

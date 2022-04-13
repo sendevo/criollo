@@ -142,9 +142,9 @@ export const computeEffectiveFlow = params => {
     checkParams(schemas.computeEffectiveFlow, params);
     const { c, tms, Va } = params;
     const th = 10; // Umbral en porcentaje
-    const ef = round2(c / tms * 60000);
-    const s = round2((ef - Va) / Va * 100);
-    const ok = Math.abs(s) <= th;
+    const ef = round2(c / tms * 60000); // Caudal efectivo
+    const s = round2((ef - Va) / ef * 100); // Desviacion estandar
+    const ok = Math.abs(s) <= th; // Correcto 
     return { ef, s, ok };
 };
 

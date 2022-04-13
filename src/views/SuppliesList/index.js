@@ -1,14 +1,18 @@
-import { f7, Navbar, Page, Row, Col, Button, BlockTitle} from 'framework7-react';
-import React, { useContext } from 'react';
+import { f7, Navbar, Page, Row, Col, Button, BlockTitle, List } from 'framework7-react';
+import React, { useContext, useState } from 'react';
 import { BackButton } from '../../components/Buttons';
+import Input from '../../components/Input';
 import SuppliesTable from '../../components/SuppliesTable';
 import { ModelCtx } from '../../context';
 import { formatNumber } from '../../utils';
+import iconReport from '../../assets/icons/reportes.png';
 import classes from './style.module.css';
 
 const SuppliesList = props => {
 
     const model = useContext(ModelCtx);
+
+    const [comments, setComments] = useState('');
 
     const addSuppliesToReport = () => {
         const {
@@ -28,7 +32,8 @@ const SuppliesList = props => {
             lotCoordinates,
             workArea,
             workVolume,
-            capacity
+            capacity,
+            comments
         });
         f7.panel.open();
     };
@@ -78,6 +83,18 @@ const SuppliesList = props => {
             <Row>
                 <SuppliesTable supplies={model.supplies}/>
             </Row>
+
+            <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
+                <Input
+                    slot="list"
+                    label="Observaciones"
+                    name="comments"
+                    type="textarea"
+                    icon={iconReport}
+                    value={comments}
+                    onChange={e => setComments(e.target.value)}>
+                </Input>
+            </List>
 
             <Row style={{marginTop:"20px", marginBottom: "15px"}}>
                 <Col width={20}></Col>
