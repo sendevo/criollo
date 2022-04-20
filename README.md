@@ -87,6 +87,3 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [x] Seccion acerca de.  
     - [x] Enlace informacion adicional.  
     - [ ] Recorrido por la app (modo ayuda).  
-
-
-Progreso total: 23/24 = 97%

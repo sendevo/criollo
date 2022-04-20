@@ -4,6 +4,7 @@ import Velocity from './Velocity';
 import Control from './Control';
 import Info from './Info';
 import About from './About';
+import Security from './Security';
 import Supplies from './Supplies';
 import SuppliesList from './SuppliesList';
 import Reports from './Reports';
@@ -16,6 +17,7 @@ export {
     Control,
     Info,
     About,
+    Security,
     Supplies,
     SuppliesList,
     Reports,

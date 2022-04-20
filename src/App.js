@@ -1,18 +1,7 @@
 import { App, View, f7 } from 'framework7-react';
 import { App as cApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
-import {
-    Home,
-    Params,
-    Velocity,
-    Control,
-    Info,
-    About,
-    Supplies,
-    SuppliesList,
-    Reports,
-    ReportDetails
-} from './views';
+import * as Views from './views';
 import ReportsPanel from './components/ReportsPanel';
 import Popovers from './components/Popover';
 import { ModelProvider, WalkthroughProvider } from './context';
@@ -35,14 +24,14 @@ const f7params = {
     routes: [
         { // Menu principal
             path: '/',
-            component: Home,
+            component: Views.Home,
             options: {
                 transition: "f7-cover"        
             }
         },
         { // Menu informativo
             path: '/info/', 
-            component: Info,
+            component: Views.Info,
             on:{pageInit: ()=>pushState("info")},
             options: {
                 transition: "f7-cover"        
@@ -50,7 +39,7 @@ const f7params = {
         },
         { // Seccion acerca de
             path: '/about/',
-            component: About,
+            component: Views.About,
             on:{pageInit: ()=>pushState("about")},
             options: {
                 transition: "f7-cover"        
@@ -58,7 +47,7 @@ const f7params = {
         },
         { // Seccion de parametros
             path: '/params/',
-            component: Params,
+            component: Views.Params,
             on:{pageInit: ()=>pushState("params")},
             options: {
                 transition: "f7-cover"        
@@ -66,7 +55,7 @@ const f7params = {
         },
         { // Cronometro
             path: '/control/',
-            component: Control,
+            component: Views.Control,
             on:{pageInit: ()=>pushState("control")},
             options: {
                 transition: "f7-cover"        
@@ -74,15 +63,23 @@ const f7params = {
         },
         { // Medicion de velocidad
             path: '/velocity/',
-            component: Velocity,
+            component: Views.Velocity,
             on:{pageInit: ()=>pushState("velocity")},
+            options: {
+                transition: "f7-cover"        
+            }
+        },
+        { // Seguridad y prevencion
+            path: '/security/',
+            component: Views.Security,
+            on:{pageInit: ()=>pushState("security")},
             options: {
                 transition: "f7-cover"        
             }
         },
         { // Calculo de insumos
             path: '/supplies/',
-            component: Supplies,
+            component: Views.Supplies,
             on:{pageInit: ()=>pushState("supplies")},
             options: {
                 transition: "f7-cover"        
@@ -90,7 +87,7 @@ const f7params = {
         },
         { // Lista de insumos
             path: '/suppliesList/',
-            component: SuppliesList,
+            component: Views.SuppliesList,
             on:{pageInit: ()=>pushState("suppliesList")},
             options: {
                 transition: "f7-cover"        
@@ -98,7 +95,7 @@ const f7params = {
         },
         { // Lista de reportes
             path: '/reports/',
-            component: Reports,
+            component: Views.Reports,
             on:{pageInit: ()=>pushState("reports")},
             options: {
                 transition: "f7-cover"        
@@ -106,7 +103,7 @@ const f7params = {
         },
         { // Detalle de reporte
             path: '/reportDetails/:id',
-            component: ReportDetails,
+            component: Views.ReportDetails,
             on:{pageInit: ()=>pushState("reportDetails")},
             options: {
                 transition: "f7-cover"        

@@ -26,7 +26,6 @@ import iconName from '../../assets/icons/reportes.png';
 import iconCapacity from '../../assets/icons/capacidad_carga.png';
 
 
-
 const Supplies = props => {
 
 

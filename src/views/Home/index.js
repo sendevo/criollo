@@ -3,6 +3,7 @@ import paramsIcon from '../../assets/icons/parametros.png'
 import controlIcon from '../../assets/icons/verificacion.png'
 import suppliesIcon from '../../assets/icons/calculador.png';
 import reportsIcon from '../../assets/icons/reportes.png';
+import securityIcon from '../../assets/icons/reportes.png';
 import infoIcon from '../../assets/icons/info.png';
 import logoInta from '../../assets/backgrounds/logoInta.png';
 import logoMin from '../../assets/backgrounds/logomin.png';
@@ -27,9 +28,13 @@ const Home = () => (
                     <img className={classes.HomeIcon} src={controlIcon} alt="control"/>
                     <p>Verificación de <br/> picos</p>
                 </Link>
-                <Link href="/supplies/" className={[classes.MenuButton]}>
+                <Link href="/supplies/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={suppliesIcon} alt="supplies"/>
                     <p>Calculador de mezclas</p>
+                </Link>
+                <Link href="/security/" className={classes.MenuButton}>
+                    <img className={classes.HomeIcon} src={securityIcon} alt="security"/>
+                    <p>Seguridad y prevención</p>
                 </Link>
                 <Link href="/reports/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={reportsIcon} alt="reports"/>
