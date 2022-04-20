@@ -1,0 +1,6 @@
+{
+	"appId": "com.inta.criollo2",
+	"appName": "Criollo",
+	"webDir": "build",
+	"bundledWebRuntime": false
+}

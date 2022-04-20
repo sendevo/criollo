@@ -29,24 +29,41 @@ $ npm start
 
 Compilar versión web optimizada
 ```bash
-$ npm run build:react
+$ npm run build
 ```
 
-Compilar apk (android)
+### Compilar apk (android) primera vez:
+1.- Instalar android studio y ubicar carpeta de instalación
+
+2.- Agregar plataforma con capacitor y generar proyecto android-studio
+
+```bash
+$ export CAPACITOR_ANDROID_STUDIO_PATH="..../android-studio/bin/studio.sh"
+$ export PATH=~/.npm-global/bin:$PATH  
+$ npx cap add android
+$ npm run build && npx cap sync
+```
+
+3.- Agregar permisos en android/app/src/main/AndroidManifest.xml
+
+```xml
+<uses-permission android:name="android.permission.INTERNET" />
+<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+```
+
+4.- Definir iconos y splashcreens en android/app/src/main/res
+
+
+### Actualizar apk (android):
 ```bash
 $ npm run build && npx cap sync
 $ npx cap open android
 $ adb logcat chromium:I
 ```
 
-Lo anterior puede requerir variables de entorno:
-```bash
-export CAPACITOR_ANDROID_STUDIO_PATH="..../android-studio/bin/studio.sh"
-export PATH=~/.npm-global/bin:$PATH  
-```
 
-
-Compilar release apk (android)
+Para compilar release apk (android) usar android-studio, o por consola:
 ```bash
 cd android && 
 ./gradlew assembleRelease && 

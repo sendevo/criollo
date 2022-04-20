@@ -29,10 +29,8 @@
     "web-vitals": "^1.1.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "npm run build:react && npm run build:bundle",
-    "build:react": "react-scripts build",
-    "build:bundle": "webpack --config webpack.config.js",
+    "start": "react-scripts start",    
+    "build": "react-scripts build",    
     "test": "react-scripts test"
   },
   "eslintConfig": {
