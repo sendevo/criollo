@@ -12,6 +12,7 @@ import {
     CardContent
 } from 'framework7-react';
 import { useContext, useState } from 'react';
+import { Geolocation } from '@capacitor/geolocation';
 import Input from '../../components/Input';
 import { BackButton, DeleteButton, AddButton } from '../../components/Buttons';
 import Toast from '../../components/Toast';
@@ -26,8 +27,42 @@ import iconName from '../../assets/icons/reportes.png';
 import iconCapacity from '../../assets/icons/capacidad_carga.png';
 
 
-const Supplies = props => {
+const getPosition = () => {
+    return new Promise( (resolve, reject) => {        
 
+        const getCoords = () => {
+            Geolocation.getCurrentPosition().then( position => {            
+                const coords = [position.coords.latitude, position.coords.longitude];
+                resolve(coords);
+            }).catch( error => {
+                reject(error);
+            });
+        };
+
+        Geolocation.checkPermissions().then(permissions => {                        
+            if(permissions.location === "granted"){ 
+                getCoords(); 
+            }else{
+                Toast("info", "Permisos de ubicación no otorgados", 2000, "center");
+                Geolocation.requestPermissions().then(res => {
+                    console.log(res);
+                    getCoords();
+                }).catch(() => {
+                    console.log("No se pudo obtener coordenadas");
+                });
+            }
+        });
+        /*
+        navigator.geolocation.getCurrentPosition( position => {
+            const coords = [position.coords.latitude, position.coords.longitude];
+            resolve(coords);
+            // El valor de model.lotCoordinates se actualiza al hacer submit
+        });
+        */
+    });
+};
+
+const Supplies = props => {
 
     const model = useContext(ModelCtx);
 
@@ -72,10 +107,8 @@ const Supplies = props => {
     const setMainParams = (attr, value) => {
         model.update(attr, value);
         if(attr === "gpsEnabled" && value){
-            navigator.geolocation.getCurrentPosition( position => {
-                const coords = [position.coords.latitude, position.coords.longitude];
+            getPosition().then( coords => {
                 setInputs(prevState => ({ ...prevState, lotCoordinates: coords }));
-                // El valor de model.lotCoordinates se actualiza al hacer submit
             });
         }
         setInputs(prevState => ({ ...prevState, [attr]: value }));

@@ -1,6 +1,6 @@
 import { Page, Navbar, Link } from 'framework7-react';
 import { BackButton } from '../../components/Buttons';
-import pictogram from '../../assets/pictograma_seguridad.jpeg';
+import pictogram from '../../assets/pictograma_seguridad.jpg';
 import infoIcon from '../../assets/icons/info.png';
 import classes from '../style.module.css';
 

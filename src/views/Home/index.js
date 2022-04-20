@@ -3,7 +3,7 @@ import paramsIcon from '../../assets/icons/parametros.png'
 import controlIcon from '../../assets/icons/verificacion.png'
 import suppliesIcon from '../../assets/icons/calculador.png';
 import reportsIcon from '../../assets/icons/reportes.png';
-import securityIcon from '../../assets/icons/reportes.png';
+import securityIcon from '../../assets/icons/seguridad.png';
 import infoIcon from '../../assets/icons/info.png';
 import logoInta from '../../assets/backgrounds/logoInta.png';
 import logoMin from '../../assets/backgrounds/logomin.png';
