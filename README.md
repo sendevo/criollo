@@ -1,12 +1,16 @@
-# Criollo
+# Criollo 4.0 
 
 Criollo es una aplicación utilitaria para tablets y smartphones que permite calcular los principales parámetros de operación de pulverizadoras terrestres de botalón y realizar la verificación estática correspondiente.  
 Al usar la aplicación es posible calcular alternativamente la velocidad de avance del equipo, la presión de trabajo y el volumen de pulverización para un tamaño de pico y una distancia entre picos determinada. También es posible realizar la verificación de los picos y obtener el diagnóstico rápido del estado de los mismos.  
 La información generada a partir del ingreso de los datos y los cálculos realizados se compila en un reporte que puede ser guardado en formato PDF y compartido mediante correo electrónico y/o WhatsApp.  
 Una vez instalada, la utilización de Criollo no requiere disponibilidad de señal ni acceso a la red. Estos servicios sólo son necesarios si se desea compartir los reportes generados.         
 
+### [Disponible en Google Play!](https://play.google.com/store/apps/details?id=com.inta.criollo2)  
 
-### Migración nativo -> híbrido
+![criollo](doc/promo_criollo.jpg)
+
+### Versión 4.0 (Migración nativo -> híbrido)
+  - Implementación ReactJS + Framework7 + Capacitor
   - Nueva presentación. Mejoras en control y validación de campos.  
   - Se pierde el control de volumen en la vista de verificación. En lugar de forzar el volumen al máximo, se avisa al usuario de que suba el volumen para que las alertas sean audibles. El control de "keep awake" se realiza con un plugin CapacitorJS.  
   - Los reportes se generan secuencialmente como en Campero y Campero Fertilizadoras.  
@@ -76,6 +80,7 @@ zipalign 4 app-release-unsigned.apk app-release.apk
 
 
 ### Backlog
+#### Progreso: 100%
 
   - [x] Seccion parametros de pulverizacion.  
     - [x] Vista con formulario.  
@@ -101,8 +106,8 @@ zipalign 4 app-release-unsigned.apk app-release.apk
     - [x] Gestion de reportes.  
     - [x] Vista de presentación de reportes.  
     - [x] Exportar reporte a PDF y compartir.  
-  - [ ] Sección Información y ayuda.  
+  - [x] Sección Información y ayuda.  
     - [x] Menu de enlaces.  
     - [x] Seccion acerca de.  
     - [x] Enlace informacion adicional.  
-    - [ ] Recorrido por la app (modo ayuda).  
+    - [x] Recorrido por la app (modo ayuda).  
