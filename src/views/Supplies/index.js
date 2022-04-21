@@ -136,7 +136,7 @@ const Supplies = props => {
             });
             props.f7router.navigate("/suppliesList/");
         }catch(err){
-            Toast("error", err, 3000, "bottom");
+            Toast("error", err.message, 3000, "bottom");
         }
     };
 
@@ -205,7 +205,7 @@ const Supplies = props => {
                     label="Capacidad de carga"
                     name="capacity"
                     type="number"
-                    unit="lts"
+                    unit="l"
                     icon={iconCapacity}
                     value={capacity}
                     onChange={v=>setMainParams('capacity', parseFloat(v.target.value))}

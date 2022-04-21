@@ -20,7 +20,7 @@ const Params = props => {
     const [inputs, setInputs] = useState({
         nozzleSeparation: model.nozzleSeparation || 0.35,        
         nozzleNumber: model.nozzleNumber || '',        
-        nominalFlow: model.nominalFlow || 0.8,
+        nominalFlow: model.nominalFlow || 0.8,        
         nominalPressure: model.nominalPressure || 3,
         workVelocity: model.workVelocity || 20,
         workVelocityUpdated: false,
@@ -46,17 +46,53 @@ const Params = props => {
     } = inputs;
 
 
-    let nozzleFlow;
+    // El caudal total de pulverizacion se calcula ante cualquier cambio de variable
+    // pero solo si esta indicado el numero de picos
+    let sprayFlow = model.sprayFlow;
     try{
-        nozzleFlow = API.computeQt({
-            //n: nozzleNumber,
+        sprayFlow = API.computeQb({
+            n: nozzleNumber,
             Qnom: nominalFlow,
             Pnom: nominalPressure,
             Pt: workPressure
-        });        
+        });
+        model.update("sprayFlow", sprayFlow);
     }catch(e){
         console.log(e.message);
+        model.update("sprayFlow", null);
     }
+
+    // El caudal de pulverizacion de cada pico se calcula ante cualquier cambio de variable
+    // pero no se usa en esta seccion, sino en verificacion de picos
+    try{
+        const workFlow = API.computeQt({
+            Qnom: nominalFlow,
+            Pnom: nominalPressure,
+            Pt: workPressure
+        });      
+        model.update("workFlow", workFlow);
+    }catch(e){
+        console.log(e.message);
+        model.update("workFlow", null);
+    }
+
+    // Ante cualquier cambio, borrar formularios de verificacion y de insumos
+    model.update({
+        collectedData: [],
+        verificationOutput: {
+            ready: false,
+            efAvg: undefined,
+            expectedSprayVolume: undefined,
+            effectiveSprayVolume: undefined,
+            diff: undefined,
+            diffp: undefined
+        },
+        lotName: "",
+        lotCoordinates: [],
+        workArea: '',
+        capacity: '',
+        products: []
+    });
 
     useEffect(() => {
         if(model.velocityMeasured)
@@ -94,19 +130,26 @@ const Params = props => {
         setNozzleSelection(selection);
         model.update("nozzleSelection", selection);
         if(nozzle){
-            const res = API.computeQNom({
-                b: nozzle.b,
-                c: nozzle.c,
-                Pnom: nominalPressure
-            });
-            setInputs({
-                ...inputs,
-                nominalFlow: res,
-                workPressureUpdated: false,
-                workVelocityUpdated: false,
-                workVolumeUpdated: false
-            });        
-            model.update("nominalFlow", res);
+            try{
+                const qn = API.computeQNom({
+                    b: nozzle.b,
+                    c: nozzle.c,
+                    Pnom: nominalPressure
+                });
+                model.update({
+                    nominalFlow: qn,                    
+                    nozzleName: nozzle.long_name
+                });
+                setInputs({
+                    ...inputs,
+                    nominalFlow: qn,
+                    workPressureUpdated: false,
+                    workVelocityUpdated: false,
+                    workVolumeUpdated: false
+                });  
+            }catch(err){
+                Toast("error", err.message);
+            }
         }
     };
 
@@ -114,7 +157,7 @@ const Params = props => {
         const nf = parseFloat(e.target.value);
         setInputs({
             ...inputs,
-            nominalFlow: nf,            
+            nominalFlow: nf,                        
             workPressureUpdated: false,
             workVelocityUpdated: false,
             workVolumeUpdated: false
@@ -122,7 +165,8 @@ const Params = props => {
         setNozzleSelection([-1, -1, -1, -1]);
         model.update({
             nominalFlow: nf,
-            nozzleSelection: [-1, -1, -1, -1]
+            nozzleSelection: [-1, -1, -1, -1],
+            nozzleName: null
         });
     };
 
@@ -195,7 +239,7 @@ const Params = props => {
                 workVolumeUpdated: true
             });
         } catch(err) {
-            Toast("error", err);
+            Toast("error", err.message);
         }
     };
 
@@ -217,7 +261,7 @@ const Params = props => {
                 workVolumeUpdated: true
             });
         } catch(err) {
-            Toast("error", err);
+            Toast("error", err.message);
         }
     };
 
@@ -239,7 +283,7 @@ const Params = props => {
                 workVolumeUpdated: true
             });
         } catch(err) {
-            Toast("error", err);
+            Toast("error", err.message);
         }
     };
 
@@ -258,7 +302,8 @@ const Params = props => {
             nominalPressure,
             workVelocity,
             workPressure,
-            workVolume
+            workVolume,
+            nozzleName: model.nozzleName
         });
         f7.panel.open();
     };
@@ -366,9 +411,9 @@ const Params = props => {
                     onIconClick={computeWorkPressure}
                     onChange={handleWorkPressureChange}>
                 </Input>
-                {nozzleFlow && <div slot="list">
+                {sprayFlow && <div slot="list">
                     <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
-                        Caudal de trabajo: {nozzleFlow} l/min
+                        Caudal pulverizado: {sprayFlow} l/min
                     </span>
                 </div>}
 

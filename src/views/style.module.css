@@ -60,7 +60,7 @@
 
 .MenuButton{
 	background-color: rgba(200, 200, 200, .9);	
-	box-shadow: 2px 2px 5px black;
+	/*box-shadow: 2px 2px 5px black;*/
 	color:black;
 	margin: 10px auto;
 	height: 55px;

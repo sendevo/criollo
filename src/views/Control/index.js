@@ -63,17 +63,21 @@ const Control = props => {
 
     const handleWorkFlowChange = e => { // Al cambiar el valor de caudal, actualizar datos de 
         const wf = parseFloat(e.target.value);
-        if(wf){ // Actualizar tabla, solo con valor de caudal valido
-            const temp = data.map(row => ({
-                ...row,
-                ...API.computeEffectiveFlow({
-                    c: row.value, 
-                    tms: elapsed,
-                    Va: wf
-                })
-            }));                  
-            model.update("workFlow", wf);
-            updateData(temp);
+        if(wf){ // Actualizar tabla, solo con valor de caudal valido            
+            try{
+                const temp = data.map(row => ({
+                    ...row,
+                    ...API.computeEffectiveFlow({
+                        c: row.value, 
+                        tms: elapsed,
+                        Va: wf
+                    })
+                }));                  
+                model.update("workFlow", wf);
+                updateData(temp);
+            }catch(err){
+                Toast("error", err.message);
+            }
         }
         setWorkFlow(e.target.value);
     };
@@ -99,29 +103,46 @@ const Control = props => {
         setOutputs(temp2);
     };
 
+    const handleNewCollectedValue = value => {        
+        try{
+            const res = API.computeEffectiveFlow({ // Funcion para evaluar volumen recolectado
+                c: value, 
+                tms: elapsed,
+                Va: parseFloat(workFlow)
+            });
+            return res;
+        }catch(err){
+            Toast("error", err.message);
+        }
+    };
+
     const updateData = newData => {
         model.update("collectedData", newData);
         const efAvg = arrayAvg(newData, "ef");
         if(efAvg){
-            const effectiveSprayVolume = API.computeSprayVolume({
-                Q: efAvg,
-                d: model.nozzleSeparation,
-                vel: model.workVelocity
-            });
-            /*
-            const expectedSprayVolume = API.computeSprayVolume({
-                Q: model.workFlow, // La variable de estado aun no esta actualizada, por eso uso la de model
-                d: model.nozzleSeparation,
-                vel: model.workVelocity
-            });
-            */
-            const expectedSprayVolume = model.workVolume;
-            const diff = effectiveSprayVolume - expectedSprayVolume;
-            const diffp = diff/model.workVolume*100;
-            const ready = true;
-            const result = {efAvg, effectiveSprayVolume, expectedSprayVolume, diff, diffp, ready};
-            model.update("verificationOutput", result);
-            setOutputs(result);
+            try{
+                const effectiveSprayVolume = API.computeSprayVolume({
+                    Q: efAvg,
+                    d: model.nozzleSeparation,
+                    vel: model.workVelocity
+                });
+                /*
+                const expectedSprayVolume = API.computeSprayVolume({
+                    Q: model.workFlow, // La variable de estado aun no esta actualizada, por eso uso la de model
+                    d: model.nozzleSeparation,
+                    vel: model.workVelocity
+                });
+                */
+                const expectedSprayVolume = model.workVolume;
+                const diff = effectiveSprayVolume - expectedSprayVolume;
+                const diffp = diff/model.workVolume*100;
+                const ready = true;
+                const result = {efAvg, effectiveSprayVolume, expectedSprayVolume, diff, diffp, ready};
+                model.update("verificationOutput", result);
+                setOutputs(result);
+            }catch(err){
+                Toast("error", err.message);
+            }
         }
         setData(newData);
     };
@@ -235,7 +256,7 @@ const Control = props => {
                 </Input>
                 <Input
                     slot="list"
-                    label="Caudal de trabajo"
+                    label="Caudal de pico"
                     name="workFlow"
                     type="number"
                     unit="l/min"
@@ -244,6 +265,11 @@ const Control = props => {
                     onChange={handleWorkFlowChange}
                     disabled={running}>
                 </Input>
+                {model.sprayFlow && <div slot="list">
+                    <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
+                        Caudal pulverizado: {model.sprayFlow} l/min
+                    </span>
+                </div>}
             </List>
 
             <Block style={{marginTop:"20px", textAlign:"center"}} className="help-target-control-play">
@@ -255,11 +281,7 @@ const Control = props => {
                     data={data} 
                     onDataChange={updateData} 
                     rowSelectDisabled={running || !workFlow}
-                    evalCollected={value => API.computeEffectiveFlow({ // Funcion para evaluar volumen recolectado
-                        c: value, 
-                        tms: elapsed,
-                        Va: workFlow
-                    })}/>
+                    evalCollected={handleNewCollectedValue}/>
             </Block>
 
             {outputs.ready && 

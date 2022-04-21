@@ -62,8 +62,6 @@ const reportFooter = {
 
 
 const PDFExport = (report, share) => {
-    //console.log(report);
-
     const reportContent = [ // Composicion de todo el documento
         {
             text: "Calibrador Criollo",

@@ -8,7 +8,7 @@ import { Capacitor } from "@capacitor/core";
 // El almacenamiento de datos se realiza con el valor de la version.
 // Las migraciones entre versiones no estan implementadas. 
 // Ante cualquier cambio en el modelo, se debe incrementar la version.
-const version = '4.0.1'; 
+const version = '4.0.2'; 
 
 const get_blank_report = () => {
     return {
@@ -34,8 +34,9 @@ export default class CriolloModel {
         this.velocityMeasured = false; // Para disparar render en vista de parametros
         this.workPressure = 2; // Presion de trabajo (bar)
         this.workVolume = 56; // Volumen de aplicacion (l/ha)
-        this.workFlow = 0.65; // Caudal de trabajo efectivo (l/min)
+        this.workFlow = 0.65; // Caudal de trabajo efectivo (l/min) por pico
         this.nominalFlow = 0.8; // Caudal nominal de pico seleccionado
+        this.sprayFlow = null; // Caudal de pulverizacion (caudal de picos multiplicado por n de picos)
         this.nominalPressure = 3; // Presion nominal de pico seleccionado
         this.nozzleSeparation = 0.35; // Distancia entre picos (m)
         this.nozzleNumber = null; // Numero de picos
@@ -44,6 +45,7 @@ export default class CriolloModel {
         // Verificacion de picos
         this.samplingTimeMs = 30000; // 30000, 60000 o 90000
         this.collectedData = []; // Datos de jarreo
+        this.verificationOutput = {};
 
         // Variables de insumos
         this.workArea = null; // Superficie de lote
@@ -77,12 +79,6 @@ export default class CriolloModel {
             this.saveToLocalStorage();
         else 
             console.log("Error: no se pudo actualizar el modelo");
-    }
-
-    clear(params){ // Borrar lista de parametros
-        for(let i = 0; i < params.length; i++)
-            this[params[i]] = null;
-        this.saveToLocalStorage();
     }
 
 
@@ -145,7 +141,7 @@ export default class CriolloModel {
         if(results.lotName.length > 1)
             this.currentReport.name = results.lotName;
         this.currentReport.supplies = results;
-        this.currentReport.completed.supplies = true;        
+        this.currentReport.completed.supplies = true;             
     }
 
     getReport(id){

@@ -7,9 +7,9 @@ const SuppliesTable = props => (
         <table className={["data-table", classes.SuppliesTable].join(' ')}>
             <tr>
                 <th height="40" className="label-cell" style={{margin:0, padding:0}}>Producto</th>
-                {!props.supplies.loadBalancingEnabled && <th className="label-cell" style={{margin:0, padding:0}}><div>Carga</div><div>completa</div></th>}
-                {!props.supplies.loadBalancingEnabled && <th className="label-cell" style={{margin:0, padding:0}}><div>Fracción</div><div>de carga</div></th>}
-                {props.supplies.loadBalancingEnabled && <th className="label-cell" style={{margin:0, padding:0}}>Carga</th>}
+                {!props.loadBalancing && <th className="label-cell" style={{margin:0, padding:0}}><div>Carga</div><div>completa</div></th>}
+                {!props.loadBalancing && <th className="label-cell" style={{margin:0, padding:0}}><div>Fracción</div><div>de carga</div></th>}
+                {props.loadBalancing && <th className="label-cell" style={{margin:0, padding:0}}>Carga</th>}
                 <th className="label-cell" style={{margin:0, padding:0}}><div>Total</div><div>insumos</div></th>
             </tr>
             <tbody>
@@ -19,9 +19,9 @@ const SuppliesTable = props => (
                     return (
                         <tr key={prod.key}>
                             <td>{prod.name}</td>
-                            {!props.supplies.loadBalancingEnabled && <td>{formatNumber(prod.cpp)} {unit}</td>}
-                            {!props.supplies.loadBalancingEnabled && <td>{formatNumber(prod.cfc)} {unit}</td>}
-                            {props.supplies.loadBalancingEnabled && <td>{formatNumber(prod.ceq)} {unit}</td>}
+                            {!props.loadBalancing && <td>{formatNumber(prod.cpp)} {unit}</td>}
+                            {!props.loadBalancing && <td>{formatNumber(prod.cfc)} {unit}</td>}
+                            {props.loadBalancing && <td>{formatNumber(prod.ceq)} {unit}</td>}
                             <td>{formatNumber(prod.total)} {unit}</td>
                         </tr>
                     )}

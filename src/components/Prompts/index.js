@@ -56,7 +56,7 @@ const openRecipientSizePrompt = callback => {
                 <Input
                     label="Capacidad"
                     type="number"
-                    unit="lts"
+                    unit="l"
                     inputId={elId}
                 ></Input>
             </Row>

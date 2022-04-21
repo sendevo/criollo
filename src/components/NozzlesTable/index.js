@@ -57,8 +57,8 @@ const NozzlesTable = props => {
                                 props.data.map((row,idx) => (
                                     <tr key={idx} onClick={()=>handleRowSelect(idx)}>
                                         <td className={classes.DataCell}>{idx+1}</td>
-                                        <td className={classes.DataCell}>{row.updated ? formatNumber(row.ef)+" l/min" : " - "}</td>
-                                        <td className={classes.DataCell}>{row.updated ? formatNumber(row.s)+" %" : " - "}</td>
+                                        <td className={classes.DataCell}>{row.updated && row.ef ? formatNumber(row.ef)+" l/min" : " - "}</td>
+                                        <td className={classes.DataCell}>{row.updated && row.ef ? formatNumber(row.s)+" %" : " - "}</td>
                                         <td className={classes.DataCell}>
                                             {
                                                 row.updated?

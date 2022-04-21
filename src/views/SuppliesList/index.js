@@ -39,9 +39,9 @@ const SuppliesList = props => {
     };
 
     const loadsText = model.loadBalancingEnabled ? 
-        model.supplies.Ncb+" carga(s) de " +formatNumber(model.supplies.Vcb)+ " litros " 
+        model.supplies.Ncb+" carga(s) de " +Math.round(model.supplies.Vcb)+ " litros " 
         : 
-        model.supplies.Ncc+" carga(s) completa(s)"+(model.supplies.Vf > 0 ? " y 1 fracción de carga de " +formatNumber(model.supplies.Vf)+ " litros" : "");
+        model.supplies.Ncc+" carga(s) completa(s)"+(model.supplies.Vf > 0 ? " y 1 fracción de carga de " +Math.round(model.supplies.Vf)+ " litros" : "");
 
     return (
         <Page>
@@ -81,7 +81,7 @@ const SuppliesList = props => {
 
             <BlockTitle className={classes.SectionTitle}>Insumos</BlockTitle>
             <Row>
-                <SuppliesTable supplies={model.supplies}/>
+                <SuppliesTable supplies={model.supplies} loadBalancing={model.loadBalancingEnabled}/>
             </Row>
 
             <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
