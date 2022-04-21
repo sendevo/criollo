@@ -57,7 +57,7 @@ const SuppliesList = props => {
                         model.lotCoordinates && 
                         <tr>
                             <td><b>Ubicación:</b></td>
-                            <td>lat: {model.lotCoordinates.join(', long:')}</td>
+                            <td>{model.lotCoordinates.length > 0 ? "lat: "+model.lotCoordinates.join(', long:') : " - "}</td>
                         </tr>
                     }
                     <tr>

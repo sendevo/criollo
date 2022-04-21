@@ -113,7 +113,7 @@ const ReportDetails = props => {
                                 report.supplies.lotCoordinates &&
                                 <tr>
                                     <td><b>Ubicación:</b></td>
-                                    <td className={classes.DataCell}>lat: {report.supplies.lotCoordinates.join(', long:')}</td>
+                                    <td className={classes.DataCell}>{report.supplies.lotCoordinates.length > 0 ? "lat: "+report.supplies.lotCoordinates.join(', long:') : " - "}</td>
                                 </tr>
                             }
                             <tr>
@@ -132,7 +132,7 @@ const ReportDetails = props => {
                     </table>
                     
                     <BlockTitle className={classes.SectionTitle}>Insumos</BlockTitle>
-                    <SuppliesTable supplies={report.supplies} />
+                    <SuppliesTable supplies={report.supplies} loadBalancing={report.supplies.loadBalancingEnabled}/>
                     
                     {report.supplies.comments && 
                     <div>
