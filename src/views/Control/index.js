@@ -290,7 +290,7 @@ const Control = props => {
             {outputs.ready && 
                 <Block className={classes.OutputBlock}>
                     <p className="help-target-control-results"><b>Resultados</b></p>
-                    <p>Caudal efectivo promedio: {formatNumber(outputs.efAvg)} l/min</p>
+                    {/*<p>Caudal efectivo promedio: {formatNumber(outputs.efAvg)} l/min</p>*/}
                     {outputs.totalEffectiveFlow && <p>Caudal pulverizado efectivo: {formatNumber(outputs.totalEffectiveFlow)} l/min</p>}
                     <p>Volumen pulverizado efectivo: {formatNumber(outputs.effectiveSprayVolume)} l/ha</p>
                     <p>Diferencia: {formatNumber(outputs.diff)} l/ha ({formatNumber(outputs.diffp)} %)</p>

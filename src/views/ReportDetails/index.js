@@ -73,10 +73,10 @@ const ReportDetails = props => {
                     <h3>Verificación de picos</h3>
                     <table className={classes.Table}>
                         <tbody>
-                            <tr>
+                            {/*<tr>
                                 <td><b>Caudal efectivo promedio:</b></td>
                                 <td className={classes.DataCell}>{formatNumber(report.control.efAvg)} l/min</td>
-                            </tr>
+                            </tr>*/}
                             {report.control.totalEffectiveFlow && <tr>
                                 <td><b>Caudal pulverizado efectivo:</b></td>
                                 <td className={classes.DataCell}>{formatNumber(report.control.totalEffectiveFlow)} l/min</td>
