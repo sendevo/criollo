@@ -3,6 +3,7 @@ import { App as cApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import * as Views from './views';
 import ReportsPanel from './components/ReportsPanel';
+import Toast from './components/Toast';
 import Popovers from './components/Popover';
 import { ModelProvider, WalkthroughProvider } from './context';
 import './index.css';
@@ -112,12 +113,24 @@ const f7params = {
     ]
 };
 
+let exitWatchDog = 0;
 
 if(Capacitor.isNativePlatform())
     cApp.addListener('backButton', () => {
         // Salir en vista principal
         if(f7.view.main.router.url === '/'){
-            cApp.exitApp();
+            if(Date.now() - exitWatchDog > 3000){
+                Toast('info', 'Presione nuevamente para salir');
+                exitWatchDog = Date.now();
+            }else{
+                try{
+                    // variable expuesta en ModelContext.js
+                    window.criollomodel.clearForms();
+                }catch(err){
+                    console.log(err);
+                }
+                cApp.exitApp();
+            }            
         }else{
             f7.view.main.router.back();
         }

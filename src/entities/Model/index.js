@@ -27,43 +27,43 @@ const get_blank_report = () => {
     };
 };
 
+const defaultFormParams = {
+    workVelocity: 20, // Velocidad de trabajo (km/h)
+    velocityMeasured: false, // Para disparar render en vista de parametros
+    workPressure: 2, // Presion de trabajo (bar)
+    workVolume: 56, // Volumen de aplicacion (l/ha)
+    workFlow: 0.65, // Caudal de trabajo efectivo (l/min) por pico
+    nominalFlow: 0.8, // Caudal nominal de pico seleccionado
+    sprayFlow: null, // Caudal de pulverizacion (caudal de picos multiplicado por n de picos)
+    nominalPressure: 3, // Presion nominal de pico seleccionado
+    nozzleSeparation: 0.35, // Distancia entre picos (m)
+    nozzleNumber: null, // Numero de picos
+    nozzleSelection: [-1, -1, -1, -1], // Indices de picos seleccionados
+    
+    // Verificacion de picos
+    samplingTimeMs: 30000, // 30000, 60000 o 90000
+    collectedData: [], // Datos de jarreo
+    verificationOutput: {},
+
+    // Variables de insumos
+    workArea: null, // Superficie de lote
+    lotName: null, // Nombre del lote
+    lotCoordinates: null, // Coordenadas del lote
+    gpsEnabled: false, // Habilitacion coordenadas lote
+    loadBalancingEnabled: true, // Habilitacion balanceo de carga
+    capacity: null, // Capacidad del tanque
+    products: [], // Lista de prductos
+    supplies: {}, // Insumos y cantidades
+
+    currentReport: get_blank_report()
+};
+
 export default class CriolloModel {
     constructor(){
-        // Parametros de pulverizacion
-        this.workVelocity = 20; // Velocidad de trabajo (km/h)
-        this.velocityMeasured = false; // Para disparar render en vista de parametros
-        this.workPressure = 2; // Presion de trabajo (bar)
-        this.workVolume = 56; // Volumen de aplicacion (l/ha)
-        this.workFlow = 0.65; // Caudal de trabajo efectivo (l/min) por pico
-        this.nominalFlow = 0.8; // Caudal nominal de pico seleccionado
-        this.sprayFlow = null; // Caudal de pulverizacion (caudal de picos multiplicado por n de picos)
-        this.nominalPressure = 3; // Presion nominal de pico seleccionado
-        this.nozzleSeparation = 0.35; // Distancia entre picos (m)
-        this.nozzleNumber = null; // Numero de picos
-        this.nozzleSelection = [-1, -1, -1, -1]; // Indices de picos seleccionados
-        
-        // Verificacion de picos
-        this.samplingTimeMs = 30000; // 30000, 60000 o 90000
-        this.collectedData = []; // Datos de jarreo
-        this.verificationOutput = {};
-
-        // Variables de insumos
-        this.workArea = null; // Superficie de lote
-        this.lotName = null; // Nombre del lote
-        this.lotCoordinates = null; // Coordenadas del lote
-        this.gpsEnabled = false; // Habilitacion coordenadas lote
-        this.loadBalancingEnabled = true; // Habilitacion balanceo de carga
-        this.capacity = null; // Capacidad del tanque
-        this.products = []; // Lista de prductos
-        this.supplies = {}; // Insumos y cantidades
-
-        // Reportes
-        this.reports = [];
-        this.currentReport = get_blank_report();
-
+        Object.assign(this, defaultFormParams);
+        this.reports = []; // Esta variable debe ser persistente
         this.getFromLocalStorage();
     }
-
 
     update(param, value){ // Actualizar uno o mas parametros
         let updated = false;
@@ -117,14 +117,10 @@ export default class CriolloModel {
         }
     }
 
-    clearLocalStorage(){ // Limpiar datos de localStorage
-        const key = "criollo_model"+version;
-        if(Capacitor.isNativePlatform())
-            Storage.remove({key});
-        else
-            localStorage.removeItem(key);
+    clearForms() { // Limpiar formularios
+        Object.assign(this, defaultFormParams);
+        this.saveToLocalStorage();
     }
-
 
     /// Reportes
     addParamsToReport(params) {

@@ -14,8 +14,8 @@ Una vez instalada, la utilización de Criollo no requiere disponibilidad de señ
   - Nueva presentación. Mejoras en control y validación de campos.  
   - Se pierde el control de volumen en la vista de verificación. En lugar de forzar el volumen al máximo, se avisa al usuario de que suba el volumen para que las alertas sean audibles. El control de "keep awake" se realiza con un plugin CapacitorJS.  
   - Los reportes se generan secuencialmente como en Campero y Campero Fertilizadoras.  
-  - Los formularios tienen almacenamiento persistente de datos, no se pierden al cambiar de vistas.  
-  - El almacenamiento de los datos se realiza en LocalStorage.  
+  - Los formularios tienen almacenamiento persistente de datos, no se pierden al cambiar de vistas o si la app queda en segundo plano, pero se borran al salir (previo confirmacion del usuario).  
+  - El almacenamiento de los datos se realiza en LocalStorage o Storage de Capacitor (que se supone tiene mejor persistencia que localStorage).  
 
 ## Instalación y despliegue
 
