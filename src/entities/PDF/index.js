@@ -5,6 +5,7 @@ import pdfFonts from "pdfmake/build/vfs_fonts";
 import moment from 'moment';
 import Toast from '../../components/Toast';
 import { formatNumber } from "../../utils";
+import { presentationUnits } from "../API";
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
 import { FileSharer } from '@byteowls/capacitor-filesharer';
@@ -216,8 +217,9 @@ const PDFExport = (report, share) => {
     }
 
     if (report.completed.supplies) {
+
         reportContent.push({
-            text: "Cálculo de insumos",
+            text: "Parámetros de mezcla",
             style: "section"
         });
         reportContent.push({
@@ -229,7 +231,11 @@ const PDFExport = (report, share) => {
             style: "text"
         });
         reportContent.push({
-            text: "Capacidad tanque: " + formatNumber(report.supplies.capacity) + " litros",
+            text: "Volumen pulverizado: " + formatNumber(report.supplies.workVolume) + " l/ha",
+            style: "text"
+        });
+        reportContent.push({
+            text: "Capacidad tanque: " + formatNumber(report.supplies.capacity, 0) + " litros",
             style: "text"
         });
         reportContent.push({
@@ -237,7 +243,48 @@ const PDFExport = (report, share) => {
             style: "text"
         });
 
-        const rows = report.supplies.loadBalancingEnabled ? 
+        reportContent.push({
+            text: "Prescripción",
+            style: "subsection"
+        });
+
+        const rows1 = [
+            [
+                {
+                    text: "Producto",
+                    style: "tableHeader"
+                },
+                {
+                    text: "Dosis",
+                    style: "tableHeader"
+                }
+
+            ]
+        ];
+
+        report.supplies.pr.forEach(prod => {            
+            rows1.push( [
+                prod.name,
+                formatNumber(prod.ceq, 2) + " " + presentationUnits[prod.presentation]
+            ]);
+        });
+
+        reportContent.push({
+            layout: 'lightHorizontalLines',
+            table: {
+                headerRows: 1,
+                widths: ['*', '*'],
+                body: rows1
+            },
+            margin: [0, 0, 0, 15]
+        });
+
+        reportContent.push({
+            text: "Insumos",
+            style: "subsection"
+        });
+
+        const rows2 = report.supplies.loadBalancingEnabled ? 
         [
             [
                 {
@@ -278,15 +325,15 @@ const PDFExport = (report, share) => {
 
         report.supplies.pr.forEach(prod => {
             const unit = prod.presentation === 0 || prod.presentation === 2 ? " l" : " kg";
-            rows.push( report.supplies.loadBalancingEnabled ? [
+            rows2.push( report.supplies.loadBalancingEnabled ? [
                 prod.name,
-                formatNumber(prod.ceq) + unit,
-                prod.total + unit
+                formatNumber(prod.ceq, 1) + unit,
+                formatNumber(prod.total, 1) + unit
             ]:[
                 prod.name,
-                formatNumber(prod.cpp) + unit,
-                formatNumber(prod.cfc) + unit,
-                formatNumber(prod.total) + unit
+                formatNumber(prod.cpp, 1) + unit,
+                formatNumber(prod.cfc, 1) + unit,
+                formatNumber(prod.total, 1) + unit
             ]);
         });
 
@@ -295,10 +342,23 @@ const PDFExport = (report, share) => {
             table: {
                 headerRows: 1,
                 widths: report.supplies.loadBalancingEnabled ? ['*', '*', '*'] : ['*', '*', '*', '*'],
-                body: rows
+                body: rows2
             },
             margin: [0, 0, 0, 15]
         });
+
+        if(report.supplies.comments){
+            if(report.supplies.comments.length > 0){
+                reportContent.push({
+                    text: "Observaciones:",
+                    style: "section"
+                });
+                reportContent.push({
+                    text: report.supplies.comments,
+                    style: "text"
+                });
+            }
+        }
     }
 
     const document = { // Documento

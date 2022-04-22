@@ -1,8 +1,8 @@
-import { f7, Navbar, Page, Row, Col, Button, BlockTitle, List } from 'framework7-react';
+import { f7, Navbar, Page, Row, Col, Button, BlockTitle, List, Block } from 'framework7-react';
 import React, { useContext, useState } from 'react';
 import { BackButton } from '../../components/Buttons';
 import Input from '../../components/Input';
-import SuppliesTable from '../../components/SuppliesTable';
+import { SuppliesTable, PrescriptionTable } from '../../components/SuppliesTable';
 import { ModelCtx } from '../../context';
 import { formatNumber } from '../../utils';
 import iconReport from '../../assets/icons/reportes.png';
@@ -79,10 +79,14 @@ const SuppliesList = props => {
                 </table>
             </Row>
 
-            <BlockTitle className={classes.SectionTitle}>Insumos</BlockTitle>
-            <Row>
+            <Block style={{marginTop:20}}>
+                <BlockTitle className={classes.SectionTitle}>Prescripción</BlockTitle>
+                <PrescriptionTable supplies={model.supplies}/>
+                
+                <BlockTitle className={classes.SectionTitle}>Insumos</BlockTitle>
                 <SuppliesTable supplies={model.supplies} loadBalancing={model.loadBalancingEnabled}/>
-            </Row>
+            </Block>
+            
 
             <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
                 <Input

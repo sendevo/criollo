@@ -2,7 +2,7 @@ import { Navbar, Page, Block, Row, Col, Button, BlockTitle } from 'framework7-re
 import { useContext } from 'react';
 import { BackButton } from '../../components/Buttons';
 import NozzlesTable from '../../components/NozzlesTable';
-import SuppliesTable from '../../components/SuppliesTable';
+import { SuppliesTable, PrescriptionTable } from '../../components/SuppliesTable';
 import { ModelCtx } from '../../context';
 import { formatNumber } from '../../utils';
 import moment from 'moment';
@@ -125,8 +125,12 @@ const ReportDetails = props => {
                                 <td className={classes.DataCell}>{formatNumber(report.supplies.workArea)} ha</td>
                             </tr>
                             <tr>
+                                <td><b>Volumen pulverizado:</b></td>
+                                <td className={classes.DataCell}>{formatNumber(report.supplies.workVolume)} l/ha</td>
+                            </tr>
+                            <tr>
                                 <td><b>Capacidad del tanque:</b></td>
-                                <td className={classes.DataCell}>{formatNumber(report.supplies.capacity)} litros</td>
+                                <td className={classes.DataCell}>{formatNumber(report.supplies.capacity, 0)} litros</td>
                             </tr>
                             <tr>
                                 <td><b>Cantidad de cargas:</b></td>
@@ -135,6 +139,9 @@ const ReportDetails = props => {
                         </tbody>
                     </table>
                     
+                    <BlockTitle className={classes.SectionTitle}>Prescripción</BlockTitle>
+                    <PrescriptionTable supplies={report.supplies}/>
+
                     <BlockTitle className={classes.SectionTitle}>Insumos</BlockTitle>
                     <SuppliesTable supplies={report.supplies} loadBalancing={report.supplies.loadBalancingEnabled}/>
                     

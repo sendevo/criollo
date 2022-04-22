@@ -22,6 +22,7 @@ import { generateId } from '../../utils';
 import { PresentationSelector } from '../../components/Selectors';
 import iconProduct from '../../assets/icons/calculador.png';
 import iconDose from '../../assets/icons/recolectado.png';
+import iconVolume from '../../assets/icons/dosis.png';
 import iconArea from '../../assets/icons/sup_lote.png';
 import iconName from '../../assets/icons/reportes.png';
 import iconCapacity from '../../assets/icons/capacidad_carga.png';
@@ -71,6 +72,7 @@ const Supplies = props => {
         gpsEnabled, 
         lotCoordinates, 
         loadBalancingEnabled,
+        workVolume,
         workArea, 
         capacity
     }, setInputs] = useState({
@@ -78,6 +80,7 @@ const Supplies = props => {
         gpsEnabled: false, // Habilitar GPS
         lotCoordinates: model.lotCoordinates || [], // Ubicacion del lote
         loadBalancingEnabled: model.loadBalancingEnabled || true, // Habilitar balanceo de carga
+        workVolume: model.workVolume || '', // Volumen de aplicación
         workArea: model.workArea || '', // Superficie
         capacity: model.capacity || '' // Capacidad carga
     });
@@ -110,8 +113,9 @@ const Supplies = props => {
             getPosition().then( coords => {
                 setInputs(prevState => ({ ...prevState, lotCoordinates: coords }));
             });
+        }else{
+            setInputs(prevState => ({ ...prevState, [attr]: value }));
         }
-        setInputs(prevState => ({ ...prevState, [attr]: value }));
     };
 
     const setProductParams = (index, attr, value) => {
@@ -125,7 +129,7 @@ const Supplies = props => {
         const params = {
             A: workArea, 
             T: capacity,
-            Va: model.workVolume,
+            Va: workVolume,
             products
         };
         try{
@@ -197,8 +201,20 @@ const Supplies = props => {
                     <span style={{paddingLeft: 10, color: gpsEnabled ? "#000000" : "#999999", fontSize: "0.8em"}}>Geoposición [{lotCoordinates[0]?.toFixed(4) || '?'}, {lotCoordinates[1]?.toFixed(4) || '?'}] </span>
                 </div>
             </List>
+
             <BlockTitle style={{marginBottom:"0px", marginTop: "20px"}} className="help-target-supplies-capacity">Datos de aplicación</BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
+                <Input
+                    className="help-target-load-number"
+                    slot="list"
+                    label="Volumen de aplicación"
+                    name="capacity"
+                    type="number"
+                    unit="l/ha"
+                    icon={iconVolume}
+                    value={workVolume}
+                    onChange={v=>setMainParams('workVolume', parseFloat(v.target.value))}
+                    ></Input>
                 <Input
                     className="help-target-load-number"
                     slot="list"
