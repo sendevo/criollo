@@ -38,6 +38,7 @@ const Control = props => {
     const [outputs, setOutputs] = useState(model.verificationOutput || { // Resultados
         ready: false,
         efAvg: undefined,
+        totalEffectiveFlow: undefined,
         expectedSprayVolume: undefined,
         effectiveSprayVolume: undefined,
         diff: undefined,
@@ -126,18 +127,18 @@ const Control = props => {
                     d: model.nozzleSeparation,
                     vel: model.workVelocity
                 });
-                /*
-                const expectedSprayVolume = API.computeSprayVolume({
-                    Q: model.workFlow, // La variable de estado aun no esta actualizada, por eso uso la de model
-                    d: model.nozzleSeparation,
-                    vel: model.workVelocity
-                });
-                */
                 const expectedSprayVolume = model.workVolume;
                 const diff = effectiveSprayVolume - expectedSprayVolume;
                 const diffp = diff/model.workVolume*100;
-                const ready = true;
-                const result = {efAvg, effectiveSprayVolume, expectedSprayVolume, diff, diffp, ready};
+                const result = {
+                    efAvg, 
+                    totalEffectiveFlow: model.nozzleNumber ? efAvg*model.nozzleNumber : undefined,
+                    effectiveSprayVolume, 
+                    expectedSprayVolume, 
+                    diff, 
+                    diffp, 
+                    ready: true
+                };
                 model.update("verificationOutput", result);
                 setOutputs(result);
             }catch(err){
@@ -214,6 +215,7 @@ const Control = props => {
             efAvg,
             expectedSprayVolume,
             effectiveSprayVolume,
+            totalEffectiveFlow,
             diff,
             diffp
         } = outputs;
@@ -221,6 +223,7 @@ const Control = props => {
             efAvg,
             expectedSprayVolume,
             effectiveSprayVolume,
+            totalEffectiveFlow,
             diff,
             diffp,
             data
@@ -288,12 +291,9 @@ const Control = props => {
                 <Block className={classes.OutputBlock}>
                     <p className="help-target-control-results"><b>Resultados</b></p>
                     <p>Caudal efectivo promedio: {formatNumber(outputs.efAvg)} l/min</p>
+                    {outputs.totalEffectiveFlow && <p>Caudal pulverizado efectivo: {formatNumber(outputs.totalEffectiveFlow)} l/min</p>}
                     <p>Volumen pulverizado efectivo: {formatNumber(outputs.effectiveSprayVolume)} l/ha</p>
-                    {
-                    //<p>Volumen previsto: {formatNumber(outputs.expectedSprayVolume)} l/ha</p>
-                    }
                     <p>Diferencia: {formatNumber(outputs.diff)} l/ha ({formatNumber(outputs.diffp)} %)</p>
-
                     <Row style={{marginTop:30, marginBottom: 20}} className="help-target-control-reports">
                         <Col width={20}></Col>
                         <Col width={60}>

@@ -74,11 +74,15 @@ const ReportDetails = props => {
                     <table className={classes.Table}>
                         <tbody>
                             <tr>
-                                <td><b>Caudal efectivo<br/>promedio:</b></td>
+                                <td><b>Caudal efectivo promedio:</b></td>
                                 <td className={classes.DataCell}>{formatNumber(report.control.efAvg)} l/min</td>
                             </tr>
+                            {report.control.totalEffectiveFlow && <tr>
+                                <td><b>Caudal pulverizado efectivo:</b></td>
+                                <td className={classes.DataCell}>{formatNumber(report.control.totalEffectiveFlow)} l/min</td>
+                            </tr>}
                             <tr>
-                                <td><b>Volumen pulverizado<br/>efectivo:</b></td>
+                                <td><b>Volumen pulverizado efectivo:</b></td>
                                 <td className={classes.DataCell}>{formatNumber(report.control.effectiveSprayVolume)} l/ha</td>
                             </tr>
                             <tr>
