@@ -129,7 +129,7 @@ const ReportDetails = props => {
                                 <td className={classes.DataCell}>{formatNumber(report.supplies.capacity)} litros</td>
                             </tr>
                             <tr>
-                                <td><b>Cntidad de cargas:</b></td>
+                                <td><b>Cantidad de cargas:</b></td>
                                 <td className={classes.DataCell}>{report.supplies.loadsText}</td>
                             </tr>
                         </tbody>

@@ -110,11 +110,16 @@ const Params = props => {
         setInputs({
             ...inputs,
             nozzleSeparation: ns,
+            nozzleNumber: '',
             workPressureUpdated: false,
             workVelocityUpdated: false,
             workVolumeUpdated: false
         });
-        model.update("nozzleSeparation", ns);
+        model.update({
+            nozzleSeparation: ns, 
+            nozzleNumber: '',
+            sprayFlow: null
+        });
     };
 
     const handleNozzleNumberChange = value => {

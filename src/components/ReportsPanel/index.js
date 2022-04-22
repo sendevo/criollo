@@ -9,6 +9,8 @@ const ReportsPanel = () => {
     
     const model = useContext(ModelCtx);
     const [completedSections, setCompletedSections] = useState(model.currentReport?.completed || {params: false, control: false, supplies: false});
+
+    const emptyReport = !completedSections.params && !completedSections.control && !completedSections.supplies;
  
     const onOpened = () => {
         setCompletedSections({...model.currentReport.completed});
@@ -68,8 +70,15 @@ const ReportsPanel = () => {
         }).open();
     };
 
+    const gotoMenu = () => {
+        f7.panel.close();
+        setTimeout(function(){ // Dar tiempo a que se cierre el panel
+            f7.views.main.router.navigate('/');
+        }, 500);
+    };
+
     return (
-        <Panel right onPanelOpen={onOpened}>
+        <Panel right onPanelOpen={onOpened} swipe>
             <View>
                 <Page>
                     <Block>
@@ -120,15 +129,15 @@ const ReportsPanel = () => {
                             </table>
                         </Row>
                         
-                        <Button className={classes.ButtonSave} fill onClick={saveReport}>
+                        <Button className={classes.ButtonSave} fill onClick={saveReport} disabled={emptyReport}>
                             Finalizar reporte
                         </Button>
                     
-                        <Button className={classes.ButtonDelete} fill onClick={deleteReport} color="red">
+                        <Button className={classes.ButtonDelete} fill onClick={deleteReport} color="red" disabled={emptyReport}>
                             Borrar reporte
                         </Button>
                     
-                        <Button className={classes.ButtonContinue} fill panelClose color="teal">
+                        <Button className={classes.ButtonContinue} fill onClick={gotoMenu} color="teal">
                             Continuar
                         </Button>
                         

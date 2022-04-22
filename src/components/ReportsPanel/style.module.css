@@ -3,8 +3,12 @@
 	height: 15px;
 }
 
+.Table td {
+    text-align: left;
+}
+
 .SectionStatus {
-    text-align: right;
+    text-align: right!important;
 }
 
 .ButtonSave {
