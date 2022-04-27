@@ -28,7 +28,7 @@ $ npm install
 
 Correr versión web para debug
 ```bash
-$ npm start
+$ npm run dev
 ```
 
 Compilar versión web optimizada
@@ -51,6 +51,13 @@ $ npm run build && npx cap sync
 3.- Agregar permisos en android/app/src/main/AndroidManifest.xml
 
 ```xml
+...
+<aplication>
+  ...
+  android:requestLegacyExternalStorage="true"
+  ...
+</application>
+...
 <uses-permission android:name="android.permission.INTERNET" />
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

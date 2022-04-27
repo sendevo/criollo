@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Criollo</string>
-    <string name="title_activity_main">Criollo</string>
+    <string name="app_name">Calibrador Criollo</string>
+    <string name="title_activity_main">Calibrador Criollo</string>
     <string name="package_name">com.inta.criollo2</string>
     <string name="custom_url_scheme">com.inta.criollo2</string>
 </resources>

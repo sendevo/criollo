@@ -3,13 +3,13 @@
         "id": "iso",
         "name": "ISO",
         "long_name": "Norma ISO",
-        "img": "iso.png",
+        "img": "iso",
         "childs": [
             {
                 "id": "iso005",
                 "name": "005 Purpura",
                 "long_name": "ISO 005 Purpura",
-                "img": "iso005.png",
+                "img": "iso005",
                 "b": 0,
                 "c": 0.1155
             },
@@ -17,7 +17,7 @@
                 "id": "iso0075",
                 "name": "0075 Rosa",
                 "long_name": "ISO 0075 Rosa",
-                "img": "iso0075.png",
+                "img": "iso0075",
                 "b": 0,
                 "c": 0.1732
             },
@@ -25,7 +25,7 @@
                 "id": "iso01",
                 "name": "010 Naranja",
                 "long_name": "ISO 010 Naranja",
-                "img": "iso01.png",
+                "img": "iso01",
                 "b": 0,
                 "c": 0.2309
             },
@@ -33,7 +33,7 @@
                 "id": "iso015",
                 "name": "015 Verde",
                 "long_name": "ISO 015 Verde",
-                "img": "iso015.png",
+                "img": "iso015",
                 "b": 0,
                 "c": 0.3464
             },
@@ -41,7 +41,7 @@
                 "id": "iso02",
                 "name": "020 Amarillo",
                 "long_name": "ISO 020 Amarillo",
-                "img": "iso02.png",
+                "img": "iso02",
                 "b": 0,
                 "c": 0.4619
             },
@@ -49,7 +49,7 @@
                 "id": "iso025",
                 "name": "025 Lila",
                 "long_name": "ISO 025 Lila",
-                "img": "iso025.png",
+                "img": "iso025",
                 "b": 0,
                 "c": 0.5774
             },
@@ -57,7 +57,7 @@
                 "id": "iso03",
                 "name": "030 Azul",
                 "long_name": "ISO 03 Azul",
-                "img": "iso03.png",
+                "img": "iso03",
                 "b": 0,
                 "c": 0.6928
             },
@@ -65,7 +65,7 @@
                 "id": "iso04",
                 "name": "040 Rojo",
                 "long_name": "ISO 04 Rojo",
-                "img": "iso04.png",
+                "img": "iso04",
                 "b": 0,
                 "c": 0.9238
             },
@@ -73,7 +73,7 @@
                 "id": "iso05",
                 "name": "050 Marrón",
                 "long_name": "ISO 05 Marrón",
-                "img": "iso05.png",
+                "img": "iso05",
                 "b": 0,
                 "c": 1.1547
             },
@@ -81,7 +81,7 @@
                 "id": "iso06",
                 "name": "060 Gris",
                 "long_name": "ISO 06 Gris",
-                "img": "iso06.png",
+                "img": "iso06",
                 "b": 0,
                 "c": 1.3856
             },
@@ -89,7 +89,7 @@
                 "id": "iso08",
                 "name": "080 Blanco",
                 "long_name": "ISO 08 Blanco",
-                "img": "iso08.png",
+                "img": "iso08",
                 "b": 0,
                 "c": 1.8475
             },
@@ -97,7 +97,7 @@
                 "id": "iso10",
                 "name": "100 Negro",
                 "long_name": "ISO 10 Negro",
-                "img": "iso10.png",
+                "img": "iso10",
                 "b": 0,
                 "c": 2.3094
             }
@@ -107,7 +107,7 @@
         "id": "dyn",
         "name": "DyN",
         "long_name": "Disco y Núcleo",
-        "img": "dyn.png",
+        "img": "dyn",
         "childs": [
             {
                 "id": "ch",
@@ -116,13 +116,13 @@
                     {
                         "id": "d1",
                         "name": "D1",
-                        "img": "d1.png",
+                        "img": "d1",
                         "childs": [
                             {
                                 "id": "dc13",
                                 "name": "DC13",
                                 "long_name": "DyN CH D1 DC13",
-                                "img": "dc13.png",
+                                "img": "dc13",
                                 "b": 0.0655,
                                 "c": 0.1125833025
                             },
@@ -130,7 +130,7 @@
                                 "id": "dc23",
                                 "name": "DC23",
                                 "long_name": "DyN CH D1 DC23",
-                                "img": "dc23.png",
+                                "img": "dc23",
                                 "b": 0.0789,
                                 "c": 0.1196269758
                             },
@@ -138,7 +138,7 @@
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D1 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.05,
                                 "c": 0.2009178937
                             },
@@ -146,7 +146,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D1 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": 0.04,
                                 "c": 0.2549578789
                             },
@@ -162,13 +162,13 @@
                     {
                         "id": "d1_5",
                         "name": "D1.5",
-                        "img": "d1_5.png",
+                        "img": "d1_5",
                         "childs": [
                             {
                                 "id": "dc13",
                                 "name": "DC13",
                                 "long_name": "DyN CH D1.5 DC13",
-                                "img": "dc13.png",
+                                "img": "dc13",
                                 "b": 0.0839,
                                 "c": 0.1238993678
                             },
@@ -176,7 +176,7 @@
                                 "id": "dc23",
                                 "name": "DC23",
                                 "long_name": "DyN CH D1.5 DC23",
-                                "img": "dc23.png",
+                                "img": "dc23",
                                 "b": 0.0647,
                                 "c": 0.1609652551
                             },
@@ -184,7 +184,7 @@
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D1.5 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.11,
                                 "c": 0.2478564706
                             },
@@ -192,7 +192,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D1.5 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": -0.03,
                                 "c": 0.3805892974
                             },
@@ -200,7 +200,7 @@
                                 "id": "dc46",
                                 "name": "DC46",
                                 "long_name": "DyN CH D1.5 DC46",
-                                "img": "dc46.png",
+                                "img": "dc46",
                                 "b": 0.07,
                                 "c": 0.4510260303
                             }
@@ -209,13 +209,13 @@
                     {
                         "id": "d2",
                         "name": "D2",
-                        "img": "d2.png",
+                        "img": "d2",
                         "childs": [
                             {
                                 "id": "dc13",
                                 "name": "DC13",
                                 "long_name": "DyN CH D2 DC13",
-                                "img": "dc13.png",
+                                "img": "dc13",
                                 "b": 0.1,
                                 "c": 0.1352731681
                             },
@@ -223,7 +223,7 @@
                                 "id": "dc23",
                                 "name": "DC23",
                                 "long_name": "DyN CH D2 DC23",
-                                "img": "dc23.png",
+                                "img": "dc23",
                                 "b": 0.12,
                                 "c": 0.1812302495
                             },
@@ -231,7 +231,7 @@
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D2 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.07,
                                 "c": 0.3185818785
                             },
@@ -239,7 +239,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D2 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": 0.04,
                                 "c": 0.4341674024
                             },
@@ -247,7 +247,7 @@
                                 "id": "dc46",
                                 "name": "DC46",
                                 "long_name": "DyN CH D2 DC46",
-                                "img": "dc46.png",
+                                "img": "dc46",
                                 "b": 0.18,
                                 "c": 0.5207699428
                             }
@@ -256,13 +256,13 @@
                     {
                         "id": "d3",
                         "name": "D3",
-                        "img": "d3.png",
+                        "img": "d3",
                         "childs": [
                             {
                                 "id": "dc13",
                                 "name": "DC13",
                                 "long_name": "DyN CH D3 DC13",
-                                "img": "dc13.png",
+                                "img": "dc13",
                                 "b": 0.1057,
                                 "c": 0.1495337197
                             },
@@ -270,7 +270,7 @@
                                 "id": "dc23",
                                 "name": "DC23",
                                 "long_name": "DyN CH D3 DC23",
-                                "img": "dc23.png",
+                                "img": "dc23",
                                 "b": 0.0623,
                                 "c": 0.2283997665
                             },
@@ -278,7 +278,7 @@
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D3 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.08,
                                 "c": 0.3897114317
                             },
@@ -286,7 +286,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D3 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": 0.03,
                                 "c": 0.5096270826
                             },
@@ -294,7 +294,7 @@
                                 "id": "dc46",
                                 "name": "DC46",
                                 "long_name": "DyN CH D3 DC46",
-                                "img": "dc46.png",
+                                "img": "dc46",
                                 "b": 0.07,
                                 "c": 0.6980164755
                             }
@@ -303,13 +303,13 @@
                     {
                         "id": "d4",
                         "name": "D4",
-                        "img": "d4.png",
+                        "img": "d4",
                         "childs": [
                             {
                                 "id": "dc13",
                                 "name": "DC13",
                                 "long_name": "DyN CH D4 DC13",
-                                "img": "dc13.png",
+                                "img": "dc13",
                                 "b": 0.1537,
                                 "c": 0.1899482386
                             },
@@ -317,7 +317,7 @@
                                 "id": "dc23",
                                 "name": "DC23",
                                 "long_name": "DyN CH D4 DC23",
-                                "img": "dc23.png",
+                                "img": "dc23",
                                 "b": 0.1043,
                                 "c": 0.2993561146
                             },
@@ -325,7 +325,7 @@
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D4 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.06,
                                 "c": 0.6096818843
                             },
@@ -333,7 +333,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D4 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": 0.01,
                                 "c": 0.8002074731
                             },
@@ -341,7 +341,7 @@
                                 "id": "dc46",
                                 "name": "DC46",
                                 "long_name": "DyN CH D4 DC46",
-                                "img": "dc46.png",
+                                "img": "dc46",
                                 "b": 0.01,
                                 "c": 1.270170592
                             }
@@ -350,13 +350,13 @@
                     {
                         "id": "d5",
                         "name": "D5",
-                        "img": "d5.png",
+                        "img": "d5",
                         "childs": [
                             {
                                 "id": "dc13",
                                 "name": "DC13",
                                 "long_name": "DyN CH D5 DC13",
-                                "img": "dc13.png",
+                                "img": "dc13",
                                 "b": 0.08,
                                 "c": 0.27
                             },
@@ -364,7 +364,7 @@
                                 "id": "dc23",
                                 "name": "DC23",
                                 "long_name": "DyN CH D5 DC23",
-                                "img": "dc23.png",
+                                "img": "dc23",
                                 "b": 0.1033,
                                 "c": 0.3616522086
                             },
@@ -372,7 +372,7 @@
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D5 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.18,
                                 "c": 0.6951297241
                             },
@@ -380,7 +380,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D5 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": 0.06,
                                 "c": 0.9872689603
                             },
@@ -388,7 +388,7 @@
                                 "id": "dc46",
                                 "name": "DC46",
                                 "long_name": "DyN CH D5 DC46",
-                                "img": "dc46.png",
+                                "img": "dc46",
                                 "b": -0.07,
                                 "c": 1.784012332
                             }
@@ -397,13 +397,13 @@
                     {
                         "id": "d6",
                         "name": "D6",
-                        "img": "d6.png",
+                        "img": "d6",
                         "childs": [
                             {
                                 "id": "dc23",
                                 "name": "DC23",
                                 "long_name": "DyN CH D6 DC23",
-                                "img": "dc23.png",
+                                "img": "dc23",
                                 "b": 0.1189,
                                 "c": 0.4289804876
                             },
@@ -411,7 +411,7 @@
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D6 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.15,
                                 "c": 0.9456997409
                             },
@@ -419,7 +419,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D6 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": -0.09,
                                 "c": 1.3943009
                             },
@@ -427,7 +427,7 @@
                                 "id": "dc46",
                                 "name": "DC46",
                                 "long_name": "DyN CH D6 DC46",
-                                "img": "dc46.png",
+                                "img": "dc46",
                                 "b": -0.05,
                                 "c": 2.540341184
                             }
@@ -436,13 +436,13 @@
                     {
                         "id": "d7",
                         "name": "D7",
-                        "img": "d7.png",
+                        "img": "d7",
                         "childs": [
                             {
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D7 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.05,
                                 "c": 1.143153533
                             },
@@ -450,7 +450,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D7 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": -0.17,
                                 "c": 1.636788013
                             },
@@ -458,7 +458,7 @@
                                 "id": "dc46",
                                 "name": "DC46",
                                 "long_name": "DyN CH D7 DC46",
-                                "img": "dc46.png",
+                                "img": "dc46",
                                 "b": 0.22,
                                 "c": 3.080163686
                             }
@@ -467,13 +467,13 @@
                     {
                         "id": "d8",
                         "name": "D8",
-                        "img": "d8.png",
+                        "img": "d8",
                         "childs": [
                             {
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D8 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.04,
                                 "c": 1.37178424
                             },
@@ -481,7 +481,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D8 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": -0.19,
                                 "c": 2.019571242
                             },
@@ -489,7 +489,7 @@
                                 "id": "dc46",
                                 "name": "DC46",
                                 "long_name": "DyN CH D8 DC45",
-                                "img": "dc46.png",
+                                "img": "dc46",
                                 "b": -0.1903,
                                 "c": 4.240060377
                             }
@@ -498,13 +498,13 @@
                     {
                         "id": "d10",
                         "name": "D10",
-                        "img": "d10.png",
+                        "img": "d10",
                         "childs": [
                             {
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D10 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.05,
                                 "c": 1.714730299
                             },
@@ -512,7 +512,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D10 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": -0.15,
                                 "c": 2.591148008
                             },
@@ -520,7 +520,7 @@
                                 "id": "dc46",
                                 "name": "DC46",
                                 "long_name": "DyN CH D10 DC46",
-                                "img": "dc46.png",
+                                "img": "dc46",
                                 "b": 0.04,
                                 "c": 5.600297611
                             }
@@ -529,13 +529,13 @@
                     {
                         "id": "d12",
                         "name": "D12",
-                        "img": "d12.png",
+                        "img": "d12",
                         "childs": [
                             {
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D12 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.05,
                                 "c": 2.114834036
                             },
@@ -543,7 +543,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D12 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": -0.17,
                                 "c": 3.15175512
                             }
@@ -552,13 +552,13 @@
                     {
                         "id": "d14",
                         "name": "D14",
-                        "img": "d14.png",
+                        "img": "d14",
                         "childs": [
                             {
                                 "id": "dc25",
                                 "name": "DC25",
                                 "long_name": "DyN CH D14 DC25",
-                                "img": "dc25.png",
+                                "img": "dc25",
                                 "b": 0.05,
                                 "c": 2.319793382
                             },
@@ -566,7 +566,7 @@
                                 "id": "dc45",
                                 "name": "DC45",
                                 "long_name": "DyN CH D14 DC45",
-                                "img": "dc45.png",
+                                "img": "dc45",
                                 "b": -0.2,
                                 "c": 3.60266568
                             }
@@ -581,20 +581,20 @@
                     {
                         "id": "d1",
                         "name": "D1",
-                        "img": "d1.png",
+                        "img": "d1",
                         "childs": [
                             {
                                 "id": "dc31",
                                 "name": "DC31",
                                 "long_name": "DyN CLL D1 DC31",
-                                "img": "dc31.png",
+                                "img": "dc31",
                                 "b": 0.0844,
                                 "c": 0.2619
                             },
                             {
                                 "id": "dc35",
                                 "name": "DC35",
-                                "img": "dc35.png",
+                                "img": "dc35",
                                 "b": 0.0844,
                                 "c": 0.2619
                             }
@@ -603,13 +603,13 @@
                     {
                         "id": "d2",
                         "name": "D2",
-                        "img": "d2.png",
+                        "img": "d2",
                         "childs": [
                             {
                                 "id": "dc31",
                                 "name": "DC31",
                                 "long_name": "DyN CLL D2 DC31",
-                                "img": "dc31.png",
+                                "img": "dc31",
                                 "b": 0.1296,
                                 "c": 0.402
                             },
@@ -617,7 +617,7 @@
                                 "id": "dc35",
                                 "name": "DC35",
                                 "long_name": "DyN CLL D2 DC35",
-                                "img": "dc35.png",
+                                "img": "dc35",
                                 "b": 0.1471,
                                 "c": 0.4517
                             },
@@ -625,7 +625,7 @@
                                 "id": "dc56",
                                 "name": "DC56",
                                 "long_name": "DyN CLL D2 DC56",
-                                "img": "dc56.png",
+                                "img": "dc56",
                                 "b": 0.1296,
                                 "c": 0.4358
                             }
@@ -634,13 +634,13 @@
                     {
                         "id": "d3",
                         "name": "D3",
-                        "img": "d3.png",
+                        "img": "d3",
                         "childs": [
                             {
                                 "id": "dc31",
                                 "name": "DC31",
                                 "long_name": "DyN CLL D3 DC31",
-                                "img": "dc31.png",
+                                "img": "dc31",
                                 "b": 0.1329,
                                 "c": 0.4301
                             },
@@ -648,7 +648,7 @@
                                 "id": "dc35",
                                 "name": "DC35",
                                 "long_name": "DyN CLL D3 DC35",
-                                "img": "dc35.png",
+                                "img": "dc35",
                                 "b": 0.2058,
                                 "c": 0.6273
                             },
@@ -656,7 +656,7 @@
                                 "id": "dc56",
                                 "name": "DC56",
                                 "long_name": "DyN CLL D3 DC56",
-                                "img": "dc56.png",
+                                "img": "dc56",
                                 "b": 0.1868,
                                 "c": 0.5863
                             }
@@ -665,13 +665,13 @@
                     {
                         "id": "d4",
                         "name": "D4",
-                        "img": "d4.png",
+                        "img": "d4",
                         "childs": [
                             {
                                 "id": "dc35",
                                 "name": "DC35",
                                 "long_name": "DyN CLL D4 DC35",
-                                "img": "dc35.png",
+                                "img": "dc35",
                                 "b": 0.3214,
                                 "c": 1.0254
                             },
@@ -679,7 +679,7 @@
                                 "id": "dc56",
                                 "name": "DC56",
                                 "long_name": "DyN CLL D4 DC56",
-                                "img": "dc56.png",
+                                "img": "dc56",
                                 "b": 0.3213,
                                 "c": 1.007
                             }
@@ -688,13 +688,13 @@
                     {
                         "id": "d5",
                         "name": "D5",
-                        "img": "d5.png",
+                        "img": "d5",
                         "childs": [
                             {
                                 "id": "dc35",
                                 "name": "DC35",
                                 "long_name": "DyN CLL D5 DC35",
-                                "img": "dc35.png",
+                                "img": "dc35",
                                 "b": 0.4046,
                                 "c": 1.2917
                             },
@@ -702,7 +702,7 @@
                                 "id": "dc56",
                                 "name": "DC56",
                                 "long_name": "DyN CLL D5 DC56",
-                                "img": "dc56.png",
+                                "img": "dc56",
                                 "b": 0.5335,
                                 "c": 1.706
                             }
@@ -711,13 +711,13 @@
                     {
                         "id": "d6",
                         "name": "D6",
-                        "img": "d6.png",
+                        "img": "d6",
                         "childs": [
                             {
                                 "id": "dc56",
                                 "name": "DC56",
                                 "long_name": "DyN CLL D6 DC56",
-                                "img": "dc56.png",
+                                "img": "dc56",
                                 "b": 0.8021,
                                 "c": 2.5117
                             }
@@ -726,13 +726,13 @@
                     {
                         "id": "d7",
                         "name": "D7",
-                        "img": "d7.png",
+                        "img": "d7",
                         "childs": [
                             {
                                 "id": "dc56",
                                 "name": "DC56",
                                 "long_name": "DyN CLL D7 DC56",
-                                "img": "dc56.png",
+                                "img": "dc56",
                                 "b": 1.0753,
                                 "c": 3.3758
                             }
@@ -746,13 +746,13 @@
         "id": "atr",
         "name": "CEN",
         "long_name": "Norma Europea CEN",
-        "img": "atr.png",
+        "img": "atr",
         "childs": [
             {
                 "id": "blanco",
                 "name": "Blanco",
                 "long_name": "CEN Blanco",
-                "img": "blanco.png",
+                "img": "blanco",
                 "b": 0.02,
                 "c": 0.1126
             },
@@ -760,7 +760,7 @@
                 "id": "lila",
                 "name": "Lila",
                 "long_name": "CEN Lila",
-                "img": "lila.png",
+                "img": "lila",
                 "b": 0.0278,
                 "c": 0.1494
             },
@@ -768,7 +768,7 @@
                 "id": "marron",
                 "name": "Marron",
                 "long_name": "CEN Marron",
-                "img": "marron.png",
+                "img": "marron",
                 "b": 0.0274,
                 "c": 0.2026
             },
@@ -776,7 +776,7 @@
                 "id": "amarillo",
                 "name": "Amarillo",
                 "long_name": "CEN Amarillo",
-                "img": "amarillo.png",
+                "img": "amarillo",
                 "b": 0.0174,
                 "c": 0.3186
             },
@@ -784,7 +784,7 @@
                 "id": "naranja",
                 "name": "Naranja",
                 "long_name": "CEN Naranja",
-                "img": "naranja.png",
+                "img": "naranja",
                 "b": 0.0477,
                 "c": 0.4228
             },
@@ -792,7 +792,7 @@
                 "id": "rojo",
                 "name": "Rojo",
                 "long_name": "CEN Rojo",
-                "img": "rojo.png",
+                "img": "rojo",
                 "b": 0.1081,
                 "c": 0.5724
             },
@@ -800,7 +800,7 @@
                 "id": "gris",
                 "name": "Gris",
                 "long_name": "CEN Gris",
-                "img": "gris.png",
+                "img": "gris",
                 "b": 0.1334,
                 "c": 0.6139
             },
@@ -808,7 +808,7 @@
                 "id": "verde",
                 "name": "Verde",
                 "long_name": "CEN Verde",
-                "img": "verde.png",
+                "img": "verde",
                 "b": 0.1634,
                 "c": 0.7279
             },
@@ -816,7 +816,7 @@
                 "id": "negro",
                 "name": "Negro",
                 "long_name": "CEN Negro",
-                "img": "negro.png",
+                "img": "negro",
                 "b": 0.1686,
                 "c": 0.8239
             },
@@ -824,7 +824,7 @@
                 "id": "azul",
                 "name": "Azul",
                 "long_name": "CEN Azul",
-                "img": "azul.png",
+                "img": "azul",
                 "b": 0.1972,
                 "c": 1.021
             }
@@ -834,18 +834,18 @@
         "id": "amt",
         "name": "AMT",
         "long_name": "Albuz AMT",
-        "img": "amt.png",
+        "img": "amt",
         "childs": [
             {
                 "id": "fu",
                 "name": "Fresado arriba",
-                "img": "amt_arriba.png",
+                "img": "amt_arriba",
                 "childs": [
                     {
                         "id": "a007",
                         "name": ".007",
                         "long_name": "AMT fresado arriba .007",
-                        "img": "amt_arriba.png",
+                        "img": "amt_arriba",
                         "b": 0.0344,
                         "c": 0.276
                     },
@@ -853,7 +853,7 @@
                         "id": "a008",
                         "name": ".008",
                         "long_name": "AMT fresado arriba .008",
-                        "img": "amt_arriba.png",
+                        "img": "amt_arriba",
                         "b": 0.0703,
                         "c": 0.3404
                     },
@@ -861,7 +861,7 @@
                         "id": "a010",
                         "name": ".010",
                         "long_name": "AMT fresado arriba .010",
-                        "img": "amt_arriba.png",
+                        "img": "amt_arriba",
                         "b": 0.1625,
                         "c": 0.5439
                     },
@@ -869,7 +869,7 @@
                         "id": "a012",
                         "name": ".012",
                         "long_name": "AMT fresado arriba .012",
-                        "img": "amt_arriba.png",
+                        "img": "amt_arriba",
                         "b": 0.0425,
                         "c": 0.7785
                     },
@@ -877,7 +877,7 @@
                         "id": "a015",
                         "name": ".015",
                         "long_name": "AMT fresado arriba .015",
-                        "img": "amt_arriba.png",
+                        "img": "amt_arriba",
                         "b": 0.2379,
                         "c": 1.1819
                     },
@@ -885,7 +885,7 @@
                         "id": "a018",
                         "name": ".018",
                         "long_name": "AMT fresado arriba .018",
-                        "img": "amt_arriba.png",
+                        "img": "amt_arriba",
                         "b": 0.0038,
                         "c": 1.8033
                     },
@@ -893,7 +893,7 @@
                         "id": "a020",
                         "name": ".020",
                         "long_name": "AMT fresado arriba .020",
-                        "img": "amt_arriba.png",
+                        "img": "amt_arriba",
                         "b": 0.0591,
                         "c": 2.1456
                     },
@@ -901,7 +901,7 @@
                         "id": "a023",
                         "name": ".023",
                         "long_name": "AMT fresado arriba .023",
-                        "img": "amt_arriba.png",
+                        "img": "amt_arriba",
                         "b": -0.3,
                         "c": 3
                     }
@@ -910,13 +910,13 @@
             {
                 "id": "fd",
                 "name": "Fresado abajo",
-                "img": "amt_abajo.png",
+                "img": "amt_abajo",
                 "childs": [
                     {
                         "id": "a007",
                         "name": ".007",
                         "long_name": "AMT fresado abajo .007",
-                        "img": "amt_abajo.png",
+                        "img": "amt_abajo",
                         "b": 0.0324,
                         "c": 0.2704
                     },
@@ -924,7 +924,7 @@
                         "id": "a008",
                         "name": ".008",
                         "long_name": "AMT fresado abajo .008",
-                        "img": "amt_abajo.png",
+                        "img": "amt_abajo",
                         "b": 0.0197,
                         "c": 0.2948
                     },
@@ -932,7 +932,7 @@
                         "id": "a010",
                         "name": ".010",
                         "long_name": "AMT fresado abajo .010",
-                        "img": "amt_abajo.png",
+                        "img": "amt_abajo",
                         "b": 0.0235,
                         "c": 0.4423
                     },
@@ -940,7 +940,7 @@
                         "id": "a012",
                         "name": ".012",
                         "long_name": "AMT fresado abajo .012",
-                        "img": "amt_abajo.png",
+                        "img": "amt_abajo",
                         "b": 0.0272,
                         "c": 0.6464
                     },
@@ -948,7 +948,7 @@
                         "id": "a015",
                         "name": ".015",
                         "long_name": "AMT fresado abajo .015",
-                        "img": "amt_abajo.png",
+                        "img": "amt_abajo",
                         "b": 0.025,
                         "c": 0.9928
                     },
@@ -956,7 +956,7 @@
                         "id": "a018",
                         "name": ".018",
                         "long_name": "AMT fresado abajo .018",
-                        "img": "amt_abajo.png",
+                        "img": "amt_abajo",
                         "b": 0.0025,
                         "c": 1.4005
                     },
@@ -964,7 +964,7 @@
                         "id": "a020",
                         "name": ".020",
                         "long_name": "AMT fresado abajo .020",
-                        "img": "amt_abajo.png",
+                        "img": "amt_abajo",
                         "b": -0.101,
                         "c": 1.7994
                     },
@@ -972,7 +972,7 @@
                         "id": "a023",
                         "name": ".023",
                         "long_name": "AMT fresado abajo .023",
-                        "img": "amt_abajo.png",
+                        "img": "amt_abajo",
                         "b": 0.0044,
                         "c": 2.2526
                     }

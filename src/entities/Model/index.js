@@ -8,7 +8,7 @@ import { Capacitor } from "@capacitor/core";
 // El almacenamiento de datos se realiza con el valor de la version.
 // Las migraciones entre versiones no estan implementadas. 
 // Ante cualquier cambio en el modelo, se debe incrementar la version.
-const version = '4.0.2'; 
+const version = '4'; 
 
 const get_blank_report = () => {
     return {
@@ -89,8 +89,26 @@ export default class CriolloModel {
         const value = JSON.stringify(this);
         if(Capacitor.isNativePlatform())
             Storage.set({key, value});
-        else
-            localStorage.setItem(key, value);
+        else{
+            if(window.avt){
+                try{
+                    const userData = window.avt.generalData.getUserData();
+                    const data = {
+                        id: userData.id,
+                        key: key,
+                        value: {data: value},
+                        overwrite: true
+                    };                    
+                    window.avt.storage.user.put(data);
+                }catch(e){
+                    console.log("Error al subir datos storage avt");
+                    console.log(e);
+                }
+            }else{
+                //console.log("set: Fallback a localStorage");
+                localStorage.setItem(key, value);
+            }
+        }
     }
 
     getFromLocalStorage(){ // Recuperar datos de localStorage
@@ -104,15 +122,33 @@ export default class CriolloModel {
                 }
             });
         else{
-            const content = localStorage.getItem("criollo_model"+version);
-            if(content){
-                const model = JSON.parse(content);
-                if(model)
-                    Object.assign(this, model);
-            }else{ 
-                // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
-                console.log("Nueva version de CriolloModel");
-                localStorage.clear();
+            if(window.avt){
+                const userData = window.avt.generalData.getUserData();
+                const req = {ids:[userData.id], keys:["criollo_model"+version]};
+                window.avt.storage.user.get(req)
+                .then(result => {                    
+                    console.log(result);
+                    if(result){
+                        if(result.info?.objects[userData.id]){
+                            if(result.info.objects[userData.id]["criollo_model"+version]){
+                                const data = result.info.objects[userData.id]["criollo_model"+version].data;
+                                Object.assign(this, JSON.parse(data));
+                            }
+                        }
+                    }
+                });
+            }else{
+                console.log("get: Fallback a localStorage");
+                const content = localStorage.getItem("criollo_model"+version);
+                if(content){
+                    const model = JSON.parse(content);
+                    if(model)
+                        Object.assign(this, model);
+                }else{ 
+                    // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
+                    console.log("Nueva version de CriolloModel");
+                    localStorage.clear();
+                }
             }
         }
     }
