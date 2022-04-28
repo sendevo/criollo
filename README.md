@@ -9,24 +9,25 @@ Una vez instalada, la utilización de Criollo no requiere disponibilidad de señ
 
 ![criollo](doc/promo_criollo.jpg)
 
-### Versión 4.0 (Migración nativo -> híbrido)
-  - Implementación ReactJS + Framework7 + Capacitor
+### Versión 4.0 [15] (Migración nativo -> híbrido)
+  - Implementación con Vite (Rollup): ReactJS (v18) + Framework7 + Capacitor.
   - Nueva presentación. Mejoras en control y validación de campos.  
-  - Se pierde el control de volumen en la vista de verificación. En lugar de forzar el volumen al máximo, se avisa al usuario de que suba el volumen para que las alertas sean audibles. El control de "keep awake" se realiza con un plugin CapacitorJS.  
+  - Se pierde el control de volumen en la vista de verificación de picos. En lugar de forzar el volumen al máximo, se avisa al usuario de que suba el volumen para que las alertas sean audibles. El control de "keep awake" se realiza con un plugin CapacitorJS.  
   - Los reportes se generan secuencialmente como en Campero y Campero Fertilizadoras.  
   - Los formularios tienen almacenamiento persistente de datos, no se pierden al cambiar de vistas o si la app queda en segundo plano, pero se borran al salir (previo confirmacion del usuario).  
-  - El almacenamiento de los datos se realiza en LocalStorage o Storage de Capacitor (que se supone tiene mejor persistencia que localStorage).  
+  - El almacenamiento de los datos se realiza en Storage de Capacitor en el caso nativo, en avt.storage en el caso de la extensión Auravant o en localStorage en el caso web.  
+
 
 ## Instalación y despliegue
 
-Descargar codigo fuente e instalar dependencias
+Descargar código fuente e instalar dependencias
 ```bash
 $ git clone https://github.com/sendevo/criollo
 $ cd criollo
 $ npm install
 ```
 
-Correr versión web para debug
+Correr versión web para debug (localhost:3000)
 ```bash
 $ npm run dev
 ```
@@ -36,10 +37,10 @@ Compilar versión web optimizada
 $ npm run build
 ```
 
-### Compilar apk (android) primera vez:
-1.- Instalar android studio y ubicar carpeta de instalación
+### Compilar apk (android) por primera vez:
+1.- Instalar android studio y ubicar carpeta de instalación.  
 
-2.- Agregar plataforma con capacitor y generar proyecto android-studio
+2.- Agregar plataforma con capacitor y generar proyecto android-studio:  
 
 ```bash
 $ export CAPACITOR_ANDROID_STUDIO_PATH="..../android-studio/bin/studio.sh"
@@ -48,7 +49,7 @@ $ npx cap add android
 $ npm run build && npx cap sync
 ```
 
-3.- Agregar permisos en android/app/src/main/AndroidManifest.xml
+3.- Agregar permisos en android/app/src/main/AndroidManifest.xml:  
 
 ```xml
 ...
@@ -65,56 +66,57 @@ $ npm run build && npx cap sync
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 ```
 
-4.- Definir iconos y splashcreens en android/app/src/main/res
+4.- Definir iconos y splashcreens en android/app/src/main/res.  
 
+5.- Abrir proyecto de AndroidStudio:
+```bash
+$ npx cap open android
+```
 
-### Actualizar apk (android):
+### Recompilar apk (android) luego de cambios en la versión web:
 ```bash
 $ npm run build && npx cap sync
 $ npx cap open android
-$ adb logcat chromium:I
 ```
 
+### Compilar versión release con AndroidStudio:  
+1.- Editar versionName y versionCode en android/app/build.gradle   
+2.- Ir al menú Build -> Generate Signed Bundle/APK...  
+3.- Ingresar directorio de la firma (.jks), claves "Key Store Password" y "Key Password".  
+4.- Generar app-release.apk o app-release.aab.   
+5.- Preparar capturas de pantalla y lista de cambios.   
 
-Para compilar release apk (android) usar android-studio, o por consola:
-```bash
-cd android && 
-./gradlew assembleRelease && 
-cd app/build/outputs/apk/release &&
-jarsigner -keystore $KEYSTORE_PATH -storepass $KEYSTORE_PASS app-release-unsigned.apk $KEYSTORE_ALIAS && 
-zipalign 4 app-release-unsigned.apk app-release.apk
-```
 
 
 ### Backlog
 #### Progreso: 100%
 
-  - [x] Seccion parametros de pulverizacion.  
+  - [x] Seccion parámetros de pulverización.  
     - [x] Vista con formulario.  
     - [x] Seleccion de picos.  
-    - [x] Calculo de resultados.  
+    - [x] Cálculo de resultados.  
     - [x] Medidor de velocidad.  
     - [x] Control de campos.  
     - [x] Cargar resultados a reporte.  
-  - [x] Seccion verificacion de picos.  
+  - [x] Sección verificación de picos.  
     - [x] Vista con formulario.  
     - [x] Cálculo de resultados.  
     - [x] Control de campos.  
     - [x] Cargar resultados a reporte.  
-  - [x] Seccion calculo de mezclas.  
+  - [x] Sección calculo de mezclas.  
     - [x] Vista con formulario.  
     - [x] Cálculo de insumos.  
     - [x] Navigator/Capacitor GPS.  
     - [x] Vista de resultados.  
     - [x] Control de campos.  
     - [x] Cargar resultados a reporte.  
-  - [x] Seccion reportes.  
+  - [x] Sección reportes.  
     - [x] Vista de listado de reportes.  
-    - [x] Gestion de reportes.  
+    - [x] Gestión de reportes.  
     - [x] Vista de presentación de reportes.  
     - [x] Exportar reporte a PDF y compartir.  
   - [x] Sección Información y ayuda.  
-    - [x] Menu de enlaces.  
-    - [x] Seccion acerca de.  
+    - [x] Menú de enlaces.  
+    - [x] Sección acerca de.  
     - [x] Enlace informacion adicional.  
     - [x] Recorrido por la app (modo ayuda).  
