@@ -46,10 +46,11 @@ const getPosition = () => {
             }else{
                 Toast("info", "Permisos de ubicación no otorgados", 2000, "center");
                 Geolocation.requestPermissions().then(res => {
-                    console.log(res);
+                    //console.log(res);
                     getCoords();
                 }).catch(() => {
-                    console.log("No se pudo obtener coordenadas");
+                    //console.log("No se pudo obtener coordenadas");
+                    Function.prototype();
                 });
             }
         });

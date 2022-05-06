@@ -174,8 +174,9 @@ const Control = props => {
                     timer.start();
                     KeepAwake.keepAwake()                
                     .catch(err => {
-                        console.log("Error de KeepAwake");
-                        console.log(err);                    
+                        //console.log("Error de KeepAwake");
+                        //console.log(err);                    
+                        Function.prototype();
                     });
                     setRunning(true);
                 }else{
@@ -184,8 +185,9 @@ const Control = props => {
                     setTime(elapsed);            
                     KeepAwake.allowSleep()
                     .catch(err => {
-                        console.log("Error de KeepAwake");
-                        console.log(err);                    
+                        //console.log("Error de KeepAwake");
+                        //console.log(err);                    
+                        Function.prototype();
                     });
                     setRunning(false);
                 }

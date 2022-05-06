@@ -127,7 +127,8 @@ if(Capacitor.isNativePlatform())
                     // variable expuesta en ModelContext.js
                     window.criollomodel.clearForms();
                 }catch(err){
-                    console.log(err);
+                    //console.log(err);
+                    Function.prototype();
                 }
                 cApp.exitApp();
             }            

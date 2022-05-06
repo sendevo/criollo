@@ -77,8 +77,10 @@ export default class CriolloModel {
         }
         if(updated)
             this.saveToLocalStorage();
-        else 
-            console.log("Error: no se pudo actualizar el modelo");
+        else{ 
+            //console.log("Error: no se pudo actualizar el modelo");
+            Function.prototype();
+        }
     }
 
 
@@ -101,8 +103,9 @@ export default class CriolloModel {
                     };                    
                     window.avt.storage.user.put(data);
                 }catch(e){
-                    console.log("Error al subir datos storage avt");
-                    console.log(e);
+                    //console.log("Error al subir datos storage avt");
+                    //console.log(e);
+                    Function.prototype();
                 }
             }else{
                 //console.log("set: Fallback a localStorage");
@@ -117,7 +120,7 @@ export default class CriolloModel {
                 if(result.value)
                     Object.assign(this, JSON.parse(result.value));
                 else{
-                    console.log("Nueva version de CriolloModel");
+                    //console.log("Nueva version de CriolloModel");
                     Storage.clear();
                 }
             });
@@ -127,7 +130,7 @@ export default class CriolloModel {
                 const req = {ids:[userData.id], keys:["criollo_model"+version]};
                 window.avt.storage.user.get(req)
                 .then(result => {                    
-                    console.log(result);
+                    //console.log(result);
                     if(result){
                         if(result.info?.objects[userData.id]){
                             if(result.info.objects[userData.id]["criollo_model"+version]){
@@ -138,7 +141,7 @@ export default class CriolloModel {
                     }
                 });
             }else{
-                console.log("get: Fallback a localStorage");
+                //console.log("get: Fallback a localStorage");
                 const content = localStorage.getItem("criollo_model"+version);
                 if(content){
                     const model = JSON.parse(content);
@@ -146,7 +149,7 @@ export default class CriolloModel {
                         Object.assign(this, model);
                 }else{ 
                     // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
-                    console.log("Nueva version de CriolloModel");
+                    //console.log("Nueva version de CriolloModel");
                     localStorage.clear();
                 }
             }
