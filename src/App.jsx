@@ -18,6 +18,7 @@ const pushState = page => window.history.pushState(null, null, page);
 const f7params = {
     name: 'Calibrador Criollo',
     id: 'com.inta.criollo2',    
+    theme: 'md',
     dialog: {
         buttonOk: 'Aceptar',
         buttonCancel: 'Cancelar'

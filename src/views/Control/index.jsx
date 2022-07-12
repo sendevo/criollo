@@ -206,7 +206,7 @@ const Control = props => {
             play2();
         if(time === 1000)
             play1();
-        if(time < 100)
+        if(time < 200)
             play0();
         // formatear de unix a min:seg:ms
         return moment(time).format('mm:ss:S');
