@@ -1,4 +1,4 @@
-# Criollo 4.0 
+# Criollo 4 
 
 Criollo es una aplicación utilitaria para tablets y smartphones que permite calcular los principales parámetros de operación de pulverizadoras terrestres de botalón y realizar la verificación estática correspondiente.  
 Al usar la aplicación es posible calcular alternativamente la velocidad de avance del equipo, la presión de trabajo y el volumen de pulverización para un tamaño de pico y una distancia entre picos determinada. También es posible realizar la verificación de los picos y obtener el diagnóstico rápido del estado de los mismos.  
@@ -9,7 +9,7 @@ Una vez instalada, la utilización de Criollo no requiere disponibilidad de señ
 
 ![criollo](doc/promo_criollo.jpg)
 
-### Versión 4.0 [15] (Migración nativo -> híbrido)
+### Versión 4.2 [17] (Migración nativo -> híbrido)
   - Implementación con Vite (Rollup): ReactJS (v18) + Framework7 + Capacitor.
   - Nueva presentación. Mejoras en control y validación de campos.  
   - Se pierde el control de volumen en la vista de verificación de picos. En lugar de forzar el volumen al máximo, se avisa al usuario de que suba el volumen para que las alertas sean audibles. El control de "keep awake" se realiza con un plugin CapacitorJS.  
