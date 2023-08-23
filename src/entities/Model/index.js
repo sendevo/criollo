@@ -1,5 +1,5 @@
 import { generateId } from "../../utils";
-import { Storage } from '@capacitor/storage';
+import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from "@capacitor/core";
 
 // Esta clase Singleton se encarga de manejar el estado persistente de las variables globales.
@@ -90,7 +90,7 @@ export default class CriolloModel {
         const key = "criollo_model"+version;
         const value = JSON.stringify(this);
         if(Capacitor.isNativePlatform())
-            Storage.set({key, value});
+            Preferences.set({key, value});
         else{
             if(window.avt){
                 try{
@@ -116,12 +116,12 @@ export default class CriolloModel {
 
     getFromLocalStorage(){ // Recuperar datos de localStorage
         if(Capacitor.isNativePlatform())
-            Storage.get({key: "criollo_model"+version}).then(result => {
+            Preferences.get({key: "criollo_model"+version}).then(result => {
                 if(result.value)
                     Object.assign(this, JSON.parse(result.value));
                 else{
                     //console.log("Nueva version de CriolloModel");
-                    Storage.clear();
+                    Preferences.clear();
                 }
             });
         else{
