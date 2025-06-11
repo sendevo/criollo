@@ -3,9 +3,9 @@ import { Page, Link, PageContent, Block } from 'framework7-react';
 import logoInta from '../../assets/backgrounds/logoInta.png';
 import logoMin from '../../assets/backgrounds/logomin.png';
 import { BackButton } from '../../components/Buttons';
+import Footer from '../../components/Footer';
 import { WalkthroughCtx } from '../../context';
 import classes from '../style.module.css';
-
 
 const Info = props => {
 
@@ -27,10 +27,7 @@ const Info = props => {
                     <BackButton {...props} gray/>
                 </Block>  
                 
-                <div className={classes.LogoFooter}>
-                    <img src={logoInta} height="80%" className={classes.LogoInta} alt="inta"/>
-                    <img src={logoMin} height="80%" className={classes.LogoMin} alt="ministerio"/>
-                </div>            
+                <Footer />
             </PageContent>
         </Page>
     );
