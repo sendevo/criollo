@@ -11,6 +11,7 @@ import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzles from '../../assets/icons/cant_picos2.png';
 import iconVelocity from '../../assets/icons/velocidad.png';
 import iconPressure from '../../assets/icons/presion.png';
+import iconDensity from '../../assets/icons/densidad.png';
 import iconVolume from '../../assets/icons/dosis.png';
 
 const Params = props => {
@@ -384,6 +385,19 @@ const Params = props => {
 
             <BlockTitle style={{marginBottom: "5px"}}>Parámetros de pulverización</BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
+                <Input
+                    slot="list"
+                    borderColor={workPressureUpdated ? "green":"#F2D118"}
+                    label="Densidad de producto"
+                    name="workDensity"
+                    type="number"
+                    unit="g/L"
+                    icon={iconDensity}
+                    value={1}
+                    onIconClick={()=> {console.log("Densidad no calculada")}}
+                    onChange={() => {console.log("Densidad no calculada")}}>
+                </Input>
+
                 <Row slot="list" className="help-target-params-1 help-target-params-2">
                     <Col width="80">
                         <Input

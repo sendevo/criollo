@@ -1,7 +1,5 @@
 import { useContext } from 'react';
 import { Page, Link, PageContent, Block } from 'framework7-react';
-import logoInta from '../../assets/backgrounds/logoInta.png';
-import logoMin from '../../assets/backgrounds/logomin.png';
 import { BackButton } from '../../components/Buttons';
 import Footer from '../../components/Footer';
 import { WalkthroughCtx } from '../../context';
@@ -25,8 +23,7 @@ const Info = props => {
                         <p>Acerca de</p>
                     </Link>                                
                     <BackButton {...props} gray/>
-                </Block>  
-                
+                </Block>                  
                 <Footer />
             </PageContent>
         </Page>

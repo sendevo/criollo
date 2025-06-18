@@ -11,7 +11,81 @@
                 "long_name": "ISO 005 Purpura",
                 "img": "iso005",
                 "b": 0,
-                "c": 0.1155
+                "c": 0.1155,
+                "childs":[
+                    {
+                        "id": "iso005_1",
+                        "name": "110° XR/XRC",
+                        "long_name": "110° XR/XRC",
+                        "img": "teejet_xr_xrc",
+                        "b": 0,
+                        "c": 0.1155
+                    },
+                    {
+                        "id": "iso005_1",
+                        "name": "TT",
+                        "long_name": "TT",
+                        "img": "teejet_tt",
+                        "b": 0,
+                        "c": 0.1155
+                    },
+                    {
+                        "id": "iso005_1",
+                        "name": "TTJ60",
+                        "long_name": "TTJ60",
+                        "img": "teejet_ttj60",
+                        "b": 0,
+                        "c": 0.1155
+                    },
+                    {
+                        "id": "iso005_1",
+                        "name": "AIXR",
+                        "long_name": "AIXR",
+                        "img": "teejet_aixr",
+                        "b": 0,
+                        "c": 0.1155
+                    },
+                    {
+                        "id": "iso005_1",
+                        "name": "AI3070",
+                        "long_name": "AI3070",
+                        "img": "teejet_ai_3070",
+                        "b": 0,
+                        "c": 0.1155
+                    },
+                    {
+                        "id": "iso005_1",
+                        "name": "AITTJ60",
+                        "long_name": "AITTJ60",
+                        "img": "teejet_aittj60",
+                        "b": 0,
+                        "c": 0.1155
+                    },
+                    {
+                        "id": "iso005_1",
+                        "name": "110° AI/AIC",
+                        "long_name": "110° AI/AIC",
+                        "img": "teejet_ai_aic",
+                        "b": 0,
+                        "c": 0.1155
+                    },
+                    {
+                        "id": "iso005_1",
+                        "name": "TTI60",
+                        "long_name": "TTI60",
+                        "img": "teejet_tti60",
+                        "b": 0,
+                        "c": 0.1155
+                    },
+                    {
+                        "id": "iso005_1",
+                        "name": "TTI",
+                        "long_name": "TTI",
+                        "img": "teejet_tti",
+                        "b": 0,
+                        "c": 0.1155
+                    }
+                ]
             },
             {
                 "id": "iso0075",
