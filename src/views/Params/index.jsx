@@ -23,6 +23,7 @@ const Params = props => {
         nozzleNumber: model.nozzleNumber || '',        
         nominalFlow: model.nominalFlow || 0.8,        
         nominalPressure: model.nominalPressure || 3,
+        productDensity: model.productDensity || 1,
         workVelocity: model.workVelocity || 20,
         workVelocityUpdated: false,
         workPressure: model.workPressure || 2,
@@ -38,6 +39,7 @@ const Params = props => {
         nozzleNumber,
         nominalFlow,
         nominalPressure,
+        productDensity,
         workVelocity,
         workVelocityUpdated,
         workPressure,
@@ -186,6 +188,15 @@ const Params = props => {
             workVolumeUpdated: false
         });
         model.update("nominalPressure", np);
+    };
+
+    const handleProductDensityChange = e => {
+        const density = parseFloat(e.target.value);
+        setInputs({
+            ...inputs,
+            productDensity: density
+        });
+        model.update("productDensity", density);
     };
 
     const handleWorkVelocityChange = e => {
@@ -383,27 +394,31 @@ const Params = props => {
                 </Row>
             </List>
 
-            <BlockTitle style={{marginBottom: "5px"}}>Parámetros de pulverización</BlockTitle>
+            <BlockTitle style={{marginBottom: "5px"}}>Propiedades del caldo</BlockTitle>
+
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
                 <Input
                     slot="list"
-                    borderColor={workPressureUpdated ? "green":"#F2D118"}
                     label="Densidad de producto"
                     name="workDensity"
                     type="number"
                     unit="g/L"
                     icon={iconDensity}
-                    value={1}
-                    onIconClick={()=> {console.log("Densidad no calculada")}}
-                    onChange={() => {console.log("Densidad no calculada")}}>
+                    value={productDensity}
+                    onChange={handleProductDensityChange}>
                 </Input>
+            </List>
+
+            <BlockTitle style={{marginBottom: "5px"}}>Parámetros de pulverización</BlockTitle>
+
+            <List form noHairlinesMd style={{marginBottom:"10px"}}>
 
                 <Row slot="list" className="help-target-params-1 help-target-params-2">
                     <Col width="80">
                         <Input
                             slot="list"
                             borderColor={workVelocityUpdated ? "green":"#F2D118"}
-                            label="Velocidad avance"
+                            label="Velocidad de avance"
                             name="workVelocity"
                             type="number"
                             unit="km/h"

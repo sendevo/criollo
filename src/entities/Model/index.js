@@ -28,6 +28,7 @@ const get_blank_report = () => {
 };
 
 const defaultFormParams = {
+    productDensity: 1, // Densidad del producto (g/l)
     workVelocity: 20, // Velocidad de trabajo (km/h)
     velocityMeasured: false, // Para disparar render en vista de parametros
     workPressure: 2, // Presion de trabajo (bar)

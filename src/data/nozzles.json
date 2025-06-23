@@ -12,80 +12,7 @@
                 "img": "iso005",
                 "b": 0,
                 "c": 0.1155,
-                "childs":[
-                    {
-                        "id": "iso005_1",
-                        "name": "110° XR/XRC",
-                        "long_name": "110° XR/XRC",
-                        "img": "teejet_xr_xrc",
-                        "b": 0,
-                        "c": 0.1155
-                    },
-                    {
-                        "id": "iso005_1",
-                        "name": "TT",
-                        "long_name": "TT",
-                        "img": "teejet_tt",
-                        "b": 0,
-                        "c": 0.1155
-                    },
-                    {
-                        "id": "iso005_1",
-                        "name": "TTJ60",
-                        "long_name": "TTJ60",
-                        "img": "teejet_ttj60",
-                        "b": 0,
-                        "c": 0.1155
-                    },
-                    {
-                        "id": "iso005_1",
-                        "name": "AIXR",
-                        "long_name": "AIXR",
-                        "img": "teejet_aixr",
-                        "b": 0,
-                        "c": 0.1155
-                    },
-                    {
-                        "id": "iso005_1",
-                        "name": "AI3070",
-                        "long_name": "AI3070",
-                        "img": "teejet_ai_3070",
-                        "b": 0,
-                        "c": 0.1155
-                    },
-                    {
-                        "id": "iso005_1",
-                        "name": "AITTJ60",
-                        "long_name": "AITTJ60",
-                        "img": "teejet_aittj60",
-                        "b": 0,
-                        "c": 0.1155
-                    },
-                    {
-                        "id": "iso005_1",
-                        "name": "110° AI/AIC",
-                        "long_name": "110° AI/AIC",
-                        "img": "teejet_ai_aic",
-                        "b": 0,
-                        "c": 0.1155
-                    },
-                    {
-                        "id": "iso005_1",
-                        "name": "TTI60",
-                        "long_name": "TTI60",
-                        "img": "teejet_tti60",
-                        "b": 0,
-                        "c": 0.1155
-                    },
-                    {
-                        "id": "iso005_1",
-                        "name": "TTI",
-                        "long_name": "TTI",
-                        "img": "teejet_tti",
-                        "b": 0,
-                        "c": 0.1155
-                    }
-                ]
+                "childs":[]
             },
             {
                 "id": "iso0075",
@@ -93,7 +20,8 @@
                 "long_name": "ISO 0075 Rosa",
                 "img": "iso0075",
                 "b": 0,
-                "c": 0.1732
+                "c": 0.1732,
+                "childs":[]
             },
             {
                 "id": "iso01",
@@ -101,7 +29,132 @@
                 "long_name": "ISO 010 Naranja",
                 "img": "iso01",
                 "b": 0,
-                "c": 0.2309
+                "c": 0.2309,
+                "childs":[
+                    {
+                        "id": "tt_110",
+                        "name": "TT 110",
+                        "long_name": "Abanico plano turbo",
+                        "img": "teejet_tt",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+                            "M": 3,
+                            "F": 4.5
+                        }
+                    },
+                    {
+                        "id": "tti_110",
+                        "name": "TTI 110",
+                        "long_name": "Abanico plano turbo inducción",
+                        "img": "teejet_tti",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+                            "XC": 2.5,
+                            "VC": 3.5
+                        }
+                    },
+                    {
+                        "id": "tt_j60_110",
+                        "name": "TT J60 110",
+                        "long_name": "Abanico plano turbo doble",
+                        "img": "teejet_ttj60",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+
+                        }
+                    },
+                    {
+                        "id": "tt_i60_110",
+                        "name": "TTI 60",
+                        "long_name": "Abanico plano turbo doble inducción",
+                        "img": "teejet_tti60",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+                            
+                        }
+                    },
+                    {
+                        "id": "ai_80",
+                        "name": "AI 80",
+                        "long_name": "Abanico plano antideriva",
+                        "img": "ai_80",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+
+                        }       
+                    },
+                    {
+                        "id": "ai_110",
+                        "name": "AI 110",
+                        "long_name": "Abanico plano antideriva",
+                        "img": "ai_110",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+                            
+                        }
+                    },
+                    {
+                        "id": "ai_xr_110",
+                        "name": "AI XR 110",
+                        "long_name": "Abanico plano antideriva rango extendido",
+                        "img": "teejet_aixr",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+                            
+                        }
+                    },
+                    {
+                        "id": "dg_80",
+                        "name": "DG 80",
+                        "long_name": "Abanico plano baja deriva",
+                        "img": "teejet_dg_80",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+                            
+                        }
+                    },
+                    {
+                        "id": "dg_95",
+                        "name": "DG 95",
+                        "long_name": "Abanico plano baja deriva",
+                        "img": "teejet_dg_95",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+                            
+                        }
+                    },
+                    {
+                        "id": "dg_110_twin",
+                        "name": "DG 110 Twin",
+                        "long_name": "Doble abanico plano baja deriva",
+                        "img": "teejet_dg_110_twin",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+                            
+                        }
+                    },
+                    {
+                        "id": "dg_110",
+                        "name": "DG 110",
+                        "long_name": "Abanico plano baja deriva",
+                        "img": "teejet_dg_110",
+                        "b": 0,
+                        "c": 0.1155,
+                        "droplet_size": {
+                            
+                        }
+                    }
+                ]
             },
             {
                 "id": "iso015",
@@ -109,7 +162,8 @@
                 "long_name": "ISO 015 Verde",
                 "img": "iso015",
                 "b": 0,
-                "c": 0.3464
+                "c": 0.3464,
+                "childs":[]
             },
             {
                 "id": "iso02",
@@ -117,7 +171,8 @@
                 "long_name": "ISO 020 Amarillo",
                 "img": "iso02",
                 "b": 0,
-                "c": 0.4619
+                "c": 0.4619,
+                "childs":[]
             },
             {
                 "id": "iso025",
@@ -125,7 +180,8 @@
                 "long_name": "ISO 025 Lila",
                 "img": "iso025",
                 "b": 0,
-                "c": 0.5774
+                "c": 0.5774,
+                "childs":[]
             },
             {
                 "id": "iso03",
@@ -133,7 +189,8 @@
                 "long_name": "ISO 03 Azul",
                 "img": "iso03",
                 "b": 0,
-                "c": 0.6928
+                "c": 0.6928,
+                "childs":[]
             },
             {
                 "id": "iso04",
@@ -141,7 +198,8 @@
                 "long_name": "ISO 04 Rojo",
                 "img": "iso04",
                 "b": 0,
-                "c": 0.9238
+                "c": 0.9238,
+                "childs":[]
             },
             {
                 "id": "iso05",
@@ -149,7 +207,8 @@
                 "long_name": "ISO 05 Marrón",
                 "img": "iso05",
                 "b": 0,
-                "c": 1.1547
+                "c": 1.1547,
+                "childs":[]
             },
             {
                 "id": "iso06",
@@ -157,7 +216,8 @@
                 "long_name": "ISO 06 Gris",
                 "img": "iso06",
                 "b": 0,
-                "c": 1.3856
+                "c": 1.3856,
+                "childs":[]
             },
             {
                 "id": "iso08",
@@ -165,7 +225,8 @@
                 "long_name": "ISO 08 Blanco",
                 "img": "iso08",
                 "b": 0,
-                "c": 1.8475
+                "c": 1.8475,
+                "childs":[]
             },
             {
                 "id": "iso10",
@@ -173,7 +234,8 @@
                 "long_name": "ISO 10 Negro",
                 "img": "iso10",
                 "b": 0,
-                "c": 2.3094
+                "c": 2.3094,
+                "childs":[]
             }
         ]
     },

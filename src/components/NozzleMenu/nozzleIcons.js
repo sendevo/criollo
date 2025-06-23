@@ -61,14 +61,26 @@ import dyn_d7 from '../../assets/nozzles/dyn_d7.png';
 import iso005 from '../../assets/nozzles/iso005.png';
 import iso06 from '../../assets/nozzles/iso06.png';
 import verde from '../../assets/nozzles/verde.png';
-import teejet_ai_aic from '../../assets/nozzles/teejet_ai_aic.png';
-import teejet_aittj60 from '../../assets/nozzles/teejet_aittj60.png';
-import teejet_aixr from '../../assets/nozzles/teejet_aixr.png';
-import teejet_tti60 from '../../assets/nozzles/teejet_tti60.png';
+import teejet_tt from '../../assets/nozzles/teejet_tt.png';
 import teejet_tti from '../../assets/nozzles/teejet_tti.png';
 import teejet_ttj60 from '../../assets/nozzles/teejet_ttj60.png';
+import teejet_tti60 from '../../assets/nozzles/teejet_tti60.png';
+import ai_80 from '../../assets/nozzles/ai_80.png';
+import ai_110 from '../../assets/nozzles/ai_110.png';
+import teejet_aixr from '../../assets/nozzles/teejet_aixr.png';
+import teejet_dg_80 from '../../assets/nozzles/teejet_dg_80.png';
+import teejet_dg_95 from '../../assets/nozzles/teejet_dg_95.png';
+import teejet_dg_110_twin from '../../assets/nozzles/teejet_dg_110_twin.png';
+import teejet_dg_110 from '../../assets/nozzles/teejet_dg_110.png';
+
+//import teejet_ai_aic from '../../assets/nozzles/teejet_ai_aic.png';
+//import teejet_aittj60 from '../../assets/nozzles/teejet_aittj60.png';
+
+
+
+
 import teejet_xr_xrc from '../../assets/nozzles/teejet_xr_xrc.png';
-import teejet_tt from '../../assets/nozzles/teejet_tt.png';
+
 import teejet_ai_3070 from '../../assets/nozzles/teejet_ai_3070.png';
 
 
@@ -136,13 +148,15 @@ export default {
     iso005,
     iso06,
     verde,
-    teejet_ai_3070,
-    teejet_ai_aic,
-    teejet_aittj60,
-    teejet_aixr,
-    teejet_tti60,
+    teejet_tt,
     teejet_tti,
     teejet_ttj60,
-    teejet_xr_xrc,
-    teejet_tt
+    teejet_tti60,
+    ai_80,
+    ai_110,
+    teejet_aixr,
+    teejet_dg_80,
+    teejet_dg_95,
+    teejet_dg_110,
+    teejet_dg_110_twin
 };

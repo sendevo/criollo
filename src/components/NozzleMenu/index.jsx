@@ -14,10 +14,12 @@ const SelectedOption = props => (
 );
 
 const NozzleMenu = props => { 
+
+    console.log(props.selection);
     
-    const level1 = props.selection[0] > -1 ? nozzles[props.selection[0]].childs : [];
-    const level2 = props.selection[1] > -1 && nozzles[props.selection[0]].childs[props.selection[1]].childs ? nozzles[props.selection[0]].childs[props.selection[1]].childs : [];
-    const level3 = props.selection[2] > -1 && nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs ? nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs : [];
+    const level1 = props.selection[0] > -1 ? nozzles[props.selection[0]]?.childs : [];
+    const level2 = props.selection[1] > -1 && nozzles[props.selection[0]]?.childs[props.selection[1]]?.childs ? nozzles[props.selection[0]]?.childs[props.selection[1]]?.childs : [];
+    const level3 = props.selection[2] > -1 && nozzles[props.selection[0]]?.childs[props.selection[1]]?.childs[props.selection[2]]?.childs ? nozzles[props.selection[0]].childs[props.selection[1]]?.childs[props.selection[2]]?.childs : [];
 
     const handleClick = (lvl, idx) => {
         switch(lvl){
@@ -25,13 +27,13 @@ const NozzleMenu = props => {
                 props.onOptionSelected([idx, -1, -1, -1]);
                 break;
             case 1:
-                props.onOptionSelected([props.selection[0], idx, -1, -1], nozzles[props.selection[0]].childs[idx].childs ? null : nozzles[props.selection[0]].childs[idx]);
+                props.onOptionSelected([props.selection[0], idx, -1, -1], nozzles[props.selection[0]]?.childs[idx].childs ? null : nozzles[props.selection[0]]?.childs[idx]);
                 break;
             case 2: 
-                props.onOptionSelected([props.selection[0], props.selection[1], idx, -1], nozzles[props.selection[0]].childs[props.selection[1]].childs[idx].childs ? null : nozzles[props.selection[0]].childs[props.selection[1]].childs[idx]);    
+                props.onOptionSelected([props.selection[0], props.selection[1], idx, -1], nozzles[props.selection[0]]?.childs[props.selection[1]]?.childs[idx]?.childs ? null : nozzles[props.selection[0]]?.childs[props.selection[1]]?.childs[idx]);    
                 break;
             case 3:
-                props.onOptionSelected([props.selection[0], props.selection[1], props.selection[2], idx], nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs[idx]);                    
+                props.onOptionSelected([props.selection[0], props.selection[1], props.selection[2], idx], nozzles[props.selection[0]]?.childs[props.selection[1]]?.childs[props.selection[2]]?.childs[idx]);                    
                 break;
             default:
                 break;
