@@ -34,7 +34,7 @@
                     {
                         "id": "tt_110",
                         "name": "TT 110",
-                        "long_name": "Abanico plano turbo",
+                        "long_name": "ISO 010 Naranja Abanico plano turbo",
                         "img": "teejet_tt",
                         "b": 0,
                         "c": 0.1155,
@@ -46,7 +46,7 @@
                     {
                         "id": "tti_110",
                         "name": "TTI 110",
-                        "long_name": "Abanico plano turbo inducción",
+                        "long_name": "ISO 010 Naranja Abanico plano turbo inducción",
                         "img": "teejet_tti",
                         "b": 0,
                         "c": 0.1155,
@@ -58,7 +58,7 @@
                     {
                         "id": "tt_j60_110",
                         "name": "TT J60 110",
-                        "long_name": "Abanico plano turbo doble",
+                        "long_name": "ISO 010 Naranja Abanico plano turbo doble",
                         "img": "teejet_ttj60",
                         "b": 0,
                         "c": 0.1155,
@@ -69,7 +69,7 @@
                     {
                         "id": "tt_i60_110",
                         "name": "TTI 60",
-                        "long_name": "Abanico plano turbo doble inducción",
+                        "long_name": "ISO 010 Naranja Abanico plano turbo doble inducción",
                         "img": "teejet_tti60",
                         "b": 0,
                         "c": 0.1155,
@@ -80,7 +80,7 @@
                     {
                         "id": "ai_80",
                         "name": "AI 80",
-                        "long_name": "Abanico plano antideriva",
+                        "long_name": "ISO 010 Naranja Abanico plano antideriva",
                         "img": "ai_80",
                         "b": 0,
                         "c": 0.1155,
@@ -91,7 +91,7 @@
                     {
                         "id": "ai_110",
                         "name": "AI 110",
-                        "long_name": "Abanico plano antideriva",
+                        "long_name": "ISO 010 Naranja Abanico plano antideriva",
                         "img": "ai_110",
                         "b": 0,
                         "c": 0.1155,
@@ -102,7 +102,7 @@
                     {
                         "id": "ai_xr_110",
                         "name": "AI XR 110",
-                        "long_name": "Abanico plano antideriva rango extendido",
+                        "long_name": "ISO 010 Naranja Abanico plano antideriva rango extendido",
                         "img": "teejet_aixr",
                         "b": 0,
                         "c": 0.1155,
@@ -113,7 +113,7 @@
                     {
                         "id": "dg_80",
                         "name": "DG 80",
-                        "long_name": "Abanico plano baja deriva",
+                        "long_name": "ISO 010 Naranja Abanico plano baja deriva",
                         "img": "teejet_dg_80",
                         "b": 0,
                         "c": 0.1155,
@@ -124,7 +124,7 @@
                     {
                         "id": "dg_95",
                         "name": "DG 95",
-                        "long_name": "Abanico plano baja deriva",
+                        "long_name": "ISO 010 Naranja Abanico plano baja deriva",
                         "img": "teejet_dg_95",
                         "b": 0,
                         "c": 0.1155,
@@ -135,7 +135,7 @@
                     {
                         "id": "dg_110_twin",
                         "name": "DG 110 Twin",
-                        "long_name": "Doble abanico plano baja deriva",
+                        "long_name": "ISO 010 Naranja Doble abanico plano baja deriva",
                         "img": "teejet_dg_110_twin",
                         "b": 0,
                         "c": 0.1155,
@@ -146,7 +146,7 @@
                     {
                         "id": "dg_110",
                         "name": "DG 110",
-                        "long_name": "Abanico plano baja deriva",
+                        "long_name": "ISO 010 Naranja Abanico plano baja deriva",
                         "img": "teejet_dg_110",
                         "b": 0,
                         "c": 0.1155,
@@ -248,10 +248,12 @@
             {
                 "id": "ch",
                 "name": "Cono hueco",
+                "long_name": "DyN Cono hueco",
                 "childs": [
                     {
                         "id": "d1",
                         "name": "D1",
+                        "long_name": "DyN CH D1",
                         "img": "d1",
                         "childs": [
                             {
@@ -298,6 +300,7 @@
                     {
                         "id": "d1_5",
                         "name": "D1.5",
+                        "long_name": "DyN CH D1.5",
                         "img": "d1_5",
                         "childs": [
                             {
@@ -345,6 +348,7 @@
                     {
                         "id": "d2",
                         "name": "D2",
+                        "long_name": "DyN CH D2",
                         "img": "d2",
                         "childs": [
                             {
@@ -392,6 +396,7 @@
                     {
                         "id": "d3",
                         "name": "D3",
+                        "long_name": "DyN CH D3",
                         "img": "d3",
                         "childs": [
                             {
@@ -439,6 +444,7 @@
                     {
                         "id": "d4",
                         "name": "D4",
+                        "long_name": "DyN CH D4",
                         "img": "d4",
                         "childs": [
                             {
@@ -486,6 +492,7 @@
                     {
                         "id": "d5",
                         "name": "D5",
+                        "long_name": "DyN CH D5",
                         "img": "d5",
                         "childs": [
                             {
@@ -533,6 +540,7 @@
                     {
                         "id": "d6",
                         "name": "D6",
+                        "long_name": "DyN CH D6",
                         "img": "d6",
                         "childs": [
                             {
@@ -572,6 +580,7 @@
                     {
                         "id": "d7",
                         "name": "D7",
+                        "long_name": "DyN CH D7",
                         "img": "d7",
                         "childs": [
                             {
@@ -603,6 +612,7 @@
                     {
                         "id": "d8",
                         "name": "D8",
+                        "long_name": "DyN CH D8",
                         "img": "d8",
                         "childs": [
                             {
@@ -634,6 +644,7 @@
                     {
                         "id": "d10",
                         "name": "D10",
+                        "long_name": "DyN CH D10",
                         "img": "d10",
                         "childs": [
                             {
@@ -665,6 +676,7 @@
                     {
                         "id": "d12",
                         "name": "D12",
+                        "long_name": "DyN CH D12",
                         "img": "d12",
                         "childs": [
                             {
@@ -688,6 +700,7 @@
                     {
                         "id": "d14",
                         "name": "D14",
+                        "long_name": "DyN CH D14",
                         "img": "d14",
                         "childs": [
                             {
@@ -713,10 +726,12 @@
             {
                 "id": "cll",
                 "name": "Cono lleno",
+                "long_name": "DyN Cono lleno",
                 "childs": [
                     {
                         "id": "d1",
                         "name": "D1",
+                        "long_name": "DyN CLL D1",
                         "img": "d1",
                         "childs": [
                             {
@@ -739,6 +754,7 @@
                     {
                         "id": "d2",
                         "name": "D2",
+                        "long_name": "DyN CLL D2",
                         "img": "d2",
                         "childs": [
                             {
@@ -770,6 +786,7 @@
                     {
                         "id": "d3",
                         "name": "D3",
+                        "long_name": "DyN CLL D3",
                         "img": "d3",
                         "childs": [
                             {
@@ -801,6 +818,7 @@
                     {
                         "id": "d4",
                         "name": "D4",
+                        "long_name": "DyN CLL D4",
                         "img": "d4",
                         "childs": [
                             {
@@ -824,6 +842,7 @@
                     {
                         "id": "d5",
                         "name": "D5",
+                        "long_name": "DyN CLL D5",
                         "img": "d5",
                         "childs": [
                             {
@@ -847,6 +866,7 @@
                     {
                         "id": "d6",
                         "name": "D6",
+                        "long_name": "DyN CLL D6",
                         "img": "d6",
                         "childs": [
                             {
@@ -862,6 +882,7 @@
                     {
                         "id": "d7",
                         "name": "D7",
+                        "long_name": "DyN CLL D7",
                         "img": "d7",
                         "childs": [
                             {
@@ -975,6 +996,7 @@
             {
                 "id": "fu",
                 "name": "Fresado arriba",
+                "long_name": "AMT fresado arriba",
                 "img": "amt_arriba",
                 "childs": [
                     {
@@ -1046,6 +1068,7 @@
             {
                 "id": "fd",
                 "name": "Fresado abajo",
+                "long_name": "AMT fresado abajo",
                 "img": "amt_abajo",
                 "childs": [
                     {

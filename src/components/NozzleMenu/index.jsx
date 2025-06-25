@@ -15,8 +15,6 @@ const SelectedOption = props => (
 
 const NozzleMenu = props => { 
 
-    console.log(props.selection);
-    
     const level1 = props.selection[0] > -1 ? nozzles[props.selection[0]]?.childs : [];
     const level2 = props.selection[1] > -1 && nozzles[props.selection[0]]?.childs[props.selection[1]]?.childs ? nozzles[props.selection[0]]?.childs[props.selection[1]]?.childs : [];
     const level3 = props.selection[2] > -1 && nozzles[props.selection[0]]?.childs[props.selection[1]]?.childs[props.selection[2]]?.childs ? nozzles[props.selection[0]].childs[props.selection[1]]?.childs[props.selection[2]]?.childs : [];

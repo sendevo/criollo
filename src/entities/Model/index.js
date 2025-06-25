@@ -1,6 +1,7 @@
 import { generateId } from "../../utils";
 import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from "@capacitor/core";
+import nozzles from '../../data/nozzles.json';
 
 // Esta clase Singleton se encarga de manejar el estado persistente de las variables globales.
 
@@ -84,6 +85,31 @@ export default class CriolloModel {
         }
     }
 
+    getNozzleName(selection) { // Obtener nombre del pico seleccionado
+        let current = nozzles;
+        for (let i = 0; i < selection.length; i++) {
+            const level = selection[i];
+            if (level === -1) break;
+
+            if (Array.isArray(current)) {
+                if (level >= 0 && level < current.length) {
+                    current = current[level];
+                } else {
+                    return null;
+                }
+            } else if (current.childs && Array.isArray(current.childs)) {
+                if (level >= 0 && level < current.childs.length) {
+                    current = current.childs[level];
+                } else {
+                    return null;
+                }
+            } else {
+                return null;
+            }
+        }
+
+        return current && typeof current === 'object' ? current.long_name : null;
+    }
 
     /// Persistencia de parametros
 

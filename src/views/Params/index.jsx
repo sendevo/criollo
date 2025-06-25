@@ -5,6 +5,7 @@ import { NozzleSeparationSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
 import NozzleMenu from "../../components/NozzleMenu";
 import Toast from '../../components/Toast';
+import Typography from '../../components/Typography';
 import { ModelCtx, WalkthroughCtx } from '../../context';
 import * as API from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
@@ -47,7 +48,6 @@ const Params = props => {
         workVolume,
         workVolumeUpdated
     } = inputs;
-
 
     // El caudal total de pulverizacion se calcula ante cualquier cambio de variable
     // pero solo si esta indicado el numero de picos
@@ -361,13 +361,17 @@ const Params = props => {
                 </Input>
             </List>
 
-            <BlockTitle style={{marginBottom: 5}}>Capacidad del pico</BlockTitle>
+            <BlockTitle style={{marginBottom: 5}}><Typography variant='subtitle'>Capacidad del pico</Typography></BlockTitle>
             
             <center className="help-target-nozzle-select">
                 <NozzleMenu 
                     onOptionSelected={handleNozzleSelected} 
                     selection={nozzleSelection} />
             </center>
+
+            <div style={{paddingLeft:"20px", textAlign:"center"}}>
+                <Typography><b>Selección:</b> {model.getNozzleName(nozzleSelection)}</Typography>
+            </div>
 
             <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "0px"}}>    
                 <Row slot="list">
@@ -394,7 +398,7 @@ const Params = props => {
                 </Row>
             </List>
 
-            <BlockTitle style={{marginBottom: "5px"}}>Propiedades del caldo</BlockTitle>
+            <BlockTitle style={{marginBottom: "5px"}}><Typography variant='subtitle'>Propiedades del caldo</Typography></BlockTitle>
 
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
                 <Input
@@ -409,7 +413,7 @@ const Params = props => {
                 </Input>
             </List>
 
-            <BlockTitle style={{marginBottom: "5px"}}>Parámetros de pulverización</BlockTitle>
+            <BlockTitle style={{marginBottom: "5px"}}><Typography variant='subtitle'>Parámetros de pulverización</Typography></BlockTitle>
 
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
 
