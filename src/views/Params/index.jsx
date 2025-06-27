@@ -62,7 +62,6 @@ const Params = props => {
         });
         model.update("sprayFlow", sprayFlow);
     }catch(e){
-        //console.log(e.message);
         model.update("sprayFlow", null);
     }
 
@@ -76,7 +75,6 @@ const Params = props => {
         });      
         model.update("workFlow", workFlow);
     }catch(e){
-        //console.log(e.message);
         model.update("workFlow", null);
     }
 
@@ -138,6 +136,9 @@ const Params = props => {
     const handleNozzleSelected = (selection, nozzle) => {        
         setNozzleSelection(selection);
         model.update("nozzleSelection", selection);
+
+        console.log(nozzle);
+
         if(nozzle){
             try{
                 const qn = API.computeQNom({
@@ -328,11 +329,7 @@ const Params = props => {
 
     // Callbacks del modo ayuda
     const wlk = useContext(WalkthroughCtx);
-    Object.assign(wlk.callbacks, {
-        params_2: () => {            
-            computeWorkVelocity();
-        }
-    });
+    Object.assign(wlk.callbacks, {params_2: computeWorkVelocity});
     
     return (
         <Page>            

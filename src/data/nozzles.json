@@ -11,8 +11,7 @@
                 "long_name": "ISO 005 Purpura",
                 "img": "iso005",
                 "b": 0,
-                "c": 0.1155,
-                "childs":[]
+                "c": 0.1155
             },
             {
                 "id": "iso0075",
@@ -20,8 +19,7 @@
                 "long_name": "ISO 0075 Rosa",
                 "img": "iso0075",
                 "b": 0,
-                "c": 0.1732,
-                "childs":[]
+                "c": 0.1732
             },
             {
                 "id": "iso01",
@@ -37,7 +35,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano turbo",
                         "img": "teejet_tt",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
                             "M": 3,
                             "F": 4.5
@@ -49,7 +47,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano turbo inducción",
                         "img": "teejet_tti",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
                             "XC": 2.5,
                             "VC": 3.5
@@ -61,7 +59,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano turbo doble",
                         "img": "teejet_ttj60",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
 
                         }
@@ -72,7 +70,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano turbo doble inducción",
                         "img": "teejet_tti60",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
                             
                         }
@@ -83,7 +81,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano antideriva",
                         "img": "ai_80",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
 
                         }       
@@ -94,7 +92,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano antideriva",
                         "img": "ai_110",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
                             
                         }
@@ -105,7 +103,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano antideriva rango extendido",
                         "img": "teejet_aixr",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
                             
                         }
@@ -116,7 +114,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano baja deriva",
                         "img": "teejet_dg_80",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
                             
                         }
@@ -127,7 +125,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano baja deriva",
                         "img": "teejet_dg_95",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
                             
                         }
@@ -138,7 +136,7 @@
                         "long_name": "ISO 010 Naranja Doble abanico plano baja deriva",
                         "img": "teejet_dg_110_twin",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
                             
                         }
@@ -149,7 +147,7 @@
                         "long_name": "ISO 010 Naranja Abanico plano baja deriva",
                         "img": "teejet_dg_110",
                         "b": 0,
-                        "c": 0.1155,
+                        "c": 0.2309,
                         "droplet_size": {
                             
                         }
@@ -162,8 +160,7 @@
                 "long_name": "ISO 015 Verde",
                 "img": "iso015",
                 "b": 0,
-                "c": 0.3464,
-                "childs":[]
+                "c": 0.3464
             },
             {
                 "id": "iso02",
@@ -171,8 +168,7 @@
                 "long_name": "ISO 020 Amarillo",
                 "img": "iso02",
                 "b": 0,
-                "c": 0.4619,
-                "childs":[]
+                "c": 0.4619
             },
             {
                 "id": "iso025",
@@ -180,8 +176,7 @@
                 "long_name": "ISO 025 Lila",
                 "img": "iso025",
                 "b": 0,
-                "c": 0.5774,
-                "childs":[]
+                "c": 0.5774
             },
             {
                 "id": "iso03",
@@ -189,8 +184,7 @@
                 "long_name": "ISO 03 Azul",
                 "img": "iso03",
                 "b": 0,
-                "c": 0.6928,
-                "childs":[]
+                "c": 0.6928
             },
             {
                 "id": "iso04",
@@ -198,8 +192,7 @@
                 "long_name": "ISO 04 Rojo",
                 "img": "iso04",
                 "b": 0,
-                "c": 0.9238,
-                "childs":[]
+                "c": 0.9238
             },
             {
                 "id": "iso05",
@@ -207,8 +200,7 @@
                 "long_name": "ISO 05 Marrón",
                 "img": "iso05",
                 "b": 0,
-                "c": 1.1547,
-                "childs":[]
+                "c": 1.1547
             },
             {
                 "id": "iso06",
@@ -216,8 +208,7 @@
                 "long_name": "ISO 06 Gris",
                 "img": "iso06",
                 "b": 0,
-                "c": 1.3856,
-                "childs":[]
+                "c": 1.3856
             },
             {
                 "id": "iso08",
@@ -225,8 +216,7 @@
                 "long_name": "ISO 08 Blanco",
                 "img": "iso08",
                 "b": 0,
-                "c": 1.8475,
-                "childs":[]
+                "c": 1.8475
             },
             {
                 "id": "iso10",
@@ -234,8 +224,7 @@
                 "long_name": "ISO 10 Negro",
                 "img": "iso10",
                 "b": 0,
-                "c": 2.3094,
-                "childs":[]
+                "c": 2.3094
             }
         ]
     },

@@ -44,8 +44,6 @@ const Typography = ({ children, sx, variant }) => {
         style = {...style, ...variantStyles[variant] };
     }  
 
-    console.log(style);
-
     return (
         <p style={style}>
             {children}

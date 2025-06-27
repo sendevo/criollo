@@ -5,41 +5,37 @@ import classes from './style.module.css';
 
 const SelectedOption = props => (
     props.selection ? 
-        <div className={classes.SelectedOptionContainer}>
-            {props.selection.img && <img className={classes.SelectedOptionIcon} src={nozzleIcons[props.selection.img]} alt={"icon"} />}
-            <span className={classes.SelectedOptionText} >{props.selection.name} </span>
-        </div> 
+    <div className={classes.SelectedOptionContainer}>
+        {props.selection.img && <img className={classes.SelectedOptionIcon} src={nozzleIcons[props.selection.img]} alt={"icon"} />}
+        <span className={classes.SelectedOptionText} >{props.selection.name} </span>
+    </div> 
     : 
-        "Elegir..."
+    "Elegir..."
 );
 
 const NozzleMenu = ({selection, onOptionSelected}) => { 
 
-    const getChild = path => path.reduce((acc, idx) => {
-            if (!acc || !Array.isArray(acc.childs) || idx < 0) return null;
-            return acc.childs[idx];
-        }, { childs: nozzles });
+    const level1 = selection[0] > -1 ? nozzles[selection[0]]?.childs : [];
+    const level2 = selection[1] > -1 && nozzles[selection[0]]?.childs[selection[1]]?.childs ? nozzles[selection[0]]?.childs[selection[1]]?.childs : [];
+    const level3 = selection[2] > -1 && nozzles[selection[0]]?.childs[selection[1]]?.childs[selection[2]]?.childs ? nozzles[selection[0]].childs[selection[1]]?.childs[selection[2]]?.childs : [];
 
-    const level1 = selection[0] > -1 ? getChild([selection[0]])?.childs || [] : [];
-    const level2 = selection[1] > -1 ? getChild([selection[0], selection[1]])?.childs || [] : [];
-    const level3 = selection[2] > -1 ? getChild([selection[0], selection[1], selection[2]])?.childs || [] : [];
-
-
-    const handleClick = (level, index) => {
-        let newSelection = [...selection];
-        newSelection[level] = index;
-
-        for (let i = level + 1; i < newSelection.length; i++)
-            newSelection[i] = -1;
-
-        const node = getChild(newSelection.slice(0, level + 1));
-        
-        const hasParameters = node.b !== undefined && node.c !== undefined;
-
-        onOptionSelected(newSelection, hasParameters ? node : null);
-
-        //const hasChildren = node?.childs && node.childs.length > 0;
-        //onOptionSelected(newSelection, hasChildren ? null : node);
+    const handleClick = (lvl, idx) => {
+        switch(lvl){
+            case 0:
+                onOptionSelected([idx, -1, -1, -1]);
+                break;
+            case 1:
+                onOptionSelected([selection[0], idx, -1, -1], nozzles[selection[0]]?.childs[idx].childs ? null : nozzles[selection[0]]?.childs[idx]);
+                break;
+            case 2: 
+                onOptionSelected([selection[0], selection[1], idx, -1], nozzles[selection[0]]?.childs[selection[1]]?.childs[idx]?.childs ? null : nozzles[selection[0]]?.childs[selection[1]]?.childs[idx]);
+                break;
+            case 3:
+                onOptionSelected([selection[0], selection[1], selection[2], idx], nozzles[selection[0]]?.childs[selection[1]]?.childs[selection[2]]?.childs[idx]);
+                break;
+            default:
+                break;
+        }
     };
 
     return (
