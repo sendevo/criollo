@@ -21,6 +21,10 @@ const variantStyles = {
         fontWeight: 'bold',
         margin: '12px 0'
     },
+    title: {
+        fontSize: '20px',
+        margin: '0px'
+    },
     subtitle: {
         fontSize: '16px',
         margin: '6px 0'

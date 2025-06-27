@@ -14,7 +14,7 @@ const Home = () => (
     <Page name="home" className={classes.HomePage}>
         <PageContent>
             <Block style={{textAlign: "center", marginBottom: "0px", marginTop:"20px"}}>
-                <img className="app-logo" src={logoCriollo} height="100px" width="100px" alt="logo"/>
+                <img className={classes.AppLogo}src={logoCriollo} alt="logo"/>
             </Block>
             <Block style={{textAlign: "center", marginTop:"5px"}}>
                 <h2 className={classes.Title}>CRIOLLO</h2>                

@@ -1,6 +1,6 @@
 import { Page, Navbar, Block, List, Row, Col, Button } from "framework7-react";
 import Input from "../../components/Input";
-import { BackButton } from "../../components/Buttons";
+import { NavbarTitle } from "../../components/Buttons";
 import DistanceIcon from "../../assets/icons/distancia.png";
 import moment from 'moment';
 import Timer from '../../entities/Timer';
@@ -145,7 +145,9 @@ const Velocity = props => { // View
 
     return (
         <Page>
-            <Navbar title="Cronómetro" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
+            <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
+                <NavbarTitle {...props} title="Cronómetro"/>
+            </Navbar>
             <Block>
                 <img src={DistanceIcon} className={classes.Icon} alt="distance" />
                 <InputBlock onChange={v=>updateDistance(parseInt(v.target.value))} distance={distance}/>
@@ -185,8 +187,6 @@ const Velocity = props => { // View
                     <Col width={20}></Col>
                 </Row>
             </Block>
-
-            <BackButton {...props} />
         </Page>
     );
 };

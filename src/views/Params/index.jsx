@@ -1,6 +1,6 @@
 import { f7, Navbar, Page, List, BlockTitle, Row, Col, Button } from 'framework7-react';
 import { useContext, useEffect, useState } from 'react';
-import { BackButton, CalculatorButton } from '../../components/Buttons';
+import { NavbarTitle, CalculatorButton } from '../../components/Buttons';
 import { NozzleSeparationSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
 import NozzleMenu from "../../components/NozzleMenu";
@@ -14,6 +14,7 @@ import iconVelocity from '../../assets/icons/velocidad.png';
 import iconPressure from '../../assets/icons/presion.png';
 import iconDensity from '../../assets/icons/densidad.png';
 import iconVolume from '../../assets/icons/dosis.png';
+
 
 const Params = props => {
 
@@ -335,7 +336,9 @@ const Params = props => {
     
     return (
         <Page>            
-            <Navbar title="Parámetros de aplicación" style={{maxHeight:"40px", marginBottom:"0px"}}/>            
+            <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
+                <NavbarTitle {...props} title="Parámetros de aplicación"/>
+            </Navbar>
             <NozzleSeparationSelector value={nozzleSeparation} onChange={handleNozzleSeparationChange}/>
             <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
                 <Input
@@ -482,9 +485,6 @@ const Params = props => {
                 </Col>
                 <Col width={20}></Col>
             </Row>
-
-
-            <BackButton {...props} />
         </Page>
     );
 };

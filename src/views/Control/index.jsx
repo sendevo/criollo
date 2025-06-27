@@ -7,7 +7,7 @@ import * as API from '../../entities/API/index.js';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import Input from "../../components/Input";
 import { arrayAvg, formatNumber } from "../../utils";
-import { PlayButton, BackButton } from "../../components/Buttons";
+import { PlayButton, NavbarTitle } from "../../components/Buttons";
 import Timer from "../../entities/Timer";
 import Toast from "../../components/Toast";
 import { ElapsedSelector } from "../../components/Selectors";
@@ -245,7 +245,10 @@ const Control = props => {
 
     return (
         <Page>
-            <Navbar title="Verificación de picos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
+            <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
+                <NavbarTitle title="Verificación de picos" {...props} />
+            </Navbar>
+
             <ElapsedSelector value={elapsed} disabled={running} onChange={handleElapsedChange}/>
 
             <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}} className="help-target-control-nozzles">    
@@ -307,8 +310,6 @@ const Control = props => {
                     </Row>
                 </Block>
             }
-
-            <BackButton {...props} />
         </Page>
     );
 };

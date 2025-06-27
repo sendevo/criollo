@@ -1,28 +1,40 @@
 import { 
     Page, 
     Block, 
-    BlockTitle,
     List,    
     ListItem,
-    AccordionContent 
+    AccordionContent,
+    Navbar,
+    Link 
 } from 'framework7-react';
 import logoInta from '../../assets/logo_inta.png';
-import { BackButton } from '../../components/Buttons';
+import { NavbarTitle } from '../../components/Buttons';
 
 const About = props => (
     <Page name="about">
-        <BlockTitle>Acerca de CRIOLLO</BlockTitle>
-        <Block>
-            <List accordionList>
+        <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
+            <NavbarTitle {...props} title="Acerca de CRIOLLO"/>
+        </Navbar>
+        <Block style={{marginTop: "0"}}>
+            <List accordionList style={{marginTop: "0"}}>
                 <ListItem accordionItem title="Versión de la aplicación">
                     <AccordionContent>
                         <Block>
                             <center>
-                                    <h3>Calibrador CRIOLLO 4.4</h3>
+                                    <h3>Calibrador CRIOLLO 5.0.0</h3>
                             </center>
                             <h3>Staff</h3>
                             <p><b>Autor:</b> Juan Pablo D'Amico</p>
-                            <p><b>Desarrollo:</b> Matías J. Micheletto, Gabriel M. Eggly, Santiago J. Crocioni</p>
+                            <p><b>Desarrollo:</b> 
+                                <Link 
+                                    external 
+                                    rel="noopener noreferrer" 
+                                    target="_blank" 
+                                    href="https://sendevosoftware.com.ar"
+                                    style={{paddingLeft: "5px", fontWeight: "bold"}}>
+                                    Sendevo Software
+                                </Link>    
+                            </p>
                         </Block>
                     </AccordionContent>
                 </ListItem>
@@ -122,7 +134,6 @@ const About = props => (
                     </AccordionContent>
                 </ListItem>
             </List>
-            <BackButton {...props} gray/>
         </Block>
     </Page>
 );

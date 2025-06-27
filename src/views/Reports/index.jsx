@@ -1,7 +1,7 @@
 import { f7, Navbar, Page, Block, Checkbox, Row, Col, Button } from 'framework7-react';
 import { useState, useContext } from 'react';
 import moment from 'moment';
-import { BackButton } from '../../components/Buttons';
+import { NavbarTitle } from '../../components/Buttons';
 import iconEmpty from '../../assets/icons/empty_folder.png';
 import { ModelCtx } from '../../context';
 import Toast from '../../components/Toast';
@@ -93,7 +93,9 @@ const Reports = props => {
 
     return (
         <Page>
-            <Navbar title="Reportes guardados" style={{maxHeight:"40px", marginBottom:"0px"}}/>
+            <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
+                <NavbarTitle {...props} title="Reportes guardados" />
+            </Navbar>
             {
             reports.length > 0 ?
                 <Row className={classes.Container}>
@@ -177,7 +179,7 @@ const Reports = props => {
                 :
                 null
             }
-            <BackButton {...props}/>
+            
         </Page>
     );
 };
