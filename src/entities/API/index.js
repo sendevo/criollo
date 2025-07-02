@@ -92,6 +92,11 @@ export const dropletSizesColors = { // Colores de los rangos de tamaño de gota
     "XF": "purple"
 };
 
+export const getDropletSizeLabel = (pressure, ranges) => {
+    const size = ranges.find(range => pressure >= range.from && pressure <= range.to);
+    return size ? size.label : null;
+};
+
 const getParameterNames = paramList => paramList.map(key => parameterNames[key]).join(", ");
 
 const checkParams = (schema, params) => { // Valida parametros y genera mensaje de error

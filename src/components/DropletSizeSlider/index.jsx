@@ -30,8 +30,6 @@ const DropletSizeSlider = ({ min, max, ranges, value }) => {
         left: `calc(${getPercentage(value)}% - 1px)`
     };
 
-    console.log(" ");
-
     return (
         <div>
             <div
