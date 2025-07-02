@@ -32,103 +32,113 @@
                     {
                         "id": "tt_110",
                         "name": "TT 110",
-                        "long_name": "ISO 010 Naranja Abanico plano turbo",
+                        "long_name": "ISO 010 Naranja abanico plano turbo",
                         "img": "teejet_tt",
                         "b": 0,
                         "c": 0.2309,
-                        "droplet_size": {
-                            "M": 3,
-                            "F": 4.5
-                        }
+                        "droplet_sizes": [
+                            {
+                                "from": 1.5,
+                                "to": 2.5,
+                                "label": "C"
+                            },
+                            {
+                                "from": 2.5,
+                                "to": 4,
+                                "label": "M"
+                            },
+                            {
+                                "from": 4,
+                                "to": 6,
+                                "label": "F"
+                            }
+                        ]
                     },
                     {
                         "id": "tti_110",
                         "name": "TTI 110",
-                        "long_name": "ISO 010 Naranja Abanico plano turbo inducción",
+                        "long_name": "ISO 010 Naranja abanico plano turbo inducción",
                         "img": "teejet_tti",
                         "b": 0,
                         "c": 0.2309,
-                        "droplet_size": {
-                            "XC": 2.5,
-                            "VC": 3.5
-                        }
+                        "droplet_sizes": [
+                            {
+                                "from": 1.5,
+                                "to": 2,
+                                "label": "VC"
+                            },
+                            {
+                                "from": 2,
+                                "to": 3,
+                                "label": "C"
+                            },
+                            {
+                                "from": 3,
+                                "to": 5,
+                                "label": "M"
+                            },
+                            {
+                                "from": 5,
+                                "to": 6,
+                                "label": "F"
+                            }
+                        ]
                     },
                     {
                         "id": "tt_j60_110",
                         "name": "TT J60 110",
-                        "long_name": "ISO 010 Naranja Abanico plano turbo doble",
+                        "long_name": "ISO 010 Naranja abanico plano turbo doble",
                         "img": "teejet_ttj60",
                         "b": 0,
-                        "c": 0.2309,
-                        "droplet_size": {
-
-                        }
+                        "c": 0.2309
                     },
                     {
                         "id": "tt_i60_110",
                         "name": "TTI 60",
-                        "long_name": "ISO 010 Naranja Abanico plano turbo doble inducción",
+                        "long_name": "ISO 010 Naranja abanico plano turbo doble inducción",
                         "img": "teejet_tti60",
                         "b": 0,
-                        "c": 0.2309,
-                        "droplet_size": {
-                            
-                        }
+                        "c": 0.2309
                     },
                     {
                         "id": "ai_80",
                         "name": "AI 80",
-                        "long_name": "ISO 010 Naranja Abanico plano antideriva",
+                        "long_name": "ISO 010 Naranja abanico plano antideriva",
                         "img": "ai_80",
                         "b": 0,
-                        "c": 0.2309,
-                        "droplet_size": {
-
-                        }       
+                        "c": 0.2309
                     },
                     {
                         "id": "ai_110",
                         "name": "AI 110",
-                        "long_name": "ISO 010 Naranja Abanico plano antideriva",
+                        "long_name": "ISO 010 Naranja abanico plano antideriva",
                         "img": "ai_110",
                         "b": 0,
-                        "c": 0.2309,
-                        "droplet_size": {
-                            
-                        }
+                        "c": 0.2309
                     },
                     {
                         "id": "ai_xr_110",
                         "name": "AI XR 110",
-                        "long_name": "ISO 010 Naranja Abanico plano antideriva rango extendido",
+                        "long_name": "ISO 010 Naranja abanico plano antideriva rango extendido",
                         "img": "teejet_aixr",
                         "b": 0,
-                        "c": 0.2309,
-                        "droplet_size": {
-                            
-                        }
+                        "c": 0.2309
                     },
                     {
                         "id": "dg_80",
                         "name": "DG 80",
-                        "long_name": "ISO 010 Naranja Abanico plano baja deriva",
+                        "long_name": "ISO 010 Naranja abanico plano baja deriva",
                         "img": "teejet_dg_80",
                         "b": 0,
-                        "c": 0.2309,
-                        "droplet_size": {
-                            
-                        }
+                        "c": 0.2309
                     },
                     {
                         "id": "dg_95",
                         "name": "DG 95",
-                        "long_name": "ISO 010 Naranja Abanico plano baja deriva",
+                        "long_name": "ISO 010 Naranja abanico plano baja deriva",
                         "img": "teejet_dg_95",
                         "b": 0,
-                        "c": 0.2309,
-                        "droplet_size": {
-                            
-                        }
+                        "c": 0.2309
                     },
                     {
                         "id": "dg_110_twin",
@@ -136,21 +146,15 @@
                         "long_name": "ISO 010 Naranja Doble abanico plano baja deriva",
                         "img": "teejet_dg_110_twin",
                         "b": 0,
-                        "c": 0.2309,
-                        "droplet_size": {
-                            
-                        }
+                        "c": 0.2309
                     },
                     {
                         "id": "dg_110",
                         "name": "DG 110",
-                        "long_name": "ISO 010 Naranja Abanico plano baja deriva",
+                        "long_name": "ISO 010 Naranja abanico plano baja deriva",
                         "img": "teejet_dg_110",
                         "b": 0,
-                        "c": 0.2309,
-                        "droplet_size": {
-                            
-                        }
+                        "c": 0.2309
                     }
                 ]
             },

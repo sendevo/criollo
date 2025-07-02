@@ -6,8 +6,17 @@ import Input from "../../components/Input";
 import NozzleMenu from "../../components/NozzleMenu";
 import Toast from '../../components/Toast';
 import Typography from '../../components/Typography';
+import DropletSizeSlider from '../../components/DropletSizeSlider';
 import { ModelCtx, WalkthroughCtx } from '../../context';
-import * as API from '../../entities/API';
+import {
+    computeQb,
+    computeQt,
+    computeQNom,
+    computeVt,
+    computePt,
+    computeVa,
+    dropletSizesColors
+} from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzles from '../../assets/icons/cant_picos2.png';
 import iconVelocity from '../../assets/icons/velocidad.png';
@@ -36,11 +45,14 @@ const Params = props => {
 
     const [nozzleSelection, setNozzleSelection] = useState(model.nozzleSelection || [-1, -1, -1, -1]);
 
+    const [nozzle, setNozzle] = useState(null);
+
     const {
         nozzleSeparation,
         nozzleNumber,
         nominalFlow,
         nominalPressure,
+        dropletSizes,
         productDensity,
         workVelocity,
         workVelocityUpdated,
@@ -54,7 +66,7 @@ const Params = props => {
     // pero solo si esta indicado el numero de picos
     let sprayFlow = model.sprayFlow;
     try{
-        sprayFlow = API.computeQb({
+        sprayFlow = computeQb({
             n: nozzleNumber,
             Qnom: nominalFlow,
             Pnom: nominalPressure,
@@ -68,7 +80,7 @@ const Params = props => {
     // El caudal de pulverizacion de cada pico se calcula ante cualquier cambio de variable
     // pero no se usa en esta seccion, sino en verificacion de picos
     try{
-        const workFlow = API.computeQt({
+        const workFlow = computeQt({
             Qnom: nominalFlow,
             Pnom: nominalPressure,
             Pt: workPressure
@@ -133,22 +145,20 @@ const Params = props => {
         model.update("nozzleNumber", n);
     };
 
-    const handleNozzleSelected = (selection, nozzle) => {        
+    const handleNozzleSelected = (selection, nz) => {        
         setNozzleSelection(selection);
+        setNozzle(nz);
         model.update("nozzleSelection", selection);
-
-        console.log(nozzle);
-
-        if(nozzle){
+        if(nz){
             try{
-                const qn = API.computeQNom({
-                    b: nozzle.b,
-                    c: nozzle.c,
+                const qn = computeQNom({
+                    b: nz.b,
+                    c: nz.c,
                     Pnom: nominalPressure
                 });
                 model.update({
-                    nominalFlow: qn,                    
-                    nozzleName: nozzle.long_name
+                    nominalFlow: qn,
+                    nozzleName: nz.long_name
                 });
                 setInputs({
                     ...inputs,
@@ -239,7 +249,7 @@ const Params = props => {
 
     const computeWorkVelocity = () => {
         try{
-            const newVel = API.computeVt({
+            const newVel = computeVt({
                 Va: workVolume,
                 Pt: workPressure,
                 d: nozzleSeparation,
@@ -264,7 +274,7 @@ const Params = props => {
 
     const computeWorkPressure = () => {
         try{
-            const newPres = API.computePt({
+            const newPres = computePt({
                 Va: workVolume,
                 Vt: workVelocity,            
                 d: nozzleSeparation,
@@ -286,7 +296,7 @@ const Params = props => {
 
     const computeWorkVolume = () => {
         try{
-            const newVol = API.computeVa({
+            const newVol = computeVa({
                 Pt: workPressure,
                 Vt: workVelocity,
                 d: nozzleSeparation,
@@ -369,11 +379,11 @@ const Params = props => {
                     selection={nozzleSelection} />
             </center>
 
-            <div style={{paddingLeft:"20px", textAlign:"center"}}>
-                <Typography><b>Selección:</b> {model.getNozzleName(nozzleSelection)}</Typography>
+            <div style={{paddingLeft:"20px"}}>
+                <Typography variant="small" sx={{color:"#000"}}><b>Selección:</b> {model.getNozzleName(nozzleSelection)}</Typography>
             </div>
 
-            <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "0px"}}>    
+            <List form noHairlinesMd style={{marginBottom:"5px", marginTop: "0px"}}>    
                 <Row slot="list">
                     <Col>
                         <Input
@@ -398,7 +408,7 @@ const Params = props => {
                 </Row>
             </List>
 
-            <BlockTitle style={{marginBottom: "5px"}}><Typography variant='subtitle'>Propiedades del caldo</Typography></BlockTitle>
+            <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}><Typography variant='subtitle'>Propiedades del caldo</Typography></BlockTitle>
 
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
                 <Input
@@ -468,6 +478,22 @@ const Params = props => {
                     onChange={handleWorkVolumeChange}>
                 </Input>
             </List>
+
+            { nozzle?.droplet_sizes &&
+                <div style={{paddingLeft:"20px", paddingRight:"20px", marginBottom:"10px"}}>
+                    <Typography variant="small" sx={{ marginBottom: '5px', color: "#000" }}>
+                        <b>Tamaño de gota:</b> {nozzle.droplet_sizes[0].label} (Falta calcular) {/*TODO: Calcular valor*/}
+                    </Typography>
+                    <DropletSizeSlider
+                        min={1.5}
+                        max={6}
+                        ranges={nozzle.droplet_sizes.map(range => ({
+                            ...range,
+                            color: dropletSizesColors[range.label]
+                        }))}
+                        value={workPressure}/>
+                </div>
+            }
 
             <Row style={{marginTop:20, marginBottom: 20}}>
                 <Col width={20}></Col>

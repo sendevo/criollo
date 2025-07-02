@@ -41,7 +41,7 @@ const Typography = ({ children, sx, variant }) => {
     let style = sx || defaultStyle;
     
     if (variant && variantStyles[variant]) {
-        style = {...style, ...variantStyles[variant] };
+        style = {...variantStyles[variant], ...style};
     }  
 
     return (
