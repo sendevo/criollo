@@ -1,6 +1,6 @@
 import { Navbar, Page, Block, Row, Col, Button, BlockTitle } from 'framework7-react';
 import { useContext } from 'react';
-import { BackButton } from '../../components/Buttons';
+import { NavbarTitle } from '../../components/Buttons';
 import NozzlesTable from '../../components/NozzlesTable';
 import { SuppliesTable, PrescriptionTable } from '../../components/SuppliesTable';
 import { ModelCtx } from '../../context';
@@ -21,7 +21,9 @@ const ReportDetails = props => {
 
     return (
         <Page>            
-            <Navbar title={"Reporte de la labor"} style={{maxHeight:"40px", marginBottom:"0px"}}/>
+            <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
+                <NavbarTitle {...props} title={"Reporte de la labor"}/>
+            </Navbar>
             <Block className={classes.HeaderBlock}>
                 <p><b>Nombre: </b>{report.name}</p>
                 <p><b>Fecha y hora: </b>{moment(report.timestamp).format("DD/MM/YYYY - HH:mm")}</p>
@@ -170,8 +172,6 @@ const ReportDetails = props => {
                     <Col width={20}></Col>
                 </Row>
             }
-            
-            <BackButton {...props}/>
             
         </Page>
     );

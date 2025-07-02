@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Temperature Slider</title>
+  <style>
+    .slider-container {
+      position: relative;
+      width: 600px;
+      height: 30px;
+      margin: 50px;
+      background: linear-gradient(to right,
+        green 0%, green 11.1%,
+        yellow 11.1%, yellow 55.5%,
+        red 55.5%, red 100%);
+      border-radius: 5px;
+    }
+
+    .indicator {
+      position: absolute;
+      top: -10px;
+      width: 2px;
+      height: 50px;
+      background-color: red;
+    }
+
+    .temperature-label {
+      margin-top: 10px;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="slider-container" id="slider">
+    <div class="indicator" id="indicator"></div>
+  </div>
+
+  <div class="temperature-label" id="label"></div>
+
+  <script>
+    const minTemp = 15;
+    const maxTemp = 60;
+
+    // Set this to any value in the range to test
+    const currentTemperature = 34; // You can make this dynamic
+
+    const slider = document.getElementById('slider');
+    const indicator = document.getElementById('indicator');
+    const label = document.getElementById('label');
+
+    const sliderWidth = slider.clientWidth;
+
+    const relativePosition = (currentTemperature - minTemp) / (maxTemp - minTemp);
+    const pixelPosition = relativePosition * sliderWidth;
+
+    indicator.style.left = `${pixelPosition}px`;
+
+    label.textContent = `Current Temperature: ${currentTemperature}°C`;
+  </script>
+
+</body>
+</html>

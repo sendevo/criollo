@@ -1,5 +1,5 @@
 import { Block, Radio, Row, Col, BlockTitle } from 'framework7-react';
-
+import Typography from '../Typography';
 
 const NozzleSeparationSelector = props => {
 
@@ -11,7 +11,7 @@ const NozzleSeparationSelector = props => {
 
     return (
         <Block style={{margin:"0px"}}>
-            <BlockTitle>Configuración de botalón</BlockTitle>
+            <BlockTitle><Typography variant='subtitle'>Configuración de botalón</Typography></BlockTitle>
             <Row>
                 <Col style={{textAlign:"center"}}>
                     <Radio 

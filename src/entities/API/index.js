@@ -81,6 +81,17 @@ const parameterNames = { // Nombres de los parametros para mostrar en mensajes d
     products: "Lista de productos"
 };
 
+export const dropletSizesColors = { // Colores de los rangos de tamaño de gota
+    "UC": "black",
+    "XC": "white",
+    "VC": "blue",
+    "C": "green",
+    "M": "yellow",
+    "F": "orange",
+    "VF": "red",
+    "XF": "purple"
+};
+
 const getParameterNames = paramList => paramList.map(key => parameterNames[key]).join(", ");
 
 const checkParams = (schema, params) => { // Valida parametros y genera mensaje de error
