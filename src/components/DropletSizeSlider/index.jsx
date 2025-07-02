@@ -22,7 +22,7 @@ const DropletSizeSlider = ({ min, max, ranges, value }) => {
     const gradient = ranges.map(range => {
         const startPct = getPercentage(range.from);
         const endPct = getPercentage(range.to);
-        return `${range.color} ${startPct}%, ${range.color} ${endPct}%`;
+        return `${range.background} ${startPct}%, ${range.background} ${endPct}%`;
     }).join(', ');
 
     // Calcular la posicion del indicador
@@ -61,6 +61,7 @@ const DropletSizeSlider = ({ min, max, ranges, value }) => {
                                         fontSize: '12px',
                                         whiteSpace: 'nowrap',
                                         overflow: 'hidden',
+                                        color: range.color,
                                         pointerEvents: 'none'
                                     }}>
                                     {range.label}

@@ -1,5 +1,5 @@
 import { Menu, MenuDropdown, MenuDropdownItem, MenuItem } from 'framework7-react';
-import nozzles from '../../data/nozzles';
+import nozzles from '../../data/nozzles_droplet_sizes.json';
 import nozzleIcons from './nozzleIcons';
 import classes from './style.module.css';
 

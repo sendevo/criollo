@@ -82,14 +82,38 @@ const parameterNames = { // Nombres de los parametros para mostrar en mensajes d
 };
 
 export const dropletSizesColors = { // Colores de los rangos de tamaño de gota
-    "UC": "black",
-    "XC": "white",
-    "VC": "blue",
-    "C": "green",
-    "M": "yellow",
-    "F": "orange",
-    "VF": "red",
-    "XF": "purple"
+    "UC": {
+        background: "black",
+        color: "white"
+    },
+    "XC": {
+        background: "white",
+        color: "black"
+    },
+    "VC": {
+        background: "blue",
+        color: "white"
+    },
+    "C": {
+        background: "green",
+        color: "white"
+    },
+    "M": {
+        background: "yellow",
+        color: "black"
+    },
+    "F": {
+        background: "orange",
+        color: "black"
+    },
+    "VF": {
+        background: "red",
+        color: "white"
+    },
+    "XF": {
+        background: "purple",
+        color: "white"
+    }
 };
 
 export const getDropletSizeLabel = (pressure, ranges) => {

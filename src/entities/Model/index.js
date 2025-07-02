@@ -1,7 +1,7 @@
 import { generateId } from "../../utils";
 import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from "@capacitor/core";
-import nozzles from '../../data/nozzles.json';
+import nozzles from '../../data/nozzles_droplet_sizes.json';
 
 // Esta clase Singleton se encarga de manejar el estado persistente de las variables globales.
 

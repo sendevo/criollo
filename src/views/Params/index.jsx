@@ -491,7 +491,7 @@ const Params = props => {
                             max={6}
                             ranges={nozzle.droplet_sizes.map(range => ({
                                 ...range,
-                                color: dropletSizesColors[range.label]
+                                ...dropletSizesColors[range.label] // Agregar color y fondo
                             }))}
                             value={workPressure}/>
                     </div>
