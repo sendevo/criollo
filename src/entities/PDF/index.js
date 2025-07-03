@@ -11,8 +11,6 @@ import { logoCriollo, membreteCriollo } from '../../assets/base64';
 
 //pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
-//console.log(pdfMake);
-
 const styles = { // Definicion de estilos de las secciones del reporte
     header: {
         fontSize: 18,

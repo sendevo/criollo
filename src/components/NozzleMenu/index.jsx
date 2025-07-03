@@ -1,5 +1,5 @@
 import { Menu, MenuDropdown, MenuDropdownItem, MenuItem } from 'framework7-react';
-import nozzles from '../../data/nozzles';
+import nozzles from '../../data/nozzles_droplet_sizes.json';
 import nozzleIcons from './nozzleIcons';
 import classes from './style.module.css';
 
@@ -24,7 +24,6 @@ const NozzleMenu = ({selection, onOptionSelected}) => {
     const level2 = selection[1] > -1 ? getChild([selection[0], selection[1]])?.childs || [] : [];
     const level3 = selection[2] > -1 ? getChild([selection[0], selection[1], selection[2]])?.childs || [] : [];
 
-
     const handleClick = (level, index) => {
         let newSelection = [...selection];
         newSelection[level] = index;
@@ -32,14 +31,7 @@ const NozzleMenu = ({selection, onOptionSelected}) => {
         for (let i = level + 1; i < newSelection.length; i++)
             newSelection[i] = -1;
 
-        const node = getChild(newSelection.slice(0, level + 1));
-        
-        const hasParameters = node.b !== undefined && node.c !== undefined;
-
-        onOptionSelected(newSelection, hasParameters ? node : null);
-
-        //const hasChildren = node?.childs && node.childs.length > 0;
-        //onOptionSelected(newSelection, hasChildren ? null : node);
+        onOptionSelected(newSelection);
     };
 
     return (

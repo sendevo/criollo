@@ -9,6 +9,7 @@ import {
 } from 'framework7-react';
 import logoInta from '../../assets/logo_inta.png';
 import { NavbarTitle } from '../../components/Buttons';
+import { VERSION_NAME } from '../../entities/Model';
 
 const About = props => (
     <Page name="about">
@@ -21,7 +22,7 @@ const About = props => (
                     <AccordionContent>
                         <Block>
                             <center>
-                                    <h3>Calibrador CRIOLLO 5.0.0</h3>
+                                    <h3>Calibrador CRIOLLO {VERSION_NAME}</h3>
                             </center>
                             <h3>Staff</h3>
                             <p><b>Autor:</b> Juan Pablo D'Amico</p>
