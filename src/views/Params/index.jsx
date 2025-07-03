@@ -16,7 +16,7 @@ import {
     computePt,
     computeVa,
     dropletSizesColors,
-    getDropletSizeLabel
+    dropletSizeRange
 } from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzles from '../../assets/icons/cant_picos2.png';
@@ -46,14 +46,13 @@ const Params = props => {
 
     const [nozzleSelection, setNozzleSelection] = useState(model.nozzleSelection || [-1, -1, -1, -1]);
 
-    const [nozzle, setNozzle] = useState(null);
+    const nozzle = model.getNozzle(nozzleSelection);
 
     const {
         nozzleSeparation,
         nozzleNumber,
         nominalFlow,
         nominalPressure,
-        dropletSizes,
         productDensity,
         workVelocity,
         workVelocityUpdated,
@@ -146,9 +145,9 @@ const Params = props => {
         model.update("nozzleNumber", n);
     };
 
-    const handleNozzleSelected = (selection, nz) => {        
+    const handleNozzleSelected = selection => {        
         setNozzleSelection(selection);
-        setNozzle(nz);
+        const nz = model.getNozzle(selection);
         model.update("nozzleSelection", selection);
         if(nz){
             try{
@@ -483,12 +482,14 @@ const Params = props => {
             { nozzle?.droplet_sizes &&
                 (nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure) ?
                     <div style={{paddingLeft:"20px", paddingRight:"20px", marginBottom:"10px"}}>
+                        {/*
                         <Typography variant="small" sx={{ marginBottom: '5px', color: "#000" }}>
                             <b>Tamaño de gota:</b> {getDropletSizeLabel(workPressure, nozzle.droplet_sizes) || "No disponible"}
                         </Typography>
+                        */}
                         <DropletSizeSlider
-                            min={1.5}
-                            max={6}
+                            min={dropletSizeRange.min}
+                            max={dropletSizeRange.max}
                             ranges={nozzle.droplet_sizes.map(range => ({
                                 ...range,
                                 ...dropletSizesColors[range.label] // Agregar color y fondo

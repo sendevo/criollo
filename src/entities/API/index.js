@@ -1,8 +1,9 @@
+/** Misc */
 const round2 = x => Math.round(x*100)/100;
 const isString = value => (typeof value === 'string' || value instanceof String) && value !== "";
-//const isPositiveInteger = value => Number.isInteger(value) && value > 0;
 const isFloat = value => Number.isFinite(value);
 const isPositiveFloat = value => Number.isFinite(value) && value > 0;
+
 
 const schemas = { // Esquemas de validación de parametros
     computeQNom:{
@@ -60,7 +61,16 @@ const schemas = { // Esquemas de validación de parametros
     }
 };
 
-// Validación de lista de parametros 
+export const presentationUnits = [
+    "ml/ha", // 0
+    "gr/ha", // 1
+    "ml/100l", // 2
+    "gr/100l" // 3
+];
+
+
+
+/** Validación de lista de parametros */
 const validate = (schema, object) => Object.keys(schema)
     .filter(key => object ? !schema[key](object[key]) : false)
     .map(key => key);
@@ -81,6 +91,16 @@ const parameterNames = { // Nombres de los parametros para mostrar en mensajes d
     products: "Lista de productos"
 };
 
+const getParameterNames = paramList => paramList.map(key => parameterNames[key]).join(", ");
+
+const checkParams = (schema, params) => { // Valida parametros y genera mensaje de error
+    const wrongKeys = validate(schema, params);
+    if(wrongKeys.length > 0) 
+        throw new Error(`Parámetros incorrectos: ${getParameterNames(wrongKeys)}`);
+};
+
+
+/** Tamaño de gota */
 export const dropletSizesColors = { // Colores de los rangos de tamaño de gota
     "UC": {
         background: "black",
@@ -116,25 +136,17 @@ export const dropletSizesColors = { // Colores de los rangos de tamaño de gota
     }
 };
 
+export const dropletSizeRange = {min: 0, max: 6}; // Rango de presiones para slider de tamaño de gota
+
 export const getDropletSizeLabel = (pressure, ranges) => {
     const size = ranges.find(range => pressure >= range.from && pressure <= range.to);
     return size ? size.label : null;
 };
 
-const getParameterNames = paramList => paramList.map(key => parameterNames[key]).join(", ");
 
-const checkParams = (schema, params) => { // Valida parametros y genera mensaje de error
-    const wrongKeys = validate(schema, params);
-    if(wrongKeys.length > 0) 
-        throw new Error(`Parámetros incorrectos: ${getParameterNames(wrongKeys)}`);
-};
 
-export const presentationUnits = [
-    "ml/ha", // 0
-    "gr/ha", // 1
-    "ml/100l", // 2
-    "gr/100l" // 3
-];
+
+/** Cálculos de aplicación */
 
 export const computeQNom = params => {
     checkParams(schemas.computeQNom, params);

@@ -67,5 +67,5 @@
 0,9,tt_i60_110,TT I60 110,abanico plano turbo doble inducción,teejet_tti60,UC,UC,UC,XC,XC,XC,VC,VC,VC,VC
 0,9,ai_80,AI 80,abanico plano antideriva,ai_80,-,XC,XC,XC,XC,VC,VC,VC,VC,VC
 0,9,ai_110,AI 110,abanico plano antideriva,ai_110,-,XC,XC,XC,VC,VC,VC,VC,VC,C
-0,9,ai_xr_110,AI XR 110,abanico plano antideriva rango extendido,teejet_aixr,XC,VC,XC,XC,VC,C,C,C,C,C
+0,9,ai_xr_110,AI XR 110,abanico plano antideriva rango extendido,teejet_aixr,VC,VC,VC,VC,C,C,C,C,C,C
 0,9,dg_110_twin,DG 110 TWIN,doble abanico plano baja deriva,teejet_dg_110_twin,-,C,C,C,M,M,-,-,-,-

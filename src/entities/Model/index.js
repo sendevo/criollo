@@ -3,13 +3,50 @@ import { Preferences } from '@capacitor/preferences';
 import { Capacitor } from "@capacitor/core";
 import nozzles from '../../data/nozzles_droplet_sizes.json';
 
-// Esta clase Singleton se encarga de manejar el estado persistente de las variables globales.
+// A partir de version 5.0.0, se agrega modelo de migraciones
+export const APP_NAME = "Criollo";
+export const ANDROID_VERSION_CODE = "20"; // Para app store
+export const VERSION_NAME = "5.0.0";
+export const BUILD_DATE = 1751553918425; // 3-7-2025 11:45hs
+
+// Lista de versiones
+const DB_NAMES = [
+    "criollo_model4",
+    "criollo_model_5.0.0"
+];
+
+const migrationFunctions = [
+    oldData => oldData // DB_NAMES[0] -> DB_NAMES[1] (no hay cambios)
+];
 
 
-// El almacenamiento de datos se realiza con el valor de la version.
-// Las migraciones entre versiones no estan implementadas. 
-// Ante cualquier cambio en el modelo, se debe incrementar la version.
-const version = '4'; 
+class lsPreferences { // Fallback para localStorage en Capacitor
+    constructor(){}
+
+    get({key}){
+        return new Promise(resolve => {
+            const data = localStorage.getItem(key);
+            resolve({value:data});
+        });
+    }
+
+    set({key, value}){
+        return new Promise(resolve => {
+            localStorage.setItem(key, value);
+            resolve();
+        });
+    }
+
+    clear(){
+        return new Promise(resolve => {
+            localStorage.clear();
+            resolve();
+        });
+    }
+};
+
+const ls = Capacitor.isNativePlatform() ? Preferences : new lsPreferences(); // Usar Capacitor Preferences o localStorage
+
 
 const get_blank_report = () => {
     return {
@@ -57,14 +94,17 @@ const defaultFormParams = {
     products: [], // Lista de prductos
     supplies: {}, // Insumos y cantidades
 
-    currentReport: get_blank_report()
+    currentReport: get_blank_report(),
+    reports: [], // Lista de reportes
 };
+
+// Esta clase Singleton se encarga de manejar el estado persistente de las variables globales.
 
 export default class CriolloModel {
     constructor(){
         Object.assign(this, defaultFormParams);
         this.reports = []; // Esta variable debe ser persistente
-        this.getFromLocalStorage();
+        this.loadDatabase();
     }
 
     update(param, value){ // Actualizar uno o mas parametros
@@ -78,7 +118,7 @@ export default class CriolloModel {
             updated = true;
         }
         if(updated)
-            this.saveToLocalStorage();
+            this.updateDatabase();
         else{ 
             //console.log("Error: no se pudo actualizar el modelo");
             Function.prototype();
@@ -111,81 +151,78 @@ export default class CriolloModel {
         return current && typeof current === 'object' ? current.long_name : null;
     }
 
-    /// Persistencia de parametros
-
-    saveToLocalStorage(){ // Guardar datos en localStorage
-        const key = "criollo_model"+version;
-        const value = JSON.stringify(this);
-        if(Capacitor.isNativePlatform())
-            Preferences.set({key, value});
-        else{
-            if(window.avt){
-                try{
-                    const userData = window.avt.generalData.getUserData();
-                    const data = {
-                        id: userData.id,
-                        key: key,
-                        value: {data: value},
-                        overwrite: true
-                    };                    
-                    window.avt.storage.user.put(data);
-                }catch(e){
-                    //console.log("Error al subir datos storage avt");
-                    //console.log(e);
-                    Function.prototype();
-                }
-            }else{
-                //console.log("set: Fallback a localStorage");
-                localStorage.setItem(key, value);
-            }
+    getNozzle = selection => {
+        const level = selection.findIndex(x => x === -1); // Max prof. de seleccion
+        const node = selection
+            .slice(0, level) // Tomar los niveles seleccionados
+            .reduce((acc, idx) => { // Nodo seleccionado
+                if (!acc || !Array.isArray(acc.childs) || idx < 0) return null;
+                return acc.childs[idx];
+            }, { childs: nozzles });
+        if(node){
+            const hasParameters = node.b !== undefined && node.c !== undefined;
+            return hasParameters ? node : null; // Retornar solo si tiene parametros para evitar error de calculo
         }
+        return null;
     }
 
-    getFromLocalStorage(){ // Recuperar datos de localStorage
-        if(Capacitor.isNativePlatform())
-            Preferences.get({key: "criollo_model"+version}).then(result => {
-                if(result.value)
-                    Object.assign(this, JSON.parse(result.value));
-                else{
-                    //console.log("Nueva version de CriolloModel");
-                    Preferences.clear();
+    /// Persistencia de parametros
+    updateDatabase(){ // Guardar datos en localStorage
+        const key = DB_NAMES[DB_NAMES.length - 1]; // Ultima version
+        const value = JSON.stringify(this);
+        ls.set({key, value});
+    }
+
+    async loadDatabase(){ // Recuperar datos de localStorage
+        const jobs = DB_NAMES.map(name => ls.get({ key: name }));
+        const results = await Promise.all(jobs);
+        
+        let currentIndex = -1;
+        let currentData = null;
+
+        for (let i = DB_NAMES.length - 1; i >= 0; i--) {
+            const result = results[i];
+            if (result.value) {
+                currentIndex = i;
+                try {
+                    currentData = JSON.parse(result.value);
+                } catch (e) {
+                    console.error(`Fallo la lectura de datos para ${DB_NAMES[i]}`, e);
+                    return null;
                 }
-            });
-        else{
-            if(window.avt){
-                const userData = window.avt.generalData.getUserData();
-                const req = {ids:[userData.id], keys:["criollo_model"+version]};
-                window.avt.storage.user.get(req)
-                .then(result => {                    
-                    //console.log(result);
-                    if(result){
-                        if(result.info?.objects[userData.id]){
-                            if(result.info.objects[userData.id]["criollo_model"+version]){
-                                const data = result.info.objects[userData.id]["criollo_model"+version].data;
-                                Object.assign(this, JSON.parse(data));
-                            }
-                        }
-                    }
-                });
-            }else{
-                //console.log("get: Fallback a localStorage");
-                const content = localStorage.getItem("criollo_model"+version);
-                if(content){
-                    const model = JSON.parse(content);
-                    if(model)
-                        Object.assign(this, model);
-                }else{ 
-                    // Si no hay datos en localStorage, puede ser por cambio de version, entonces borrar todo
-                    //console.log("Nueva version de CriolloModel");
-                    localStorage.clear();
-                }
+                break;
             }
         }
+
+        if (currentIndex === -1) {
+            console.log("No se encontró una base de datos existente.");
+            currentData = { ...defaultFormParams }; // Crear datos por defecto
+            return null;
+        }
+
+        for (let i = currentIndex; i < DB_NAMES.length - 1; i++) {
+            const migrationFn = migrationFunctions[i];
+            if (typeof migrationFn !== "function") {
+                console.warn(`Falta la migración de ${DB_NAMES[i]} a ${DB_NAMES[i+1]}`);
+                break;
+            }
+            currentData = migrationFn(currentData);
+        }
+
+        await ls.set({
+            key: DB_NAMES[DB_NAMES.length - 1],
+            value: JSON.stringify(currentData)
+        });
+
+        for (let i = 0; i < DB_NAMES.length - 1; i++) // Limpiar versiones anteriores
+            await ls.set({ key: DB_NAMES[i], value: null });
+
+        Object.assign(this, currentData); // Actualizar el modelo con los datos cargados
     }
 
     clearForms() { // Limpiar formularios
         Object.assign(this, defaultFormParams);
-        this.saveToLocalStorage();
+        this.updateDatabase();
     }
 
     /// Reportes
@@ -219,14 +256,14 @@ export default class CriolloModel {
 
     clearReport(){ // Limpiar reporte actual
         this.currentReport = get_blank_report();
-        this.saveToLocalStorage();
+        this.updateDatabase();
     }
 
     renameReport(id, name){
         const index = this.reports.findIndex(report => report.id === id);
         if(index !== -1){
             this.reports[index].name = name;
-            this.saveToLocalStorage();
+            this.updateDatabase();
             return {
                 status: "success"
             };
@@ -242,7 +279,7 @@ export default class CriolloModel {
         const index = this.reports.findIndex(report => report.id === id);
         if(index !== -1){
             this.reports.splice(index, 1);
-            this.saveToLocalStorage();
+            this.updateDatabase();
             return {
                 status: "success"
             };
