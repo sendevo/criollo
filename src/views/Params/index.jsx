@@ -1,4 +1,16 @@
-import { f7, Navbar, Page, List, BlockTitle, Row, Col, Button } from 'framework7-react';
+import { 
+    f7, 
+    Navbar, 
+    Page, 
+    List,
+    ListItem, 
+    AccordionContent,
+    Block, 
+    BlockTitle, 
+    Row, 
+    Col, 
+    Button 
+} from 'framework7-react';
 import { useContext, useEffect, useState } from 'react';
 import { NavbarTitle, CalculatorButton } from '../../components/Buttons';
 import { NozzleSeparationSelector } from '../../components/Selectors';
@@ -25,6 +37,7 @@ import iconPressure from '../../assets/icons/presion.png';
 import iconDensity from '../../assets/icons/densidad.png';
 import iconVolume from '../../assets/icons/dosis.png';
 
+const Divider = () => <div style={{height: "1px", backgroundColor: "#ddd", width: "95%", margin: "10px auto"}}></div>;
 
 const Params = props => {
 
@@ -371,7 +384,11 @@ const Params = props => {
                 </Input>
             </List>
 
-            <BlockTitle style={{marginBottom: 5}}><Typography variant='subtitle'>Capacidad del pico</Typography></BlockTitle>
+            <Divider/>
+
+            <BlockTitle style={{marginBottom: "5px", marginTop: "5px"}}>
+                <Typography variant='subtitle'>Capacidad del pico</Typography>
+            </BlockTitle>
             
             <center className="help-target-nozzle-select">
                 <NozzleMenu 
@@ -380,7 +397,7 @@ const Params = props => {
             </center>
 
             <div style={{paddingLeft:"20px"}}>
-                <Typography variant="small" sx={{color:"#000"}}><b>Selección:</b> {model.getNozzleName(nozzleSelection)}</Typography>
+                <Typography variant="small" sx={{color:"#000"}}>Selección: {model.getNozzleName(nozzleSelection)}</Typography>
             </div>
 
             <List form noHairlinesMd style={{marginBottom:"5px", marginTop: "0px"}}>    
@@ -408,22 +425,11 @@ const Params = props => {
                 </Row>
             </List>
 
-            <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}><Typography variant='subtitle'>Propiedades del caldo</Typography></BlockTitle>
+            <Divider/>
 
-            <List form noHairlinesMd style={{marginBottom:"10px"}}>
-                <Input
-                    slot="list"
-                    label="Densidad de producto"
-                    name="workDensity"
-                    type="number"
-                    unit="g/L"
-                    icon={iconDensity}
-                    value={productDensity}
-                    onChange={handleProductDensityChange}>
-                </Input>
-            </List>
-
-            <BlockTitle style={{marginBottom: "5px"}}><Typography variant='subtitle'>Parámetros de pulverización</Typography></BlockTitle>
+            <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}>
+                <Typography variant='subtitle'>Parámetros de pulverización</Typography>
+            </BlockTitle>
 
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
 
@@ -437,7 +443,7 @@ const Params = props => {
                             type="number"
                             unit="km/h"
                             icon={iconVelocity}
-                            value={workVelocity}
+                            value={workVelocity.toFixed()}
                             onIconClick={computeWorkVelocity}
                             onChange={handleWorkVelocityChange}>
                         </Input>        
@@ -473,36 +479,63 @@ const Params = props => {
                     type="number"
                     unit="l/ha"
                     icon={iconVolume}
-                    value={workVolume}
+                    value={workVolume.toFixed()}
                     onIconClick={computeWorkVolume}
                     onChange={handleWorkVolumeChange}>
                 </Input>
             </List>
 
             { nozzle?.droplet_sizes &&
-                (nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure) ?
+                <div>
+                    <Divider/>
+                    <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}>
+                        <Typography variant='subtitle'>Tamaño de gota</Typography>
+                    </BlockTitle>
                     <div style={{paddingLeft:"20px", paddingRight:"20px", marginBottom:"10px"}}>
-                        {/*
-                        <Typography variant="small" sx={{ marginBottom: '5px', color: "#000" }}>
-                            <b>Tamaño de gota:</b> {getDropletSizeLabel(workPressure, nozzle.droplet_sizes) || "No disponible"}
-                        </Typography>
-                        */}
-                        <DropletSizeSlider
-                            min={dropletSizeRange.min}
-                            max={dropletSizeRange.max}
-                            ranges={nozzle.droplet_sizes.map(range => ({
-                                ...range,
-                                ...dropletSizesColors[range.label] // Agregar color y fondo
-                            }))}
-                            value={workPressure}/>
+                        {nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure ? // Ver si la presion de trabajo esta dentro del rango de tamaños de gota
+                            <DropletSizeSlider
+                                min={dropletSizeRange.min}
+                                max={dropletSizeRange.max}
+                                ranges={nozzle.droplet_sizes.map(range => ({
+                                        ...range,
+                                        ...dropletSizesColors[range.label] // Agregar color y fondo
+                                    }))}
+                                    value={workPressure}/>                            
+                        :
+                            <Typography variant="small" sx={{ marginBottom: '5px', color: "#000" }}>
+                                Presión de trabajo fuera de rango
+                            </Typography>
+                        
+                        }
                     </div>
-                :
-                <div style={{paddingLeft:"20px", paddingRight:"20px", marginBottom:"10px"}}>
-                    <Typography variant="small" sx={{ marginBottom: '5px', color: "#000" }}>
-                        <b>Tamaño de gota:</b> Presión de trabajo fuera de rango
-                    </Typography>
                 </div>
             }
+
+            <Divider/>
+
+            <List noHairlinesMd accordionList style={{margin: "0"}}>
+                <ListItem accordionItem>
+                    <span slot="title">
+                        <Typography variant='subtitle' sx={{paddingLeft: "5px"}}>
+                            Editar propiedades del caldo
+                        </Typography>
+                    </span>
+                    <AccordionContent>
+                        <List form noHairlinesMd style={{marginBottom:"10px"}}>
+                            <Input
+                                slot="list"
+                                label="Densidad de producto"
+                                name="workDensity"
+                                type="number"
+                                unit="g/L"
+                                icon={iconDensity}
+                                value={productDensity}
+                                onChange={handleProductDensityChange}>
+                            </Input>
+                        </List>
+                    </AccordionContent>
+                </ListItem>
+            </List>
 
             <Row style={{marginTop:20, marginBottom: 20}}>
                 <Col width={20}></Col>

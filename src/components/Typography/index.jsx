@@ -26,23 +26,24 @@ const variantStyles = {
         margin: '0px'
     },
     subtitle: {
-        fontSize: '16px',
+        fontSize: '14px',
         margin: '6px 0'
     },
     small: {
-        fontSize: '12px',
-        color: '#666',
+        fontSize: '13px',
+        color: '#333',
         margin: '4px 0'
     }
 }; 
 
 const Typography = ({ children, sx, variant }) => {
     
-    let style = sx || defaultStyle;
+    let style = {...defaultStyle, ...sx};
     
-    if (variant && variantStyles[variant]) {
-        style = {...variantStyles[variant], ...style};
-    }  
+    if (variant && variantStyles[variant])
+        style = {...style, ...variantStyles[variant]};
+
+    console.log(style.fontSize);
 
     return (
         <p style={style}>
