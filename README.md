@@ -1,4 +1,4 @@
-# Criollo 4 
+# Criollo 5 
 
 Criollo es una aplicación utilitaria para tablets y smartphones que permite calcular los principales parámetros de operación de pulverizadoras terrestres de botalón y realizar la verificación estática correspondiente.  
 Al usar la aplicación es posible calcular alternativamente la velocidad de avance del equipo, la presión de trabajo y el volumen de pulverización para un tamaño de pico y una distancia entre picos determinada. También es posible realizar la verificación de los picos y obtener el diagnóstico rápido del estado de los mismos.  
@@ -9,6 +9,11 @@ Una vez instalada, la utilización de Criollo no requiere disponibilidad de señ
 
 ![criollo](doc/promo_criollo.jpg)
 
+### Versión 5.0 [20] (Tamaño de gota)
+  - Nuevo nivel de picos para norma ISO y CEN.  
+  - Cálculo de tamaño de gota según presión de trabajo.  
+  - Agregado de parámetros al reporte.  
+
 ### Versión 4.2 [17] (Migración nativo -> híbrido)
   - Implementación con Vite (Rollup): ReactJS (v18) + Framework7 + Capacitor.
   - Nueva presentación. Mejoras en control y validación de campos.  
@@ -16,7 +21,6 @@ Una vez instalada, la utilización de Criollo no requiere disponibilidad de señ
   - Los reportes se generan secuencialmente como en Campero y Campero Fertilizadoras.  
   - Los formularios tienen almacenamiento persistente de datos, no se pierden al cambiar de vistas o si la app queda en segundo plano, pero se borran al salir (previo confirmacion del usuario).  
   - El almacenamiento de los datos se realiza en Storage de Capacitor en el caso nativo, en avt.storage en el caso de la extensión Auravant o en localStorage en el caso web.  
-
 
 ## Instalación y despliegue
 
@@ -107,37 +111,3 @@ Para compilar extension auravant, agregar el siguiente tag dentro del ```<head>`
 ```html
 <script src="https://auraview.auravant.com/sdk/v1.0/aura-package_v1.0.js"></script>
 ``` 
-
-
-### Backlog
-#### Progreso: 100%
-
-  - [x] Seccion parámetros de pulverización.  
-    - [x] Vista con formulario.  
-    - [x] Seleccion de picos.  
-    - [x] Cálculo de resultados.  
-    - [x] Medidor de velocidad.  
-    - [x] Control de campos.  
-    - [x] Cargar resultados a reporte.  
-  - [x] Sección verificación de picos.  
-    - [x] Vista con formulario.  
-    - [x] Cálculo de resultados.  
-    - [x] Control de campos.  
-    - [x] Cargar resultados a reporte.  
-  - [x] Sección calculo de mezclas.  
-    - [x] Vista con formulario.  
-    - [x] Cálculo de insumos.  
-    - [x] Navigator/Capacitor GPS.  
-    - [x] Vista de resultados.  
-    - [x] Control de campos.  
-    - [x] Cargar resultados a reporte.  
-  - [x] Sección reportes.  
-    - [x] Vista de listado de reportes.  
-    - [x] Gestión de reportes.  
-    - [x] Vista de presentación de reportes.  
-    - [x] Exportar reporte a PDF y compartir.  
-  - [x] Sección Información y ayuda.  
-    - [x] Menú de enlaces.  
-    - [x] Sección acerca de.  
-    - [x] Enlace informacion adicional.  
-    - [x] Recorrido por la app (modo ayuda).  

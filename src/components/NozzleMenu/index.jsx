@@ -1,48 +1,46 @@
 import { Menu, MenuDropdown, MenuDropdownItem, MenuItem } from 'framework7-react';
-import nozzles from '../../data/nozzles';
+import nozzles from '../../data/nozzles_droplet_sizes.json';
 import nozzleIcons from './nozzleIcons';
 import classes from './style.module.css';
 
 const SelectedOption = props => (
     props.selection ? 
-    <div className={classes.SelectedOptionContainer}>
-        {props.selection.img && <img className={classes.SelectedOptionIcon} src={nozzleIcons[props.selection.img]} alt={"icon"} />}
-        <span className={classes.SelectedOptionText} >{props.selection.name} </span>
-    </div> 
+        <div className={classes.SelectedOptionContainer}>
+            {props.selection.img && <img className={classes.SelectedOptionIcon} src={nozzleIcons[props.selection.img]} alt={"icon"} />}
+            <span className={classes.SelectedOptionText} >{props.selection.name} </span>
+        </div> 
     : 
-    "Elegir..."
+        "Elegir..."
 );
 
-const NozzleMenu = props => { 
-    
-    const level1 = props.selection[0] > -1 ? nozzles[props.selection[0]].childs : [];
-    const level2 = props.selection[1] > -1 && nozzles[props.selection[0]].childs[props.selection[1]].childs ? nozzles[props.selection[0]].childs[props.selection[1]].childs : [];
-    const level3 = props.selection[2] > -1 && nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs ? nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs : [];
+const NozzleMenu = ({hideNozzleTypes, selection, onOptionSelected}) => { 
 
-    const handleClick = (lvl, idx) => {
-        switch(lvl){
-            case 0:
-                props.onOptionSelected([idx, -1, -1, -1]);
-                break;
-            case 1:
-                props.onOptionSelected([props.selection[0], idx, -1, -1], nozzles[props.selection[0]].childs[idx].childs ? null : nozzles[props.selection[0]].childs[idx]);
-                break;
-            case 2: 
-                props.onOptionSelected([props.selection[0], props.selection[1], idx, -1], nozzles[props.selection[0]].childs[props.selection[1]].childs[idx].childs ? null : nozzles[props.selection[0]].childs[props.selection[1]].childs[idx]);    
-                break;
-            case 3:
-                props.onOptionSelected([props.selection[0], props.selection[1], props.selection[2], idx], nozzles[props.selection[0]].childs[props.selection[1]].childs[props.selection[2]].childs[idx]);                    
-                break;
-            default:
-                break;
-        }
+    const getChild = path => path.reduce((acc, idx) => {
+            if (!acc || !Array.isArray(acc.childs) || idx < 0) return null;
+            return acc.childs[idx];
+        }, { childs: nozzles });
+
+    const filterNozzleTypes = level => hideNozzleTypes ? level.filter(nozzle => !Array.isArray(nozzle.droplet_sizes)) : level;
+
+    const level1 = filterNozzleTypes(selection[0] > -1 ? getChild([selection[0]])?.childs || [] : []);
+    const level2 = filterNozzleTypes(selection[1] > -1 ? getChild([selection[0], selection[1]])?.childs || [] : []);
+    const level3 = filterNozzleTypes(selection[2] > -1 ? getChild([selection[0], selection[1], selection[2]])?.childs || [] : []);
+
+    const handleClick = (level, index) => {
+        let newSelection = [...selection];
+        newSelection[level] = index;
+
+        for (let i = level + 1; i < newSelection.length; i++)
+            newSelection[i] = -1;
+
+        onOptionSelected(newSelection);
     };
 
     return (
         <div className={classes.MenuContainer}>
             <Menu>
-                <MenuItem className={classes.MenuItem} text={<SelectedOption selection={nozzles[props.selection[0]]} />} dropdown>
-                    <MenuDropdown left>                    
+                <MenuItem className={classes.MenuItem} text={<SelectedOption selection={nozzles[selection[0]]} />} dropdown>
+                    <MenuDropdown left>
                         {
                             nozzles.map((op, idx) => (
                                 <MenuDropdownItem 
@@ -57,7 +55,7 @@ const NozzleMenu = props => {
                 </MenuItem>
                 {
                     level1.length > 0 && 
-                    <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level1[props.selection[1]]} />} dropdown>
+                    <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level1[selection[1]]} />} dropdown>
                         <MenuDropdown center contentHeight="200px">
                             {
                                 level1.map((op, idx) => (
@@ -73,8 +71,8 @@ const NozzleMenu = props => {
                     </MenuItem>
                 }
                 {
-                    level2.length > 0 && 
-                    <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level2[props.selection[2]]} />} dropdown>
+                    level2.length > 0 &&
+                    <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level2[selection[2]]} />} dropdown>
                         <MenuDropdown center contentHeight="200px">                        
                             {
                                 level2.map((op, idx) => (
@@ -90,8 +88,8 @@ const NozzleMenu = props => {
                     </MenuItem>
                 }
                 {
-                    level3.length > 0 && 
-                    <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level3[props.selection[3]]} />} dropdown>
+                    level3.length > 0 &&
+                    <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level3[selection[3]]} />} dropdown>
                         <MenuDropdown right contentHeight="200px">                        
                             {
                                 level3.map((op, idx) => (

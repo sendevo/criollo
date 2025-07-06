@@ -1,18 +1,28 @@
 import { Link, Block } from 'framework7-react';
 import { FaPlay, FaStop, FaArrowLeft, FaPlus, FaStopwatch, FaTrash } from 'react-icons/fa';
 import classes from './style.module.css';
+import Typography from '../Typography';
 
 const BackButton = props => (
     <Block className={classes.Container}>
         <Link tooltip="Volver" 
             onClick={() => props.f7router.back()}
             className={classes.RoundButton} 
-            style={props.gray?{color:"black", backgroundColor:"rgba(200,200,200,.8)"}:{}}
-        >
+            style={props.gray?{color:"black", backgroundColor:"rgba(200,200,200,.8)"}:{}}>
             <FaArrowLeft />
         </Link>
     </Block>   
 ); 
+
+const NavbarTitle = props => (
+    <Link 
+        style={{color:"black", fontSize:"0.9em", padding:"0px 5px"}}
+        tooltip="Volver"
+        onClick={() => props.f7router.back()}>
+        <FaArrowLeft />
+        <Typography variant="title" sx={{paddingLeft:"10px"}}>{props.title}</Typography>
+    </Link>
+);
 
 const CalculatorButton = props => (
     <Block style={{textAlign: "center", margin:"0px", padding:"0px"}}>
@@ -58,6 +68,7 @@ const PlayButton = props => ( // Boton de control del cronometro
 
 export { 
     BackButton, 
+    NavbarTitle,
     CalculatorButton, 
     DeleteButton, 
     AddButton,

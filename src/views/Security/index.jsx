@@ -1,5 +1,5 @@
 import { Page, Navbar, Link } from 'framework7-react';
-import { BackButton } from '../../components/Buttons';
+import { NavbarTitle } from '../../components/Buttons';
 import pictogram from '../../assets/pictograma_seguridad.jpg';
 import infoIcon from '../../assets/icons/info.png';
 import classes from '../style.module.css';
@@ -18,7 +18,9 @@ const styles = {
 
 const Security = props => (
     <Page name="info">
-        <Navbar title="Seguridad y prevención" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
+        <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
+            <NavbarTitle {...props} title={"Seguridad y prevención"} />
+        </Navbar>
         <div style={styles.container}>
             <p style={styles.text}><span style={{...styles.important, ...styles.red}}>ATENCIÓN:</span> Consulte en la etiqueta del producto las medidas de seguridad recomendadas.</p>
             <img src={pictogram} alt="pictogram" style={{width:"100%", marginTop:"20px"}}/>
@@ -40,7 +42,6 @@ const Security = props => (
             </Link>
 
         </div>
-        <BackButton {...props} gray/>
     
     </Page>
 );

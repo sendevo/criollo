@@ -8,10 +8,6 @@ import Popovers from './components/Popover';
 import { ModelProvider, WalkthroughProvider } from './context';
 import './index.css';
 
-/*
-    CRIOLLO
-*/
-
 // Navegacion
 const pushState = page => window.history.pushState(null, null, page);
 

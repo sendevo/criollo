@@ -14,7 +14,7 @@ import {
 import { useContext, useState } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
 import Input from '../../components/Input';
-import { BackButton, DeleteButton, AddButton } from '../../components/Buttons';
+import { NavbarTitle, DeleteButton, AddButton } from '../../components/Buttons';
 import Toast from '../../components/Toast';
 import { ModelCtx, WalkthroughCtx } from '../../context';
 import * as API from '../../entities/API';
@@ -26,6 +26,7 @@ import iconVolume from '../../assets/icons/dosis.png';
 import iconArea from '../../assets/icons/sup_lote.png';
 import iconName from '../../assets/icons/reportes.png';
 import iconCapacity from '../../assets/icons/capacidad_carga.png';
+import Typography from '../../components/Typography';
 
 
 const getPosition = () => {
@@ -166,11 +167,13 @@ const Supplies = props => {
 
     return (
         <Page>            
-            <Navbar title="Calculador de insumos" style={{maxHeight:"40px", marginBottom:"0px"}}/>      
+            <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
+                <NavbarTitle {...props} title={"Calculador de mezclas"} />
+            </Navbar>   
             <BlockTitle 
                 style={{marginBottom:"0px", marginTop: "0px"}}
                 className="help-target-supplies-form">
-                    Datos del lote
+                    <Typography variant="subtitle">Datos del lote</Typography>                    
             </BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>    
                 <Input
@@ -204,7 +207,9 @@ const Supplies = props => {
                 </div>
             </List>
 
-            <BlockTitle style={{marginBottom:"0px", marginTop: "20px"}} className="help-target-supplies-capacity">Datos de aplicación</BlockTitle>
+            <BlockTitle className="help-target-supplies-capacity" style={{marginBottom:"0px", marginTop: "0px"}}>
+                <Typography variant="subtitle">Datos de aplicación</Typography>
+            </BlockTitle>
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
                 <Input
                     className="help-target-load-number"
@@ -239,7 +244,11 @@ const Supplies = props => {
                 </div>
             </List>
             <Block style={{marginTop: "0px", marginBottom: "0px"}}>
-                <BlockTitle className="help-target-supplies-add" style={{marginBottom:"0px", marginTop: "0px"}}>Lista de insumos</BlockTitle>
+                <BlockTitle 
+                    className="help-target-supplies-add" 
+                    style={{marginBottom:"0px", marginTop: "0px"}}>
+                        <Typography variant="subtitle">Lista de insumos</Typography>
+                </BlockTitle>
                 {
                     products.map((p, index) =>(
                         <Card key={p.key} style={{margin:"0px 0px 10px 0px"}}>
@@ -292,7 +301,7 @@ const Supplies = props => {
                 </Col>
                 <Col width={20}></Col>
             </Row>                
-            <BackButton {...props} />
+            
         </Page>
     );
 };

@@ -1,8 +1,9 @@
+/** Misc */
 const round2 = x => Math.round(x*100)/100;
 const isString = value => (typeof value === 'string' || value instanceof String) && value !== "";
-//const isPositiveInteger = value => Number.isInteger(value) && value > 0;
 const isFloat = value => Number.isFinite(value);
 const isPositiveFloat = value => Number.isFinite(value) && value > 0;
+
 
 const schemas = { // Esquemas de validación de parametros
     computeQNom:{
@@ -14,6 +15,7 @@ const schemas = { // Esquemas de validación de parametros
         Pt: v => isFloat(v),
         Vt: v => isPositiveFloat(v),
         d: v => isPositiveFloat(v),
+        Dp: v => isPositiveFloat(v),
         Qnom: v => isPositiveFloat(v),
         Pnom: v => isPositiveFloat(v)
     },
@@ -21,6 +23,7 @@ const schemas = { // Esquemas de validación de parametros
         Va: v => isPositiveFloat(v),
         Vt: v => isPositiveFloat(v),
         d: v => isPositiveFloat(v),
+        Dp: v => isPositiveFloat(v),
         Qnom: v => isPositiveFloat(v),
         Pnom: v => isPositiveFloat(v)
     },
@@ -28,6 +31,7 @@ const schemas = { // Esquemas de validación de parametros
         Va: v => isPositiveFloat(v),
         Pt: v => isPositiveFloat(v),
         d: v => isPositiveFloat(v),
+        Dp: v => isPositiveFloat(v),
         Qnom: v => isPositiveFloat(v),
         Pnom: v => isPositiveFloat(v)
     },
@@ -41,6 +45,9 @@ const schemas = { // Esquemas de validación de parametros
         Qnom: v => isPositiveFloat(v),
         Pnom: v => isPositiveFloat(v),
         Pt: v => isPositiveFloat(v)
+    },
+    computeQa: {
+        Dp: v => isPositiveFloat(v),
     },
     computeEffectiveFlow:{
         c: v => isPositiveFloat(v),
@@ -60,20 +67,31 @@ const schemas = { // Esquemas de validación de parametros
     }
 };
 
-// Validación de lista de parametros 
+export const presentationUnits = [
+    "ml/ha", // 0
+    "gr/ha", // 1
+    "ml/100l", // 2
+    "gr/100l" // 3
+];
+
+
+
+/** Validación de lista de parametros */
 const validate = (schema, object) => Object.keys(schema)
     .filter(key => object ? !schema[key](object[key]) : false)
     .map(key => key);
 
-const parameterNames = { // Nombres de los parametros para mostrar en mensajes de error
-    Qnom: "Caudal nominal",
-    Pnom: "Presión nominal",
-    Qb: "Caudal de bomba",
+// Nombres de los parametros para mostrar en mensajes de error
+const parameterNames = { // Al costado, notación de la documentación
+    Qnom: "Caudal nominal", // qn
+    Pnom: "Presión nominal", // pn
+    Qb: "Caudal de bomba", // qe * numero de picos
     d: "Distancia entre picos",
     n: "Número de picos",
-    Pt: "Presión de trabajo",
-    Va: "Volumen de aplicación",
-    Vt: "Velocidad de trabajo",
+    Pt: "Presión de trabajo", // pe (presión efectiva)
+    Va: "Volumen de aplicación", // Q
+    Vt: "Velocidad de trabajo", // V
+    Dp: "Densidad de producto", // D
     c: "Volumen recolectado",
     tms: "Tiempo de muestreo",
     A: "Superficie de trabajo", 
@@ -89,14 +107,56 @@ const checkParams = (schema, params) => { // Valida parametros y genera mensaje 
         throw new Error(`Parámetros incorrectos: ${getParameterNames(wrongKeys)}`);
 };
 
-export const presentationUnits = [
-    "ml/ha", // 0
-    "gr/ha", // 1
-    "ml/100l", // 2
-    "gr/100l" // 3
-];
 
-export const computeQNom = params => {
+/** Tamaño de gota */
+export const dropletSizesColors = { // Colores de los rangos de tamaño de gota
+    "UC": {
+        background: "black",
+        color: "white"
+    },
+    "XC": {
+        background: "white",
+        color: "black"
+    },
+    "VC": {
+        background: "blue",
+        color: "white"
+    },
+    "C": {
+        background: "green",
+        color: "white"
+    },
+    "M": {
+        background: "yellow",
+        color: "black"
+    },
+    "F": {
+        background: "orange",
+        color: "black"
+    },
+    "VF": {
+        background: "red",
+        color: "white"
+    },
+    "XF": {
+        background: "purple",
+        color: "white"
+    }
+};
+
+export const dropletSizeRange = {min: 0, max: 6}; // Rango de presiones para slider de tamaño de gota
+
+export const getDropletSizeLabel = (pressure, ranges) => {
+    const size = ranges.find(range => pressure >= range.from && pressure <= range.to);
+    return size ? size.label : null;
+};
+
+
+
+
+/** Cálculos de aplicación */
+
+export const computeQNom = params => { // qn
     checkParams(schemas.computeQNom, params);
     const {b, c, Pnom} = params;
     return round2(b + c * Math.sqrt(Pnom));
@@ -104,38 +164,45 @@ export const computeQNom = params => {
 
 const K = (Qnom, Pnom) => 600*Qnom/Math.sqrt(Pnom);
 
-export const computeVa = params => {
+export const computeVa = params => { // Q
     checkParams(schemas.computeVa, params);
-    const { Pt, Vt, d, Qnom, Pnom } = params;
-    const Va = Math.sqrt(Pt) * K(Qnom, Pnom) / Vt / d;
+    const { Pt, Vt, d, Qnom, Pnom, Dp } = params;
+    const Va = Math.sqrt(Pt/Dp) * K(Qnom, Pnom) / Vt / d; // Dp va dividiendo?
     return round2(Va);
 };
 
-export const computePt = params => {
+export const computePt = params => { // pe
     checkParams(schemas.computePt, params);
-    const { Va, Vt, d, Qnom, Pnom } = params;
+    const { Va, Vt, d, Qnom, Pnom, Dp } = params;
     const sqPt = Va * Vt * d / K(Qnom, Pnom);
-    return round2(sqPt*sqPt);
+    const Pt = round2(sqPt*sqPt)*Dp;
+    return Pt;
 };
 
-export const computeVt = params => {
+export const computeVt = params => { // V
     checkParams(schemas.computeVt, params);
-    const { Va, Pt, d, Qnom, Pnom } = params;
-    const Vt = K(Qnom, Pnom) * Math.sqrt(Pt) / Va / d;
+    const { Va, Pt, d, Qnom, Pnom, Dp } = params;
+    const Vt = K(Qnom, Pnom) * Math.sqrt(Pt/Dp) / Va / d;
     return round2(Vt);
 };
 
-export const computeQt = params => {
+export const computeQt = params => { // qe
     checkParams(schemas.computeQt, params);
     const { Qnom, Pnom, Pt } = params;
     const Qt = Math.sqrt(Pt/Pnom)*Qnom;
     return round2(Qt);
 };
 
-export const computeQb = params => {
+export const computeQb = params => { // Caudal de bomba o pulverizado (qe * numero de picos)
     checkParams(schemas.computeQb, params);    
     const Qb = computeQt(params)*params.n;
     return round2(Qb);
+};
+
+export const computeQa = params => { // Caudal equivalente en agua
+    checkParams(schemas.computeQa, params);
+    const { Dp } = params;
+    return 0;
 };
 
 export const computeEffectiveFlow = params => {

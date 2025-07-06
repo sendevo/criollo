@@ -1,6 +1,6 @@
 import { f7, Navbar, Page, Row, Col, Button, BlockTitle, List, Block } from 'framework7-react';
-import React, { useContext, useState } from 'react';
-import { BackButton } from '../../components/Buttons';
+import { useContext, useState } from 'react';
+import { NavbarTitle } from '../../components/Buttons';
 import Input from '../../components/Input';
 import { SuppliesTable, PrescriptionTable } from '../../components/SuppliesTable';
 import { ModelCtx } from '../../context';
@@ -45,7 +45,9 @@ const SuppliesList = props => {
 
     return (
         <Page>
-            <Navbar title="Lista de insumos" style={{maxHeight:"40px", marginBottom:"0px"}} />
+            <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
+                <NavbarTitle {...props} title={"Lista de insumos"} />
+            </Navbar>
             <BlockTitle className={classes.SectionTitle}>Parámetros de Mezcla</BlockTitle>
             <Row>
                 <table className={["data-table", classes.MainTable].join(' ')}>
@@ -109,8 +111,6 @@ const SuppliesList = props => {
                 </Col>
                 <Col width={20}></Col>
             </Row>
-
-            <BackButton {...props} />
 
         </Page>
     );
