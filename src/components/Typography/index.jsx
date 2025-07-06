@@ -43,8 +43,6 @@ const Typography = ({ children, sx, variant }) => {
     if (variant && variantStyles[variant])
         style = {...style, ...variantStyles[variant]};
 
-    console.log(style.fontSize);
-
     return (
         <p style={style}>
             {children}

@@ -9,6 +9,11 @@ Una vez instalada, la utilización de Criollo no requiere disponibilidad de señ
 
 ![criollo](doc/promo_criollo.jpg)
 
+### Versión 5.0 [20] (Tamaño de gota)
+  - Nuevo nivel de picos para norma ISO y CEN.  
+  - Cálculo de tamaño de gota según presión de trabajo.  
+  - Agregado de parámetros al reporte.  
+
 ### Versión 4.2 [17] (Migración nativo -> híbrido)
   - Implementación con Vite (Rollup): ReactJS (v18) + Framework7 + Capacitor.
   - Nueva presentación. Mejoras en control y validación de campos.  
@@ -16,11 +21,6 @@ Una vez instalada, la utilización de Criollo no requiere disponibilidad de señ
   - Los reportes se generan secuencialmente como en Campero y Campero Fertilizadoras.  
   - Los formularios tienen almacenamiento persistente de datos, no se pierden al cambiar de vistas o si la app queda en segundo plano, pero se borran al salir (previo confirmacion del usuario).  
   - El almacenamiento de los datos se realiza en Storage de Capacitor en el caso nativo, en avt.storage en el caso de la extensión Auravant o en localStorage en el caso web.  
-
-### Versión 5.0 [20] (Tamaño de gota)
-  - Nuevo nivel de picos para norma ISO y CEN.  
-  - Cálculo de tamaño de gota según presión de trabajo.  
-  - Agregado de parámetros al reporte.  
 
 ## Instalación y despliegue
 

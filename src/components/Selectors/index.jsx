@@ -1,6 +1,37 @@
 import { Block, Radio, Row, Col, BlockTitle } from 'framework7-react';
 import Typography from '../Typography';
 
+const ProductTypeSelector = ({value, onChange}) => {
+
+    const setValue = (e, v) => {
+        if(e.target.checked)
+            onChange(v);
+    };
+
+    return(
+        <Block style={{marginTop:"0px", marginBottom:"20px"}}>
+            <BlockTitle>
+                <Typography variant='subtitle'>Producto a aplicar</Typography>
+            </BlockTitle>
+
+            <Row>
+                <Col style={{textAlign:"center"}}>
+                    <Radio 
+                        name="input-type" 
+                        checked={value==="fitosanitarios"} 
+                        onChange={e=>setValue(e, "fitosanitarios")}/> Fitosanitarios
+                </Col>
+                <Col style={{textAlign:"center"}}>
+                    <Radio 
+                        name="input-type" 
+                        checked={value==="fertilizante"} 
+                        onChange={e=>setValue(e, "fertilizante")}/> Fertilizante
+                </Col>
+            </Row>
+        </Block>
+    );
+};
+
 const NozzleSeparationSelector = props => {
 
     const setValue = (el, value) => {
@@ -11,7 +42,9 @@ const NozzleSeparationSelector = props => {
 
     return (
         <Block style={{margin:"0px"}}>
-            <BlockTitle><Typography variant='subtitle'>Configuración de botalón</Typography></BlockTitle>
+            <BlockTitle>
+                <Typography variant='subtitle'>Configuración de botalón</Typography>
+            </BlockTitle>
             <Row>
                 <Col style={{textAlign:"center"}}>
                     <Radio 
@@ -131,4 +164,4 @@ const ElapsedSelector = props => {
 };
 
 
-export { NozzleSeparationSelector, PresentationSelector, ElapsedSelector };
+export { ProductTypeSelector, NozzleSeparationSelector, PresentationSelector, ElapsedSelector };
