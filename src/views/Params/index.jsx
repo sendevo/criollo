@@ -418,7 +418,7 @@ const Params = props => {
                             label="Densidad de producto"
                             name="workDensity"
                             type="number"
-                            unit="Kg/L"
+                            unit="kg/L"
                             icon={iconDensity}
                             value={productDensity}
                             onChange={handleProductDensityChange}>

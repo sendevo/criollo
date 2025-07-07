@@ -93,6 +93,10 @@ const PDFExport = async (report, share) => {
             style: "section"
         });
         reportContent.push({
+            text: "Producto a aplicar: " + report.params.productType,
+            style: "text"
+        });
+        reportContent.push({
             text: "Capacidad de pico",
             style: "subsection"
         });
@@ -149,6 +153,30 @@ const PDFExport = async (report, share) => {
             },
             margin: [0, 0, 0, 15]
         });
+        if(report.params.waterEqSprayFlow && report.params.productType === "fertilizante") {
+            reportContent[reportContent.length - 1].table.body.push(
+                [{
+                    text: "Caudal equivalente en agua",
+                    style: "tableHeader"
+                }, formatNumber(report.params.waterEqSprayFlow) + " l/ha"]
+            );
+        }
+        if(report.params.dropletSizeLabel){
+            reportContent[reportContent.length - 1].table.body.push(
+                [{
+                    text: "Tamaño de gota",
+                    style: "tableHeader"
+                }, report.params.dropletSizeLabel]
+            );
+        }
+        if(report.params.productDensity){
+            reportContent[reportContent.length - 1].table.body.push(
+                [{
+                    text: "Densidad del producto",
+                    style: "tableHeader"
+                }, formatNumber(report.params.productDensity, 2) + " kg/l"]
+            );
+        }
     }
 
     if(report.completed.control) {
