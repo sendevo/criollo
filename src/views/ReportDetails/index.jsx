@@ -24,17 +24,29 @@ const ReportDetails = props => {
             <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
                 <NavbarTitle {...props} title={"Reporte de la labor"}/>
             </Navbar>
-            <Block className={classes.HeaderBlock}>
-                <p><b>Nombre: </b>{report.name}</p>
-                <p><b>Fecha y hora: </b>{moment(report.timestamp).format("DD/MM/YYYY - HH:mm")}</p>
-            </Block>
-            {
-                report.completed.params &&
+            
+            <div style={{padding:"0px 15px"}}>
+                <p style={{margin:0, padding:0}}><b>Nombre: </b>{report.name}</p>
+                <p style={{margin:0, padding:0}}><b>Fecha y hora: </b>{moment(report.timestamp).format("DD/MM/YYYY - HH:mm")}</p>
+            </div>
+            
+            {report.completed.params &&
                 <Block className={classes.SectionBlock}>
-                    <h3>Parámetros de aplicación</h3>
+                    <h3 style={{marginBottom:"5px"}}>Parámetros de aplicación</h3>
+                    {report.params.productType && 
+                        <table>
+                            <tbody>
+                                <tr>
+                                    <td><b>Producto a aplicar:</b></td>
+                                    <td>{report.params.productType}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    }
+
+                    <p style={{marginTop: "5px",marginBottom:0, padding:0}}>Capacidad del pico</p>
                     <table className={classes.Table}>
                         <tbody>
-                            <tr>Capacidad del pico</tr>
                             <tr>
                                 <td><b>Pico seleccionado:</b></td>
                                 <td className={classes.DataCell}>{report.params.nozzleName ? report.params.nozzleName : <i>Otro pico</i>}</td>
@@ -48,7 +60,11 @@ const ReportDetails = props => {
                                 <td className={classes.DataCell}>{formatNumber(report.params.nominalPressure)} bar</td>
                             </tr>
                             <tr></tr>
-                            <tr>Parámetros de pulverización</tr>
+                        </tbody>
+                    </table>    
+                    <p style={{marginTop:"5px", marginBottom:0, padding:0}}>Parámetros de pulverización</p>
+                    <table className={classes.Table}>
+                        <tbody>
                             <tr>
                                 <td><b>Distancia entre picos:</b></td>
                                 <td className={classes.DataCell}>{formatNumber(report.params.nozzleSeparation)} m</td>
@@ -65,12 +81,29 @@ const ReportDetails = props => {
                                 <td><b>Volumen de aplicación:</b></td>
                                 <td className={classes.DataCell}>{formatNumber(report.params.workVolume)} l/ha</td>
                             </tr>
+                            {report.params.waterEqSprayFlow && report.params.productType === "fertilizante" &&
+                                <tr>
+                                    <td><b>Caudal equivalente en agua:</b></td>
+                                    <td className={classes.DataCell}>{formatNumber(report.params.waterEqSprayFlow)} l/ha</td>
+                                </tr>
+                            }
+                            {report.params.dropletSizeLabel && 
+                                <tr>
+                                    <td><b>Tamaño de gota:</b></td>
+                                    <td className={classes.DataCell}>{report.params.dropletSizeLabel}</td>
+                                </tr>
+                            }
+                            {report.params.productDensity && 
+                                <tr>
+                                    <td><b>Densidad del producto:</b></td>
+                                    <td className={classes.DataCell}>{formatNumber(report.params.productDensity)} kg/l</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                 </Block>
             }
-            {
-                report.completed.control &&
+            {report.completed.control &&
                 <Block className={classes.SectionBlock}>
                     <h3>Verificación de picos</h3>
                     <table className={classes.Table}>
@@ -104,8 +137,7 @@ const ReportDetails = props => {
                         evalCollected={()=>{}}/>
                 </Block>
             }  
-            {
-                report.completed.supplies &&
+            {report.completed.supplies &&
                 <Block className={classes.SectionBlock}>
                     <h3>Cálculo de mezcla</h3>
                     <BlockTitle className={classes.SectionTitle}>Parámetros de mezcla</BlockTitle>
