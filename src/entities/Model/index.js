@@ -74,6 +74,7 @@ const defaultFormParams = {
     workFlow: 0.65, // Caudal de trabajo efectivo (l/min) por pico
     nominalFlow: 0.8, // Caudal nominal de pico seleccionado
     sprayFlow: null, // Caudal de pulverizacion (caudal de picos multiplicado por n de picos)
+    waterEqSprayFlow: null, // Caudal de agua equivalente (para aplicacion con fertilizantes)
     nominalPressure: 3, // Presion nominal de pico seleccionado
     nozzleSeparation: 0.35, // Distancia entre picos (m)
     nozzleNumber: null, // Numero de picos

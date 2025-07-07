@@ -13,16 +13,18 @@ const SelectedOption = props => (
         "Elegir..."
 );
 
-const NozzleMenu = ({selection, onOptionSelected}) => { 
+const NozzleMenu = ({hideNozzleTypes, selection, onOptionSelected}) => { 
 
     const getChild = path => path.reduce((acc, idx) => {
             if (!acc || !Array.isArray(acc.childs) || idx < 0) return null;
             return acc.childs[idx];
         }, { childs: nozzles });
 
-    const level1 = selection[0] > -1 ? getChild([selection[0]])?.childs || [] : [];
-    const level2 = selection[1] > -1 ? getChild([selection[0], selection[1]])?.childs || [] : [];
-    const level3 = selection[2] > -1 ? getChild([selection[0], selection[1], selection[2]])?.childs || [] : [];
+    const filterNozzleTypes = level => hideNozzleTypes ? level.filter(nozzle => !Array.isArray(nozzle.droplet_sizes)) : level;
+
+    const level1 = filterNozzleTypes(selection[0] > -1 ? getChild([selection[0]])?.childs || [] : []);
+    const level2 = filterNozzleTypes(selection[1] > -1 ? getChild([selection[0], selection[1]])?.childs || [] : []);
+    const level3 = filterNozzleTypes(selection[2] > -1 ? getChild([selection[0], selection[1], selection[2]])?.childs || [] : []);
 
     const handleClick = (level, index) => {
         let newSelection = [...selection];
@@ -69,7 +71,7 @@ const NozzleMenu = ({selection, onOptionSelected}) => {
                     </MenuItem>
                 }
                 {
-                    level2.length > 0 && 
+                    level2.length > 0 &&
                     <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level2[selection[2]]} />} dropdown>
                         <MenuDropdown center contentHeight="200px">                        
                             {
@@ -86,7 +88,7 @@ const NozzleMenu = ({selection, onOptionSelected}) => {
                     </MenuItem>
                 }
                 {
-                    level3.length > 0 && 
+                    level3.length > 0 &&
                     <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level3[selection[3]]} />} dropdown>
                         <MenuDropdown right contentHeight="200px">                        
                             {

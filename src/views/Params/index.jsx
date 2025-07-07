@@ -1,7 +1,16 @@
-import { f7, Navbar, Page, List, BlockTitle, Row, Col, Button } from 'framework7-react';
+import { 
+    f7, 
+    Navbar, 
+    Page, 
+    List,
+    BlockTitle, 
+    Row, 
+    Col, 
+    Button 
+} from 'framework7-react';
 import { useContext, useEffect, useState } from 'react';
 import { NavbarTitle, CalculatorButton } from '../../components/Buttons';
-import { NozzleSeparationSelector } from '../../components/Selectors';
+import { NozzleSeparationSelector, ProductTypeSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
 import NozzleMenu from "../../components/NozzleMenu";
 import Toast from '../../components/Toast';
@@ -9,6 +18,7 @@ import Typography from '../../components/Typography';
 import DropletSizeSlider from '../../components/DropletSizeSlider';
 import { ModelCtx, WalkthroughCtx } from '../../context';
 import {
+    computeQa,
     computeQb,
     computeQt,
     computeQNom,
@@ -16,7 +26,8 @@ import {
     computePt,
     computeVa,
     dropletSizesColors,
-    dropletSizeRange
+    dropletSizeRange,
+    getDropletSizeLabel
 } from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzles from '../../assets/icons/cant_picos2.png';
@@ -25,17 +36,19 @@ import iconPressure from '../../assets/icons/presion.png';
 import iconDensity from '../../assets/icons/densidad.png';
 import iconVolume from '../../assets/icons/dosis.png';
 
+const Divider = () => <div style={{height: "1px", backgroundColor: "#ddd", width: "95%", margin: "10px auto"}}></div>;
 
 const Params = props => {
 
     const model = useContext(ModelCtx);
 
     const [inputs, setInputs] = useState({
-        nozzleSeparation: model.nozzleSeparation || 0.35,        
+        nozzleSeparation: model.nozzleSeparation || 0.35,
+        productType: "fitosanitarios", // Por defecto, fitosanitarios    
         nozzleNumber: model.nozzleNumber || '',        
         nominalFlow: model.nominalFlow || 0.8,        
         nominalPressure: model.nominalPressure || 3,
-        productDensity: model.productDensity || 1,
+        productDensity: 1,
         workVelocity: model.workVelocity || 20,
         workVelocityUpdated: false,
         workPressure: model.workPressure || 2,
@@ -50,6 +63,7 @@ const Params = props => {
 
     const {
         nozzleSeparation,
+        productType,
         nozzleNumber,
         nominalFlow,
         nominalPressure,
@@ -62,20 +76,43 @@ const Params = props => {
         workVolumeUpdated
     } = inputs;
 
+    const equationsUpdated = workPressureUpdated && workVelocityUpdated && workVolumeUpdated;
+
     // El caudal total de pulverizacion se calcula ante cualquier cambio de variable
     // pero solo si esta indicado el numero de picos
     let sprayFlow = model.sprayFlow;
     try{
-        sprayFlow = computeQb({
-            n: nozzleNumber,
-            Qnom: nominalFlow,
-            Pnom: nominalPressure,
-            Pt: workPressure
-        });
-        model.update("sprayFlow", sprayFlow);
+        if(productType === "fitosanitarios") {
+            sprayFlow = computeQb({
+                n: nozzleNumber,
+                Qnom: nominalFlow,
+                Pnom: nominalPressure,
+                Pt: workPressure
+            });
+            model.update("sprayFlow", sprayFlow);
+        }
     }catch(e){
         model.update("sprayFlow", null);
+        //console.error("Error al calcular el caudal de pulverización:", e.message);
     }
+
+    // Calcular caudal equivalente en agua
+    let waterEqSprayFlow = model.waterEqSprayFlow;
+    try {
+        waterEqSprayFlow = computeQa({
+            Dp: productDensity,
+            Pt: workPressure,
+            Vt: workVelocity,
+            d: nozzleSeparation,
+            Qnom: nominalFlow,
+            Pnom: nominalPressure
+        });
+        model.update("waterEqSprayFlow", waterEqSprayFlow);
+    }catch(e){
+        model.update("waterEqSprayFlow", null);
+        //console.error("Error al calcular el caudal equivalente en agua:", e.message);
+    }
+
 
     // El caudal de pulverizacion de cada pico se calcula ante cualquier cambio de variable
     // pero no se usa en esta seccion, sino en verificacion de picos
@@ -119,6 +156,18 @@ const Params = props => {
             }));
     }, [model.workVelocity, model.velocityMeasured]);   
 
+    const handleProductTypeChange = value => {
+        const prevInputs = {...inputs};
+        prevInputs.productType = value;
+        if(value === "fitosanitarios"){
+            prevInputs.productDensity =  1;
+        }else{
+            prevInputs.nozzleNumber = '';
+        }
+        setNozzleSelection([-1, -1, -1, -1]); // Reiniciar la seleccion de picos
+        setInputs({...prevInputs});  
+    };
+
     const handleNozzleSeparationChange = value => {
         const ns = parseFloat(value);
         setInputs({
@@ -137,7 +186,9 @@ const Params = props => {
     };
 
     const handleNozzleNumberChange = value => {
-        const n = parseInt(value);
+        let n = parseInt(value);
+        if(n < 0)
+            n = '';
         setInputs({
             ...inputs,
             nozzleNumber: n
@@ -253,6 +304,7 @@ const Params = props => {
                 Va: workVolume,
                 Pt: workPressure,
                 d: nozzleSeparation,
+                Dp: productDensity,
                 Qnom: nominalFlow,
                 Pnom: nominalPressure
             });
@@ -278,6 +330,7 @@ const Params = props => {
                 Va: workVolume,
                 Vt: workVelocity,            
                 d: nozzleSeparation,
+                Dp: productDensity,
                 Qnom: nominalFlow,
                 Pnom: nominalPressure
             });
@@ -299,6 +352,7 @@ const Params = props => {
             const newVol = computeVa({
                 Pt: workPressure,
                 Vt: workVelocity,
+                Dp: productDensity,
                 d: nozzleSeparation,
                 Qnom: nominalFlow,
                 Pnom: nominalPressure
@@ -317,14 +371,10 @@ const Params = props => {
     };
 
     const addParamsToReport = () => {
-        const {
-            nozzleSeparation,
-            nominalFlow,
-            nominalPressure,
-            workVelocity,
-            workPressure,
-            workVolume
-        } = inputs;
+        let dropletSizeLabel;
+        if(productType === "fitosanitarios" && nozzle?.droplet_sizes) {
+            dropletSizeLabel = getDropletSizeLabel(workPressure, nozzle?.droplet_sizes);
+        }
         model.addParamsToReport({
             nozzleSeparation,
             nominalFlow,
@@ -332,6 +382,10 @@ const Params = props => {
             workVelocity,
             workPressure,
             workVolume,
+            waterEqSprayFlow,
+            productDensity,
+            productType,
+            dropletSizeLabel,
             nozzleName: model.nozzleName
         });
         f7.panel.open();
@@ -346,8 +400,38 @@ const Params = props => {
             <Navbar style={{maxHeight:"40px", marginBottom:"0px"}}>
                 <NavbarTitle {...props} title="Parámetros de aplicación"/>
             </Navbar>
+
+            <ProductTypeSelector value={productType} onChange={handleProductTypeChange}/>
+
+            { productType==="fertilizante" && 
+                <div>
+                    
+                    <Divider/>
+
+                    <BlockTitle style={{marginBottom: "5px", marginTop: "5px"}}>
+                        <Typography variant='subtitle'>Propiedades del caldo</Typography>
+                    </BlockTitle>
+
+                    <List form noHairlinesMd style={{marginBottom:"10px"}}>
+                        <Input
+                            slot="list"
+                            label="Densidad de producto"
+                            name="workDensity"
+                            type="number"
+                            unit="Kg/L"
+                            icon={iconDensity}
+                            value={productDensity}
+                            onChange={handleProductDensityChange}>
+                        </Input>
+                    </List>
+                </div>
+            }
+
+            <Divider/>
+
             <NozzleSeparationSelector value={nozzleSeparation} onChange={handleNozzleSeparationChange}/>
-            <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
+
+            <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "12px"}}>    
                 <Input
                     className="help-target-dist-nozzle"
                     slot="list"
@@ -359,28 +443,36 @@ const Params = props => {
                     value={nozzleSeparation}
                     onChange={v => handleNozzleSeparationChange(v.target.value)}>
                 </Input>
-                <Input
-                    className="help-target-nozzle-cnt"
-                    slot="list"
-                    label="Cantidad de picos"
-                    name="nozzleNumber"
-                    type="number"                    
-                    icon={iconNozzles}
-                    value={nozzleNumber}
-                    onChange={v => handleNozzleNumberChange(v.target.value)}>
-                </Input>
+
+                { productType==="fitosanitarios" &&
+                    <Input
+                        className="help-target-nozzle-cnt"
+                        slot="list"
+                        label="Cantidad de picos"
+                        name="nozzleNumber"
+                        type="number"                    
+                        icon={iconNozzles}
+                        value={nozzleNumber}
+                        onChange={v => handleNozzleNumberChange(v.target.value)}>
+                    </Input>
+                }
             </List>
 
-            <BlockTitle style={{marginBottom: 5}}><Typography variant='subtitle'>Capacidad del pico</Typography></BlockTitle>
+            <Divider/>
+
+            <BlockTitle style={{marginBottom: "5px", marginTop: "5px"}}>
+                <Typography variant='subtitle'>Capacidad del pico</Typography>
+            </BlockTitle>
             
             <center className="help-target-nozzle-select">
                 <NozzleMenu 
+                    hideNozzleTypes={productType === "fertilizante"}
                     onOptionSelected={handleNozzleSelected} 
                     selection={nozzleSelection} />
             </center>
 
             <div style={{paddingLeft:"20px"}}>
-                <Typography variant="small" sx={{color:"#000"}}><b>Selección:</b> {model.getNozzleName(nozzleSelection)}</Typography>
+                <Typography variant="small" sx={{color:"#000"}}>Selección: {model.getNozzleName(nozzleSelection)}</Typography>
             </div>
 
             <List form noHairlinesMd style={{marginBottom:"5px", marginTop: "0px"}}>    
@@ -408,22 +500,11 @@ const Params = props => {
                 </Row>
             </List>
 
-            <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}><Typography variant='subtitle'>Propiedades del caldo</Typography></BlockTitle>
+            <Divider/>
 
-            <List form noHairlinesMd style={{marginBottom:"10px"}}>
-                <Input
-                    slot="list"
-                    label="Densidad de producto"
-                    name="workDensity"
-                    type="number"
-                    unit="g/L"
-                    icon={iconDensity}
-                    value={productDensity}
-                    onChange={handleProductDensityChange}>
-                </Input>
-            </List>
-
-            <BlockTitle style={{marginBottom: "5px"}}><Typography variant='subtitle'>Parámetros de pulverización</Typography></BlockTitle>
+            <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}>
+                <Typography variant='subtitle'>Parámetros de pulverización</Typography>
+            </BlockTitle>
 
             <List form noHairlinesMd style={{marginBottom:"10px"}}>
 
@@ -437,7 +518,7 @@ const Params = props => {
                             type="number"
                             unit="km/h"
                             icon={iconVelocity}
-                            value={workVelocity}
+                            value={workVelocity.toFixed()}
                             onIconClick={computeWorkVelocity}
                             onChange={handleWorkVelocityChange}>
                         </Input>        
@@ -455,15 +536,17 @@ const Params = props => {
                     type="number"
                     unit="bar"
                     icon={iconPressure}
-                    value={workPressure}
+                    value={workPressure.toFixed(2)}
                     onIconClick={computeWorkPressure}
                     onChange={handleWorkPressureChange}>
                 </Input>
-                {sprayFlow && <div slot="list">
-                    <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
-                        Caudal pulverizado: {sprayFlow} l/min
-                    </span>
-                </div>}
+                {sprayFlow && productType === "fitosanitarios" && equationsUpdated &&
+                    <div slot="list">
+                        <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
+                            Caudal pulverizado: {sprayFlow.toFixed(2)} l/min
+                        </span>
+                    </div>
+                }
 
                 <Input
                     slot="list"
@@ -473,36 +556,46 @@ const Params = props => {
                     type="number"
                     unit="l/ha"
                     icon={iconVolume}
-                    value={workVolume}
+                    value={workVolume.toFixed()}
                     onIconClick={computeWorkVolume}
                     onChange={handleWorkVolumeChange}>
                 </Input>
+                {waterEqSprayFlow && productType === "fertilizante" && equationsUpdated &&
+                    <div slot="list">
+                        <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
+                            Caudal equivalente en agua: {waterEqSprayFlow.toFixed()} l/ha
+                        </span>
+                    </div>
+                }
             </List>
 
             { nozzle?.droplet_sizes &&
-                (nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure) ?
+                <div>
+                    <Divider/>
+                    <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}>
+                        <Typography variant='subtitle'>Tamaño de gota</Typography>
+                    </BlockTitle>
                     <div style={{paddingLeft:"20px", paddingRight:"20px", marginBottom:"10px"}}>
-                        {/*
-                        <Typography variant="small" sx={{ marginBottom: '5px', color: "#000" }}>
-                            <b>Tamaño de gota:</b> {getDropletSizeLabel(workPressure, nozzle.droplet_sizes) || "No disponible"}
-                        </Typography>
-                        */}
-                        <DropletSizeSlider
-                            min={dropletSizeRange.min}
-                            max={dropletSizeRange.max}
-                            ranges={nozzle.droplet_sizes.map(range => ({
-                                ...range,
-                                ...dropletSizesColors[range.label] // Agregar color y fondo
-                            }))}
-                            value={workPressure}/>
+                        {nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure ? // Ver si la presion de trabajo esta dentro del rango de tamaños de gota
+                            <DropletSizeSlider
+                                min={dropletSizeRange.min}
+                                max={dropletSizeRange.max}
+                                ranges={nozzle.droplet_sizes.map(range => ({
+                                        ...range,
+                                        ...dropletSizesColors[range.label] // Agregar color y fondo
+                                    }))}
+                                    value={workPressure}/>                            
+                        :
+                            <Typography variant="small" sx={{ marginBottom: '5px', color: "#000" }}>
+                                Presión de trabajo fuera de rango
+                            </Typography>
+                        
+                        }
                     </div>
-                :
-                <div style={{paddingLeft:"20px", paddingRight:"20px", marginBottom:"10px"}}>
-                    <Typography variant="small" sx={{ marginBottom: '5px', color: "#000" }}>
-                        <b>Tamaño de gota:</b> Presión de trabajo fuera de rango
-                    </Typography>
                 </div>
             }
+
+            <Divider/>
 
             <Row style={{marginTop:20, marginBottom: 20}}>
                 <Col width={20}></Col>
