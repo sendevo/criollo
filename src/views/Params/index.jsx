@@ -26,7 +26,8 @@ import {
     computePt,
     computeVa,
     dropletSizesColors,
-    dropletSizeRange
+    dropletSizeRange,
+    getDropletSizeLabel
 } from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzles from '../../assets/icons/cant_picos2.png';
@@ -75,6 +76,7 @@ const Params = props => {
         workVolumeUpdated
     } = inputs;
 
+    const equationsUpdated = workPressureUpdated && workVelocityUpdated && workVolumeUpdated;
 
     // El caudal total de pulverizacion se calcula ante cualquier cambio de variable
     // pero solo si esta indicado el numero de picos
@@ -97,7 +99,14 @@ const Params = props => {
     // Calcular caudal equivalente en agua
     let waterEqSprayFlow = model.waterEqSprayFlow;
     try {
-        waterEqSprayFlow = computeQa({Dp: productDensity});
+        waterEqSprayFlow = computeQa({
+            Dp: productDensity,
+            Pt: workPressure,
+            Vt: workVelocity,
+            d: nozzleSeparation,
+            Qnom: nominalFlow,
+            Pnom: nominalPressure
+        });
         model.update("waterEqSprayFlow", waterEqSprayFlow);
     }catch(e){
         model.update("waterEqSprayFlow", null);
@@ -362,14 +371,10 @@ const Params = props => {
     };
 
     const addParamsToReport = () => {
-        const {
-            nozzleSeparation,
-            nominalFlow,
-            nominalPressure,
-            workVelocity,
-            workPressure,
-            workVolume
-        } = inputs;
+        let dropletSizeLabel;
+        if(productType === "fitosanitarios" && nozzle?.droplet_sizes) {
+            dropletSizeLabel = getDropletSizeLabel(workPressure, nozzle?.droplet_sizes);
+        }
         model.addParamsToReport({
             nozzleSeparation,
             nominalFlow,
@@ -377,6 +382,10 @@ const Params = props => {
             workVelocity,
             workPressure,
             workVolume,
+            waterEqSprayFlow,
+            productDensity,
+            productType,
+            dropletSizeLabel,
             nozzleName: model.nozzleName
         });
         f7.panel.open();
@@ -527,14 +536,14 @@ const Params = props => {
                     type="number"
                     unit="bar"
                     icon={iconPressure}
-                    value={workPressure}
+                    value={workPressure.toFixed(2)}
                     onIconClick={computeWorkPressure}
                     onChange={handleWorkPressureChange}>
                 </Input>
-                {sprayFlow && productType === "fitosanitarios" && 
+                {sprayFlow && productType === "fitosanitarios" && equationsUpdated &&
                     <div slot="list">
                         <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
-                            Caudal pulverizado: {sprayFlow} l/min
+                            Caudal pulverizado: {sprayFlow.toFixed(2)} l/min
                         </span>
                     </div>
                 }
@@ -551,10 +560,10 @@ const Params = props => {
                     onIconClick={computeWorkVolume}
                     onChange={handleWorkVolumeChange}>
                 </Input>
-                {waterEqSprayFlow && productType === "fertilizante" && 
+                {waterEqSprayFlow && productType === "fertilizante" && equationsUpdated &&
                     <div slot="list">
                         <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
-                            Caudal equivalente en agua: {waterEqSprayFlow} l/min
+                            Caudal equivalente en agua: {waterEqSprayFlow.toFixed()} l/ha
                         </span>
                     </div>
                 }

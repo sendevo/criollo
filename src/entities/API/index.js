@@ -167,7 +167,7 @@ const K = (Qnom, Pnom) => 600*Qnom/Math.sqrt(Pnom);
 export const computeVa = params => { // Q
     checkParams(schemas.computeVa, params);
     const { Pt, Vt, d, Qnom, Pnom, Dp } = params;
-    const Va = Math.sqrt(Pt/Dp) * K(Qnom, Pnom) / Vt / d; // Dp va dividiendo?
+    const Va = Math.sqrt(Pt/Dp) * K(Qnom, Pnom) / Vt / d;
     return round2(Va);
 };
 
@@ -200,9 +200,10 @@ export const computeQb = params => { // Caudal de bomba o pulverizado (qe * nume
 };
 
 export const computeQa = params => { // Caudal equivalente en agua
-    checkParams(schemas.computeQa, params);
+    checkParams(schemas.computeVa, params);
+    const Va = computeVa(params);
     const { Dp } = params;
-    return 0;
+    return Va/Math.sqrt(Dp);
 };
 
 export const computeEffectiveFlow = params => {
