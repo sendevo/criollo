@@ -1,6 +1,7 @@
 import { Menu, MenuDropdown, MenuDropdownItem, MenuItem } from 'framework7-react';
 import nozzles from '../../data/nozzles_droplet_sizes.json';
 import nozzleIcons from './nozzleIcons';
+import Marquee from './marquee';
 import classes from './style.module.css';
 
 const SelectedOption = props => (
@@ -45,9 +46,9 @@ const NozzleMenu = ({hideNozzleTypes, selection, onOptionSelected}) => {
                             nozzles.map((op, idx) => (
                                 <MenuDropdownItem 
                                     key={idx} 
-                                    text={op.name} 
                                     onClick={()=>handleClick(0, idx)}>
                                     {op.img && <img src={nozzleIcons[op.img]} alt="icon" height="25px"/>}
+                                    <Marquee text={op.name} speed={10} />
                                 </MenuDropdownItem>
                             ))
                         }
@@ -56,14 +57,14 @@ const NozzleMenu = ({hideNozzleTypes, selection, onOptionSelected}) => {
                 {
                     level1.length > 0 && 
                     <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level1[selection[1]]} />} dropdown>
-                        <MenuDropdown center contentHeight="200px">
+                        <MenuDropdown center>
                             {
                                 level1.map((op, idx) => (
                                     <MenuDropdownItem 
                                         key={idx} 
-                                        text={op.name} 
                                         onClick={()=>handleClick(1, idx)}>
                                         {op.img && <img src={nozzleIcons[op.img]} alt="icon" height="25px"/>}
+                                        <Marquee text={op.name} speed={10} />
                                     </MenuDropdownItem>
                                 ))
                             }
@@ -73,14 +74,14 @@ const NozzleMenu = ({hideNozzleTypes, selection, onOptionSelected}) => {
                 {
                     level2.length > 0 &&
                     <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level2[selection[2]]} />} dropdown>
-                        <MenuDropdown center contentHeight="200px">                        
+                        <MenuDropdown center>                        
                             {
                                 level2.map((op, idx) => (
                                     <MenuDropdownItem 
-                                        key={idx} 
-                                        text={op.name} 
+                                        key={idx}  
                                         onClick={()=>handleClick(2, idx)}>
                                         {op.img && <img src={nozzleIcons[op.img]} alt="icon" height="25px"/>}
+                                        <Marquee text={op.name} speed={10} />
                                     </MenuDropdownItem>
                                 ))
                             }
@@ -90,14 +91,14 @@ const NozzleMenu = ({hideNozzleTypes, selection, onOptionSelected}) => {
                 {
                     level3.length > 0 &&
                     <MenuItem className={classes.MenuItem} text={<SelectedOption selection={level3[selection[3]]} />} dropdown>
-                        <MenuDropdown right contentHeight="200px">                        
+                        <MenuDropdown right>                        
                             {
                                 level3.map((op, idx) => (
                                     <MenuDropdownItem 
-                                        key={idx} 
-                                        text={op.name} 
+                                        key={idx}                                         
                                         onClick={()=>handleClick(3, idx)}>
                                         {op.img && <img src={nozzleIcons[op.img]} alt="icon" height="25px"/>}
+                                        <Marquee text={op.name} speed={10} />
                                     </MenuDropdownItem>
                                 ))
                             }

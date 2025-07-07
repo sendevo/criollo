@@ -142,7 +142,9 @@ const Criollo = () => (
     <App {...f7params}>
         <ModelProvider>
             <WalkthroughProvider>
-                <View main url="/" className="app"/>
+                <div className="app-container">
+                    <View main url="/" className="app"/>
+                </div>
                 <ReportsPanel />
                 <Popovers />
             </WalkthroughProvider>

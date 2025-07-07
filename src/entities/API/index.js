@@ -109,38 +109,62 @@ const checkParams = (schema, params) => { // Valida parametros y genera mensaje 
 
 
 /** Tamaño de gota */
-export const dropletSizesColors = { // Colores de los rangos de tamaño de gota
+export const dropletSizeProperties = { // Colores de los rangos de tamaño de gota
     "UC": {
         background: "black",
-        color: "white"
+        color: "white",
+        description_en: "Ultra coarse",
+        description: "Ultra grueso",
+        label_es: "UG"
     },
     "XC": {
         background: "white",
-        color: "black"
+        color: "black",
+        description_en: "Coarse",
+        description: "Extra grueso",
+        label_es: "EG"
     },
     "VC": {
         background: "blue",
-        color: "white"
+        color: "white",
+        description_en: "Very coarse",
+        description: "Muy grueso",
+        label_es: "MG"
     },
     "C": {
         background: "green",
-        color: "white"
+        color: "white",
+        description_en: "Coarse",
+        description: "Grueso",
+        label_es: "G"
     },
     "M": {
         background: "yellow",
-        color: "black"
+        color: "black",
+        description_en: "Medium",
+        description: "Medio",
+        label_es: "M"
     },
     "F": {
         background: "orange",
-        color: "black"
+        color: "black",
+        description_en: "Fine",
+        description: "Fino",
+        label_es: "F"
     },
     "VF": {
         background: "red",
-        color: "white"
+        color: "white",
+        description_en: "Very fine",
+        description: "Muy fino",
+        label_es: "MF"
     },
     "XF": {
         background: "purple",
-        color: "white"
+        color: "white",
+        description_en: "Extra fine",
+        description: "Extra fino",
+        label_es: "EF"
     }
 };
 
@@ -148,10 +172,13 @@ export const dropletSizeRange = {min: 0, max: 6}; // Rango de presiones para sli
 
 export const getDropletSizeLabel = (pressure, ranges) => {
     const size = ranges.find(range => pressure >= range.from && pressure <= range.to);
-    return size ? size.label : null;
+    return size ? (dropletSizeProperties[size.label] ? dropletSizeProperties[size.label].label_es : null) : null;
 };
 
-
+export const getDropletSizeName = (pressure, ranges) => {
+    const size = ranges.find(range => pressure >= range.from && pressure <= range.to);
+    return size ? (dropletSizeProperties[size.label] ? dropletSizeProperties[size.label].description : null) : null;
+};
 
 
 /** Cálculos de aplicación */

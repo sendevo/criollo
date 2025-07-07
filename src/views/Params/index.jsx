@@ -25,10 +25,11 @@ import {
     computeVt,
     computePt,
     computeVa,
-    dropletSizesColors,
+    dropletSizeProperties,
     dropletSizeRange,
-    getDropletSizeLabel
+    getDropletSizeName
 } from '../../entities/API';
+import { set2Decimals } from '../../utils';
 import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzles from '../../assets/icons/cant_picos2.png';
 import iconVelocity from '../../assets/icons/velocidad.png';
@@ -276,9 +277,10 @@ const Params = props => {
 
     const handleWorkPressureChange = e => {
         const wp = parseFloat(e.target.value);
+        
         setInputs({
             ...inputs,
-            workPressure: wp,
+            workPressure: set2Decimals(wp),
             workPressureUpdated: true,
             workVelocityUpdated: false,
             workVolumeUpdated: false
@@ -373,7 +375,7 @@ const Params = props => {
     const addParamsToReport = () => {
         let dropletSizeLabel;
         if(productType === "fitosanitarios" && nozzle?.droplet_sizes) {
-            dropletSizeLabel = getDropletSizeLabel(workPressure, nozzle?.droplet_sizes);
+            dropletSizeLabel = getDropletSizeName(workPressure, nozzle?.droplet_sizes);
         }
         model.addParamsToReport({
             nozzleSeparation,
@@ -461,7 +463,7 @@ const Params = props => {
             <Divider/>
 
             <BlockTitle style={{marginBottom: "5px", marginTop: "5px"}}>
-                <Typography variant='subtitle'>Capacidad del pico</Typography>
+                <Typography variant='subtitle'>Pico</Typography>
             </BlockTitle>
             
             <center className="help-target-nozzle-select">
@@ -536,7 +538,7 @@ const Params = props => {
                     type="number"
                     unit="bar"
                     icon={iconPressure}
-                    value={workPressure.toFixed(2)}
+                    value={workPressure}
                     onIconClick={computeWorkPressure}
                     onChange={handleWorkPressureChange}>
                 </Input>
@@ -573,7 +575,7 @@ const Params = props => {
                 <div>
                     <Divider/>
                     <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}>
-                        <Typography variant='subtitle'>Tamaño de gota</Typography>
+                        <Typography variant='subtitle'>Tamaño de gota: {getDropletSizeName(workPressure, nozzle?.droplet_sizes)}</Typography>
                     </BlockTitle>
                     <div style={{paddingLeft:"20px", paddingRight:"20px", marginBottom:"10px"}}>
                         {nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure ? // Ver si la presion de trabajo esta dentro del rango de tamaños de gota
@@ -582,7 +584,8 @@ const Params = props => {
                                 max={dropletSizeRange.max}
                                 ranges={nozzle.droplet_sizes.map(range => ({
                                         ...range,
-                                        ...dropletSizesColors[range.label] // Agregar color y fondo
+                                        label: dropletSizeProperties[range.label] ? dropletSizeProperties[range.label].label_es : range.label, // Usar etiqueta en español
+                                        ...dropletSizeProperties[range.label] // Agregar color y fondo
                                     }))}
                                     value={workPressure}/>                            
                         :

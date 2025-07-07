@@ -44,7 +44,7 @@ const ReportDetails = props => {
                         </table>
                     }
 
-                    <p style={{marginTop: "5px",marginBottom:0, padding:0}}>Capacidad del pico</p>
+                    <p style={{marginTop: "5px",marginBottom:0, padding:0}}>Pico</p>
                     <table className={classes.Table}>
                         <tbody>
                             <tr>

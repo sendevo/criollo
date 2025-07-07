@@ -97,7 +97,7 @@ const PDFExport = async (report, share) => {
             style: "text"
         });
         reportContent.push({
-            text: "Capacidad de pico",
+            text: "Pico",
             style: "subsection"
         });
         reportContent.push({

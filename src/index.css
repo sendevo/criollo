@@ -1,3 +1,23 @@
+html, body {
+    background-color: #f0f0f0;
+}
+
+.app-container {
+    max-width: 600px; /* typical mobile width */
+    margin: 0 auto;
+    border: 1px solid #aaa; /* optional: for visibility/debugging */
+    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* optional: for depth */
+    height: 100vh; /* ensure it stretches vertically */
+    overflow: hidden; /* optional: clip content */
+    background-color: white; /* match your app theme */
+}
+
+@media (min-width: 501px) {
+    .app-container {
+        border-radius: 20px;
+    }
+}
+
 .toast-success {
 	background-color: darkgreen;
 }
