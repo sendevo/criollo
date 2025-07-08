@@ -16,6 +16,7 @@ import NozzleMenu from "../../components/NozzleMenu";
 import Toast from '../../components/Toast';
 import Typography from '../../components/Typography';
 import DropletSizeSlider from '../../components/DropletSizeSlider';
+import Divider from '../../components/Divider';
 import { ModelCtx, WalkthroughCtx } from '../../context';
 import {
     computeQa,
@@ -36,8 +37,6 @@ import iconVelocity from '../../assets/icons/velocidad.png';
 import iconPressure from '../../assets/icons/presion.png';
 import iconDensity from '../../assets/icons/densidad.png';
 import iconVolume from '../../assets/icons/dosis.png';
-
-const Divider = () => <div style={{height: "1px", backgroundColor: "#ddd", width: "95%", margin: "10px auto"}}></div>;
 
 const Params = props => {
 
@@ -564,7 +563,7 @@ const Params = props => {
                 </Input>
                 {waterEqSprayFlow && productType === "fertilizante" && equationsUpdated &&
                     <div slot="list">
-                        <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
+                        <span style={{fontSize: "0.9em", color: "rgb(100, 100, 250)", marginLeft: "50px"}}>
                             Caudal equivalente en agua: {waterEqSprayFlow.toFixed()} l/ha
                         </span>
                     </div>

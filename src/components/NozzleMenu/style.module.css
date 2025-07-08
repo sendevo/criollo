@@ -9,11 +9,25 @@
     padding: 5px 0px;    
 }
 
-.MenuItem {
-    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
-    max-width: 150px;
+.Menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
+.MenuItem {
+    box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+}
+
+.MenuDropdown {
+    text-align: left;
+}
+
+.MenuDropdownItem {
+    text-align: left;
+    white-space: normal;
+    word-break: break-word;
+}
 
 .SelectedOptionContainer {
     display: flex;
@@ -32,4 +46,7 @@
 .SelectedOptionText {      
     font-size: 14px;    
     color: #000;
+    white-space: normal;
+    word-break: break-word;
+    text-align: left;
 }
