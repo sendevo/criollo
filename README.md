@@ -112,9 +112,4 @@ Para compilar extension auravant, agregar el siguiente tag dentro del ```<head>`
 <script src="https://auraview.auravant.com/sdk/v1.0/aura-package_v1.0.js"></script>
 ``` 
 
-
-### Backlog - dev
-[ ] Texto fijo en los selectores de pico (quitar marquee)  
-[ ] Formula de cálculo equivalente de agua: invertir operación  
-[ ] Cambiar colores al alternar fitosanitario <-> fertilizante  
-[ ] Quitar DyN, CEN y AMT para el modo fertilizante  
+[ ] Los que tienen rango entre 2 y 4 bar, cambiarlo a 1.95 - 4.05

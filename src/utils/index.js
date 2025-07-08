@@ -1,7 +1,6 @@
+export const set2Decimals = value => Math.round(value * 100) / 100;
 
-export const set2Decimals = value => Math.round(value*100)/100;
-
-export const formatNumber = (value, decimals=2) => value.toFixed(decimals).replace('.',',');
+export const formatNumber = (value, decimals = 2) => value.toFixed(decimals).replace('.', ',');
 
 export const generateId = () => "_" + Math.random().toString(36).substr(2) + Date.now();
 
@@ -16,8 +15,17 @@ export const getClosest = (array, attr, value) => {
 
 export const importAll = r => {
     let images = {};
-    r.keys().forEach(item => { 
-        images[item.replace('./', '')] = r(item); 
+    r.keys().forEach(item => {
+        images[item.replace('./', '')] = r(item);
     });
     return images
 };
+
+export const getLastNonEmptyRowIndex = matrix => {
+    for (let i = matrix.length - 1; i >= 0; i--) {
+        if (matrix[i].some(cell => cell !== null && cell !== undefined && cell !== '')) {
+            return i;
+        }
+    }
+    return -1;
+}

@@ -230,7 +230,7 @@ export const computeQa = params => { // Caudal equivalente en agua
     checkParams(schemas.computeVa, params);
     const Va = computeVa(params);
     const { Dp } = params;
-    return Va/Math.sqrt(Dp);
+    return Va*Math.sqrt(Dp);
 };
 
 export const computeEffectiveFlow = params => {

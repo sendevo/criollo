@@ -38,6 +38,14 @@ import iconPressure from '../../assets/icons/presion.png';
 import iconDensity from '../../assets/icons/densidad.png';
 import iconVolume from '../../assets/icons/dosis.png';
 
+const getInputBorderColor = (updated, productType) => {
+    if(productType === "fitosanitarios") {
+        return updated ? "green" : "#F2D118";
+    }else {
+        return updated ? "#007bff" : "orange";
+    }
+};
+
 const Params = props => {
 
     const model = useContext(ModelCtx);
@@ -113,7 +121,6 @@ const Params = props => {
         //console.error("Error al calcular el caudal equivalente en agua:", e.message);
     }
 
-
     // El caudal de pulverizacion de cada pico se calcula ante cualquier cambio de variable
     // pero no se usa en esta seccion, sino en verificacion de picos
     try{
@@ -157,14 +164,20 @@ const Params = props => {
     }, [model.workVelocity, model.velocityMeasured]);   
 
     const handleProductTypeChange = value => {
-        const prevInputs = {...inputs};
-        prevInputs.productType = value;
+        const prevInputs = {
+            ...inputs,
+            productType: value,
+            workPressureUpdated: false,
+            workVelocityUpdated: false,
+            workVolumeUpdated: false
+        };
         if(value === "fitosanitarios"){
             prevInputs.productDensity =  1;
+            setNozzleSelection([-1, -1, -1, -1]); // Reiniciar la seleccion de picos
         }else{
             prevInputs.nozzleNumber = '';
+            setNozzleSelection([0, -1, -1, -1]); // Dejar por defecto norma ISO
         }
-        setNozzleSelection([-1, -1, -1, -1]); // Reiniciar la seleccion de picos
         setInputs({...prevInputs});  
     };
 
@@ -257,7 +270,10 @@ const Params = props => {
         const density = parseFloat(e.target.value);
         setInputs({
             ...inputs,
-            productDensity: density
+            productDensity: density,
+            workPressureUpdated: false,
+            workVelocityUpdated: false,
+            workVolumeUpdated: false
         });
         model.update("productDensity", density);
     };
@@ -276,10 +292,9 @@ const Params = props => {
 
     const handleWorkPressureChange = e => {
         const wp = parseFloat(e.target.value);
-        
         setInputs({
             ...inputs,
-            workPressure: set2Decimals(wp),
+            workPressure: wp,
             workPressureUpdated: true,
             workVelocityUpdated: false,
             workVolumeUpdated: false
@@ -467,14 +482,16 @@ const Params = props => {
             
             <center className="help-target-nozzle-select">
                 <NozzleMenu 
-                    hideNozzleTypes={productType === "fertilizante"}
+                    productType={productType}
                     onOptionSelected={handleNozzleSelected} 
                     selection={nozzleSelection} />
             </center>
 
+            {/*
             <div style={{paddingLeft:"20px"}}>
                 <Typography variant="small" sx={{color:"#000"}}>Selección: {model.getNozzleName(nozzleSelection)}</Typography>
             </div>
+            */}
 
             <List form noHairlinesMd style={{marginBottom:"5px", marginTop: "0px"}}>    
                 <Row slot="list">
@@ -513,7 +530,7 @@ const Params = props => {
                     <Col width="80">
                         <Input
                             slot="list"
-                            borderColor={workVelocityUpdated ? "green":"#F2D118"}
+                            borderColor={getInputBorderColor(workVelocityUpdated, productType)}
                             label="Velocidad de avance"
                             name="workVelocity"
                             type="number"
@@ -531,13 +548,13 @@ const Params = props => {
                 
                 <Input
                     slot="list"
-                    borderColor={workPressureUpdated ? "green":"#F2D118"}
+                    borderColor={getInputBorderColor(workPressureUpdated, productType)}
                     label="Presión de trabajo"
                     name="workPressure"
                     type="number"
                     unit="bar"
                     icon={iconPressure}
-                    value={workPressure}
+                    value={set2Decimals(workPressure)}
                     onIconClick={computeWorkPressure}
                     onChange={handleWorkPressureChange}>
                 </Input>
@@ -551,7 +568,7 @@ const Params = props => {
 
                 <Input
                     slot="list"
-                    borderColor={workVolumeUpdated ? "green":"#F2D118"}
+                    borderColor={getInputBorderColor(workVolumeUpdated, productType)}
                     label="Volumen de aplicación"
                     name="workVolume"
                     type="number"

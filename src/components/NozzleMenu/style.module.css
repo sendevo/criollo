@@ -6,7 +6,7 @@
     width: 93%;         
     border-radius: 5px;    
     margin-bottom: 5px;
-    padding: 5px 0px;    
+    padding: 0px;
 }
 
 .Menu {
@@ -17,16 +17,19 @@
 
 .MenuItem {
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    height: auto;
+    min-height: 40px;
 }
 
-.MenuDropdown {
+
+.MenuDropdownItemBW {
     text-align: left;
+    white-space: normal;
+    word-break: break-word;
 }
 
 .MenuDropdownItem {
     text-align: left;
-    white-space: normal;
-    word-break: break-word;
 }
 
 .SelectedOptionContainer {
@@ -46,7 +49,10 @@
 .SelectedOptionText {      
     font-size: 14px;    
     color: #000;
+    max-width: 100px;
+    text-align: left;
     white-space: normal;
     word-break: break-word;
-    text-align: left;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
