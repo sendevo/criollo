@@ -181,34 +181,6 @@ const Params = props => {
         setInputs({...prevInputs});  
     };
 
-    const handleNozzleSeparationChange = value => {
-        const ns = parseFloat(value);
-        setInputs({
-            ...inputs,
-            nozzleSeparation: ns,
-            nozzleNumber: '',
-            workPressureUpdated: false,
-            workVelocityUpdated: false,
-            workVolumeUpdated: false
-        });
-        model.update({
-            nozzleSeparation: ns, 
-            nozzleNumber: '',
-            sprayFlow: null
-        });
-    };
-
-    const handleNozzleNumberChange = value => {
-        let n = parseInt(value);
-        if(n < 0)
-            n = '';
-        setInputs({
-            ...inputs,
-            nozzleNumber: n
-        });
-        model.update("nozzleNumber", n);
-    };
-
     const handleNozzleSelected = selection => {        
         setNozzleSelection(selection);
         const nz = model.getNozzle(selection);
@@ -237,8 +209,36 @@ const Params = props => {
         }
     };
 
+    const handleNozzleSeparationChange = value => {
+        const ns = value;
+        setInputs({
+            ...inputs,
+            nozzleSeparation: ns,
+            nozzleNumber: '',
+            workPressureUpdated: false,
+            workVelocityUpdated: false,
+            workVolumeUpdated: false
+        });
+        model.update({
+            nozzleSeparation: ns, 
+            nozzleNumber: '',
+            sprayFlow: null
+        });
+    };
+
+    const handleNozzleNumberChange = value => {
+        let n = value;
+        if(n < 0)
+            n = '';
+        setInputs({
+            ...inputs,
+            nozzleNumber: n
+        });
+        model.update("nozzleNumber", n);
+    };
+
     const handleNominalFlowChange = e => {        
-        const nf = parseFloat(e.target.value);
+        const nf = e.target.value;
         setInputs({
             ...inputs,
             nominalFlow: nf,                        
@@ -255,7 +255,7 @@ const Params = props => {
     };
 
     const handleNominalPressureChange = e => {
-        const np = parseFloat(e.target.value);
+        const np = e.target.value;
         setInputs({
             ...inputs,
             nominalPressure: np,
@@ -267,7 +267,7 @@ const Params = props => {
     };
 
     const handleProductDensityChange = e => {
-        const density = parseFloat(e.target.value);
+        const density = e.target.value;
         setInputs({
             ...inputs,
             productDensity: density,
@@ -279,7 +279,7 @@ const Params = props => {
     };
 
     const handleWorkVelocityChange = e => {
-        const wv = parseFloat(e.target.value);
+        const wv = e.target.value;
         setInputs({
             ...inputs,
             workVelocity: wv,
@@ -291,7 +291,7 @@ const Params = props => {
     };
 
     const handleWorkPressureChange = e => {
-        const wp = parseFloat(e.target.value);
+        const wp = e.target.value;
         setInputs({
             ...inputs,
             workPressure: wp,
@@ -303,7 +303,7 @@ const Params = props => {
     };
 
     const handleWorkVolumeChange = e => {
-        const wv = parseFloat(e.target.value);
+        const wv = e.target.value;
         setInputs({
             ...inputs,
             workVolume: wv,
@@ -330,7 +330,9 @@ const Params = props => {
             });
             setInputs({
                 ...inputs,
-                workVelocity: newVel,
+                workVelocity: newVel.toFixed(1),
+                workPressure: parseFloat(workPressure).toFixed(1),
+                workVolume: parseFloat(workVolume).toFixed(1),
                 workVelocityUpdated: true,
                 workPressureUpdated: true,
                 workVolumeUpdated: true
@@ -353,7 +355,9 @@ const Params = props => {
             model.update("workPressure", newPres);
             setInputs({
                 ...inputs,
-                workPressure: newPres,
+                workPressure: newPres.toFixed(1),
+                workVelocity: parseFloat(workVelocity).toFixed(1),
+                workVolume: parseFloat(workVolume).toFixed(1),
                 workVelocityUpdated: true,
                 workPressureUpdated: true,
                 workVolumeUpdated: true
@@ -376,7 +380,9 @@ const Params = props => {
             model.update("workVolume", newVol);
             setInputs({
                 ...inputs,
-                workVolume: newVol,
+                workVolume: newVol.toFixed(1),
+                workVelocity: parseFloat(workVelocity).toFixed(1),
+                workPressure: parseFloat(workPressure).toFixed(1),
                 workVelocityUpdated: true,
                 workPressureUpdated: true,
                 workVolumeUpdated: true
@@ -457,7 +463,7 @@ const Params = props => {
                     unit="m"
                     icon={iconDistance}
                     value={nozzleSeparation}
-                    onChange={v => handleNozzleSeparationChange(v.target.value)}>
+                    onChange={handleNozzleSeparationChange}>
                 </Input>
 
                 { productType==="fitosanitarios" &&
@@ -469,7 +475,7 @@ const Params = props => {
                         type="number"                    
                         icon={iconNozzles}
                         value={nozzleNumber}
-                        onChange={v => handleNozzleNumberChange(v.target.value)}>
+                        onChange={handleNozzleNumberChange}>
                     </Input>
                 }
             </List>
@@ -536,7 +542,7 @@ const Params = props => {
                             type="number"
                             unit="km/h"
                             icon={iconVelocity}
-                            value={workVelocity.toFixed()}
+                            value={workVelocity}
                             onIconClick={computeWorkVelocity}
                             onChange={handleWorkVelocityChange}>
                         </Input>        
@@ -554,7 +560,7 @@ const Params = props => {
                     type="number"
                     unit="bar"
                     icon={iconPressure}
-                    value={set2Decimals(workPressure)}
+                    value={workPressure}
                     onIconClick={computeWorkPressure}
                     onChange={handleWorkPressureChange}>
                 </Input>
@@ -574,14 +580,14 @@ const Params = props => {
                     type="number"
                     unit="l/ha"
                     icon={iconVolume}
-                    value={workVolume.toFixed()}
+                    value={workVolume}
                     onIconClick={computeWorkVolume}
                     onChange={handleWorkVolumeChange}>
                 </Input>
                 {waterEqSprayFlow && productType === "fertilizante" && equationsUpdated &&
                     <div slot="list">
                         <span style={{fontSize: "0.9em", color: "rgb(100, 100, 250)", marginLeft: "50px"}}>
-                            Caudal equivalente en agua: {waterEqSprayFlow.toFixed()} l/ha
+                            Volumen equivalente en agua: {waterEqSprayFlow.toFixed()} l/ha
                         </span>
                     </div>
                 }

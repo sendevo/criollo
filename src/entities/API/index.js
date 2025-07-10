@@ -3,6 +3,13 @@ const round2 = x => Math.round(x*100)/100;
 const isString = value => (typeof value === 'string' || value instanceof String) && value !== "";
 const isFloat = value => Number.isFinite(value);
 const isPositiveFloat = value => Number.isFinite(value) && value > 0;
+const toFloat = obj => Object.keys(obj)
+    .reduce((acc, key) => {
+        // Convert the value to a float if it's a string that can be parsed as a float, else keep it as is
+        const value = obj[key];
+        acc[key] = typeof value === 'string' && !isNaN(value) ? parseFloat(value) : value;
+        return acc;
+    }, {});
 
 
 const schemas = { // Esquemas de validación de parametros
@@ -184,58 +191,66 @@ export const getDropletSizeName = (pressure, ranges) => {
 /** Cálculos de aplicación */
 
 export const computeQNom = params => { // qn
-    checkParams(schemas.computeQNom, params);
-    const {b, c, Pnom} = params;
+    const p = toFloat(params);
+    checkParams(schemas.computeQNom, p);
+    const {b, c, Pnom} = p;
     return round2(b + c * Math.sqrt(Pnom));
 }
 
 const K = (Qnom, Pnom) => 600*Qnom/Math.sqrt(Pnom);
 
 export const computeVa = params => { // Q
-    checkParams(schemas.computeVa, params);
-    const { Pt, Vt, d, Qnom, Pnom, Dp } = params;
+    const p = toFloat(params);
+    checkParams(schemas.computeVa, p);
+    const { Pt, Vt, d, Qnom, Pnom, Dp } = p;
     const Va = Math.sqrt(Pt/Dp) * K(Qnom, Pnom) / Vt / d;
     return round2(Va);
 };
 
 export const computePt = params => { // pe
-    checkParams(schemas.computePt, params);
-    const { Va, Vt, d, Qnom, Pnom, Dp } = params;
+    const p = toFloat(params);
+    checkParams(schemas.computePt, p);
+    const { Va, Vt, d, Qnom, Pnom, Dp } = p;
     const sqPt = Va * Vt * d / K(Qnom, Pnom);
     const Pt = round2(sqPt*sqPt)*Dp;
     return Pt;
 };
 
 export const computeVt = params => { // V
-    checkParams(schemas.computeVt, params);
-    const { Va, Pt, d, Qnom, Pnom, Dp } = params;
+    const p = toFloat(params);
+    checkParams(schemas.computeVt, p);
+    const { Va, Pt, d, Qnom, Pnom, Dp } = p;
     const Vt = K(Qnom, Pnom) * Math.sqrt(Pt/Dp) / Va / d;
     return round2(Vt);
 };
 
 export const computeQt = params => { // qe
-    checkParams(schemas.computeQt, params);
-    const { Qnom, Pnom, Pt } = params;
+    const p = toFloat(params);
+    checkParams(schemas.computeQt, p);
+    const { Qnom, Pnom, Pt } = p;
     const Qt = Math.sqrt(Pt/Pnom)*Qnom;
     return round2(Qt);
 };
 
 export const computeQb = params => { // Caudal de bomba o pulverizado (qe * numero de picos)
-    checkParams(schemas.computeQb, params);    
-    const Qb = computeQt(params)*params.n;
+    const p = toFloat(params);
+    checkParams(schemas.computeQb, p);
+    const Qb = computeQt(p)*p.n;
     return round2(Qb);
 };
 
 export const computeQa = params => { // Caudal equivalente en agua
-    checkParams(schemas.computeVa, params);
-    const Va = computeVa(params);
-    const { Dp } = params;
+    const p = toFloat(params);
+    checkParams(schemas.computeVa, p);
+    const Va = computeVa(p);
+    const { Dp } = p;
     return Va*Math.sqrt(Dp);
 };
 
 export const computeEffectiveFlow = params => {
-    checkParams(schemas.computeEffectiveFlow, params);
-    const { c, tms, Va } = params;
+    const p = toFloat(params);
+    checkParams(schemas.computeEffectiveFlow, p);
+    const { c, tms, Va } = p;
     const th = 10; // Umbral en porcentaje
     const ef = round2(c / tms * 60000); // Caudal efectivo
     const s = round2((ef - Va) / Va * 100); // Desviacion estandar
@@ -244,8 +259,9 @@ export const computeEffectiveFlow = params => {
 };
 
 export const computeSprayVolume = params => {
-    checkParams(schemas.computeSprayVolume, params);
-    const { Q, d, vel } = params;
+    const p = toFloat(params);
+    checkParams(schemas.computeSprayVolume, p);
+    const { Q, d, vel } = p;
     const vol = 600*Q / (d * vel);
     return round2(vol);
 };
@@ -255,8 +271,9 @@ const computeProductVolume = (prod, vol, Va) => { // Cantidad de insumo (gr o ml
 };
 
 export const computeSuppliesList = params => { // Lista de insumos y cargas para mezcla   
-    checkParams(schemas.computeSuppliesList, params);
-    const { A, T, Va, products } = params;
+    const p = toFloat(params);
+    checkParams(schemas.computeSuppliesList, p);
+    const { A, T, Va, products } = p;
     const Nc = A*Va/T; // Cantidad de cargas
     const Ncc = Math.floor(Nc); // Cantidad de cargas completas
     const Vf = (Nc - Ncc)*T; // Volumen fraccional [L]
@@ -264,12 +281,12 @@ export const computeSuppliesList = params => { // Lista de insumos y cargas para
     const Vcb = A*Va/Ncb; // Volumen de cargas balanceadas
     const Vftl = Vf/T < 0.2; // Detectar volumen fraccional total menor a 20%
     // Calcular cantidades de cada producto
-    const pr = products.map(p => ({
+    const pr = products.map(prod => ({
         ...p, // Por comodidad, dejar resto de los detalles en este arreglo
-        cpp: computeProductVolume(p, T, Va)/1000, // Cantidad por carga completa [l o kg]
-        cfc: computeProductVolume(p, Vf, Va)/1000, // Cantidad por carga fraccional [l o kg]
-        ceq: computeProductVolume(p, Vcb, Va)/1000, // Cantidad por carga equilibrada [l o kg]
-        total: computeProductVolume(p, T, Va)*Nc/1000, // Cantidad total de insumo [l o kg]
+        cpp: computeProductVolume(prod, T, Va)/1000, // Cantidad por carga completa [l o kg]
+        cfc: computeProductVolume(prod, Vf, Va)/1000, // Cantidad por carga fraccional [l o kg]
+        ceq: computeProductVolume(prod, Vcb, Va)/1000, // Cantidad por carga equilibrada [l o kg]
+        total: computeProductVolume(prod, T, Va)*Nc/1000, // Cantidad total de insumo [l o kg]
     }));
 
     return {pr, Nc, Ncc, Vf, Ncb, Vcb, Vftl};

@@ -11,9 +11,9 @@ const styles = {
 
     bottomBox: {
         backgroundColor: "#2D6F94",
-        height: "60px",
-        position: "absolute",
         width: "100%",
+        height: "60px",
+        position: "fixed",
         bottom: 0,
         left: 0,
         display: "flex",

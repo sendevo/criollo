@@ -45,8 +45,8 @@ const Home = () => (
                     <p>Información y ayuda</p>
                 </Link>
             </Block>
-            <Footer />
         </PageContent>
+        <Footer />
     </Page>
 );
 
