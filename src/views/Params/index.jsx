@@ -84,7 +84,10 @@ const Params = props => {
 
     const equationsUpdated = workPressureUpdated && workVelocityUpdated && workVolumeUpdated;
 
-    const withinRange = nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure;
+    let withinRange = false;
+    if(nozzle)
+        if(Array.isArray(nozzle.droplet_sizes)) 
+            withinRange = nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure;
 
     // El caudal total de pulverizacion se calcula ante cualquier cambio de variable
     // pero solo si esta indicado el numero de picos

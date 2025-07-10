@@ -6,17 +6,26 @@ import nozzles from '../../data/nozzles_droplet_sizes.json';
 // A partir de version 5.0.0, se agrega modelo de migraciones
 export const APP_NAME = "Criollo";
 export const ANDROID_VERSION_CODE = "20"; // Para app store
-export const VERSION_NAME = "5.0.0";
+export const VERSION_NAME = "5.0.1";
 export const BUILD_DATE = 1751553918425; // 3-7-2025 11:45hs
 
 // Lista de versiones
 const DB_NAMES = [
     "criollo_model4",
-    "criollo_model_5.0.0"
+    "criollo_model_5.0.0",
+    "criollo_model_5.0.1"
 ];
 
 const migrationFunctions = [
-    oldData => oldData // DB_NAMES[0] -> DB_NAMES[1] (no hay cambios)
+    oldData => oldData, // criollo_model4 -> criollo_model_5.0.0
+    oldData => { // criollo_model_5.0.0 -> criollo_model_5.0.1
+        const newData = { ...oldData,
+            workVelocity: parseInt(oldData.workVelocity).toFixed(1) || "20.0",
+            workPressure: parseFloat(oldData.workPressure).toFixed(1) || "2.0",
+            workVolume: parseFloat(oldData.workVolume).toFixed(1) || "56.0"
+        };
+        return newData;
+    }
 ];
 
 
@@ -67,15 +76,15 @@ const get_blank_report = () => {
 
 const defaultFormParams = {
     productDensity: 1, // Densidad del producto (g/l)
-    workVelocity: 20, // Velocidad de trabajo (km/h)
+    workVelocity: "20.0", // Velocidad de trabajo (km/h)
     velocityMeasured: false, // Para disparar render en vista de parametros
-    workPressure: 2, // Presion de trabajo (bar)
-    workVolume: 56, // Volumen de aplicacion (l/ha)
+    workPressure: "2.0", // Presion de trabajo (bar)
+    workVolume: "56.0", // Volumen de aplicacion (l/ha)
     workFlow: 0.65, // Caudal de trabajo efectivo (l/min) por pico
     nominalFlow: 0.8, // Caudal nominal de pico seleccionado
+    nominalPressure: 3, // Presion nominal de pico seleccionado
     sprayFlow: null, // Caudal de pulverizacion (caudal de picos multiplicado por n de picos)
     waterEqSprayFlow: null, // Caudal de agua equivalente (para aplicacion con fertilizantes)
-    nominalPressure: 3, // Presion nominal de pico seleccionado
     nozzleSeparation: 0.35, // Distancia entre picos (m)
     nozzleNumber: null, // Numero de picos
     nozzleSelection: [-1, -1, -1, -1], // Indices de picos seleccionados
@@ -208,6 +217,7 @@ export default class CriolloModel {
                 break;
             }
             currentData = migrationFn(currentData);
+            console.log(`Migrando datos de ${DB_NAMES[i]} a ${DB_NAMES[i+1]}`);
         }
 
         await ls.set({
