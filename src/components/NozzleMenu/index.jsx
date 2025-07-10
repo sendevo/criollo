@@ -71,6 +71,7 @@ const NozzleMenu = ({productType, selection, onOptionSelected}) => {
                         text={<SelectedOption selection={lvl[selection[idx]]} />} 
                         dropdown>
                             <MenuDropdown 
+                                contentHeight='300px'
                                 left={idx === 0}
                                 center={idx > 0 && idx < levels.length - 1} 
                                 right={idx === getLastNonEmptyRowIndex(levels)}>

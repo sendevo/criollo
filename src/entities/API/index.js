@@ -175,8 +175,6 @@ export const dropletSizeProperties = { // Colores de los rangos de tamaño de go
     }
 };
 
-export const dropletSizeRange = {min: 0, max: 6}; // Rango de presiones para slider de tamaño de gota
-
 export const getDropletSizeLabel = (pressure, ranges) => {
     const size = ranges.find(range => pressure >= range.from && pressure <= range.to);
     return size ? (dropletSizeProperties[size.label] ? dropletSizeProperties[size.label].label_es : null) : null;

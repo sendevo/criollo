@@ -27,10 +27,8 @@ import {
     computePt,
     computeVa,
     dropletSizeProperties,
-    dropletSizeRange,
     getDropletSizeName
 } from '../../entities/API';
-import { set2Decimals } from '../../utils';
 import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzles from '../../assets/icons/cant_picos2.png';
 import iconVelocity from '../../assets/icons/velocidad.png';
@@ -85,6 +83,8 @@ const Params = props => {
     } = inputs;
 
     const equationsUpdated = workPressureUpdated && workVelocityUpdated && workVolumeUpdated;
+
+    const withinRange = nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure;
 
     // El caudal total de pulverizacion se calcula ante cualquier cambio de variable
     // pero solo si esta indicado el numero de picos
@@ -596,14 +596,16 @@ const Params = props => {
             { nozzle?.droplet_sizes &&
                 <div>
                     <Divider/>
-                    <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}>
-                        <Typography variant='subtitle'>Tamaño de gota: {getDropletSizeName(workPressure, nozzle?.droplet_sizes)}</Typography>
-                    </BlockTitle>
+                    {withinRange && 
+                        <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}>
+                            <Typography variant='subtitle'>Tamaño de gota: {getDropletSizeName(workPressure, nozzle?.droplet_sizes)}</Typography>
+                        </BlockTitle>
+                    }
                     <div style={{paddingLeft:"20px", paddingRight:"20px", marginBottom:"10px"}}>
-                        {nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure ? // Ver si la presion de trabajo esta dentro del rango de tamaños de gota
+                        {withinRange ? // Ver si la presion de trabajo esta dentro del rango de tamaños de gota
                             <DropletSizeSlider
-                                min={dropletSizeRange.min}
-                                max={dropletSizeRange.max}
+                                min={nozzle?.droplet_sizes[0].from}
+                                max={nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to}
                                 ranges={nozzle.droplet_sizes.map(range => ({
                                         ...range,
                                         label: dropletSizeProperties[range.label] ? dropletSizeProperties[range.label].label_es : range.label, // Usar etiqueta en español
