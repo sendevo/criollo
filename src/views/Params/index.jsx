@@ -587,7 +587,7 @@ const Params = props => {
                 }
 
                 <Row slot="list" className="help-target-params-1 help-target-params-2">
-                    <Col width="80">
+                    <Col width={productType === "fitosanitarios" ? "100" : "80"}>
                         <Input
                             slot="list"
                             borderColor={getInputBorderColor(workVolumeUpdated, productType)}
@@ -601,9 +601,11 @@ const Params = props => {
                             onChange={handleWorkVolumeChange}>
                         </Input>  
                     </Col>
-                    <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
-                        <VolumeCalculatorButton href="/volume/" tooltip="Ajustar caudal"/>
-                    </Col>
+                    {productType === "fertilizante" &&
+                        <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                            <VolumeCalculatorButton href="/volume/" tooltip="Ajustar caudal"/>
+                        </Col>
+                    }
                 </Row>
 
                 {waterEqSprayFlow && productType === "fertilizante" && equationsUpdated &&

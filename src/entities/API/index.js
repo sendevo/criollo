@@ -49,7 +49,7 @@ const schemas = { // Esquemas de validación de parametros
     },
     computeQd: {
         Dnu: v => isPositiveFloat(v),
-        Cnu: v => isPositiveFloat(v),
+        Cnu: v => isPositiveFloat(v) && v <= 100,
         Dp: v => isPositiveFloat(v)
     },
     computeQb: {
@@ -104,6 +104,8 @@ const parameterNames = { // Al costado, notación de la documentación
     Va: "Volumen de aplicación", // Q
     Vt: "Velocidad de trabajo", // V
     Dp: "Densidad de producto", // D
+    Dnu: "Dosis de nutriente", // Dnu
+    Cnu: "Concentración de nutriente", // Cnu
     c: "Volumen recolectado",
     tms: "Tiempo de muestreo",
     A: "Superficie de trabajo", 
