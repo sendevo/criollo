@@ -47,6 +47,11 @@ const schemas = { // Esquemas de validación de parametros
         Pnom: v => isPositiveFloat(v),
         Pt: v => isPositiveFloat(v)
     },
+    computeQd: {
+        Dnu: v => isPositiveFloat(v),
+        Cnu: v => isPositiveFloat(v),
+        Dp: v => isPositiveFloat(v)
+    },
     computeQb: {
         n: v => isPositiveFloat(v),
         Qnom: v => isPositiveFloat(v),
@@ -228,6 +233,14 @@ export const computeQt = params => { // qe
     const { Qnom, Pnom, Pt } = p;
     const Qt = Math.sqrt(Pt/Pnom)*Qnom;
     return round2(Qt);
+};
+
+export const computeQd = params => { // Caudal de pulverizado ajustado por concentración
+    const p = toFloat(params);
+    checkParams(schemas.computeQd, p);
+    const { Dnu, Cnu, Dp } = p;
+    const Qd = Dnu * 100 / Cnu / Dp; // Caudal ajustado
+    return round2(Qd);
 };
 
 export const computeQb = params => { // Caudal de bomba o pulverizado (qe * numero de picos)

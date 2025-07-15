@@ -111,6 +111,3 @@ Para compilar extension auravant, agregar el siguiente tag dentro del ```<head>`
 ```html
 <script src="https://auraview.auravant.com/sdk/v1.0/aura-package_v1.0.js"></script>
 ``` 
-
-[ ] Los que tienen rango entre 2 y 4 bar, cambiarlo a 1.95 - 4.05
-[ ] valores de presion debajo de la barra de colores

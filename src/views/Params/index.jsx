@@ -9,7 +9,7 @@ import {
     Button 
 } from 'framework7-react';
 import { useContext, useEffect, useState } from 'react';
-import { NavbarTitle, CalculatorButton } from '../../components/Buttons';
+import { NavbarTitle, CalculatorButton, VolumeCalculatorButton } from '../../components/Buttons';
 import { NozzleSeparationSelector, ProductTypeSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
 import NozzleMenu from "../../components/NozzleMenu";
@@ -65,7 +65,7 @@ const Params = props => {
 
     const [nozzleSelection, setNozzleSelection] = useState(model.nozzleSelection || [-1, -1, -1, -1]);
 
-    const nozzle = model.getNozzle(nozzleSelection);
+    const nozzle = model.getNozzle(nozzleSelection); // Sin seleccion retorna null
 
     const {
         nozzleSeparation,
@@ -84,7 +84,7 @@ const Params = props => {
 
     const equationsUpdated = workPressureUpdated && workVelocityUpdated && workVolumeUpdated;
 
-    let withinRange = false;
+    let withinRange = false; // Condicional para mostrar el slider de tamaño de gota
     if(nozzle)
         if(Array.isArray(nozzle.droplet_sizes)) 
             withinRange = nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure;
@@ -164,7 +164,15 @@ const Params = props => {
                 workPressureUpdated: false,
                 workVolumeUpdated: false
             }));
-    }, [model.workVelocity, model.velocityMeasured]);   
+        if(model.volumeMeasured)
+            setInputs(prevState => ({
+                ...prevState,
+                workVolume: model.workVolume,
+                workVelocityUpdated: false,
+                workPressureUpdated: false,
+                workVolumeUpdated: true
+            }));
+    }, [model.workVelocity, model.velocityMeasured, model.workVolume, model.volumeMeasured]);   
 
     const handleProductTypeChange = value => {
         const prevInputs = {
@@ -380,7 +388,10 @@ const Params = props => {
                 Qnom: nominalFlow,
                 Pnom: nominalPressure
             });
-            model.update("workVolume", newVol);
+            model.update({
+                workVolume: newVol,
+                volumeMeasured: false
+            });
             setInputs({
                 ...inputs,
                 workVolume: newVol.toFixed(1),
@@ -443,7 +454,7 @@ const Params = props => {
                             label="Densidad de producto"
                             name="workDensity"
                             type="number"
-                            unit="kg/L"
+                            unit="kg/l"
                             icon={iconDensity}
                             value={productDensity}
                             onChange={handleProductDensityChange}>
@@ -575,18 +586,26 @@ const Params = props => {
                     </div>
                 }
 
-                <Input
-                    slot="list"
-                    borderColor={getInputBorderColor(workVolumeUpdated, productType)}
-                    label="Volumen de aplicación"
-                    name="workVolume"
-                    type="number"
-                    unit="l/ha"
-                    icon={iconVolume}
-                    value={workVolume}
-                    onIconClick={computeWorkVolume}
-                    onChange={handleWorkVolumeChange}>
-                </Input>
+                <Row slot="list" className="help-target-params-1 help-target-params-2">
+                    <Col width="80">
+                        <Input
+                            slot="list"
+                            borderColor={getInputBorderColor(workVolumeUpdated, productType)}
+                            label="Volumen de aplicación"
+                            name="workVolume"
+                            type="number"
+                            unit="l/ha"
+                            icon={iconVolume}
+                            value={workVolume}
+                            onIconClick={computeWorkVolume}
+                            onChange={handleWorkVolumeChange}>
+                        </Input>  
+                    </Col>
+                    <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                        <VolumeCalculatorButton href="/volume/" tooltip="Ajustar caudal"/>
+                    </Col>
+                </Row>
+
                 {waterEqSprayFlow && productType === "fertilizante" && equationsUpdated &&
                     <div slot="list">
                         <span style={{fontSize: "0.9em", color: "rgb(100, 100, 250)", marginLeft: "50px"}}>

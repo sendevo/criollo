@@ -13,7 +13,8 @@ export const BUILD_DATE = 1751553918425; // 3-7-2025 11:45hs
 const DB_NAMES = [
     "criollo_model4",
     "criollo_model_5.0.0",
-    "criollo_model_5.0.1"
+    "criollo_model_5.0.1",
+    "criollo_model_5.0.2"
 ];
 
 const migrationFunctions = [
@@ -23,6 +24,13 @@ const migrationFunctions = [
             workVelocity: parseInt(oldData.workVelocity).toFixed(1) || "20.0",
             workPressure: parseFloat(oldData.workPressure).toFixed(1) || "2.0",
             workVolume: parseFloat(oldData.workVolume).toFixed(1) || "56.0"
+        };
+        return newData;
+    },
+    oldData => { // criollo_model_5.0.1 -> criollo_model_5.0.2
+        const newData = { ...oldData,
+            nutrientDose: "0.0",
+            nutrientConcentration: "100"
         };
         return newData;
     }
@@ -78,6 +86,7 @@ const defaultFormParams = {
     productDensity: 1, // Densidad del producto (g/l)
     workVelocity: "20.0", // Velocidad de trabajo (km/h)
     velocityMeasured: false, // Para disparar render en vista de parametros
+    volumeMeasured: false, // Para disparar render en vista de parametros
     workPressure: "2.0", // Presion de trabajo (bar)
     workVolume: "56.0", // Volumen de aplicacion (l/ha)
     workFlow: 0.65, // Caudal de trabajo efectivo (l/min) por pico
@@ -88,6 +97,9 @@ const defaultFormParams = {
     nozzleSeparation: 0.35, // Distancia entre picos (m)
     nozzleNumber: null, // Numero de picos
     nozzleSelection: [-1, -1, -1, -1], // Indices de picos seleccionados
+
+    nutrientConcentration: "100", // Concentracion de nutriente (%)
+    nutrientDose: "0.0", // Dosis de nutriente (kg/ha)
     
     // Verificacion de picos
     samplingTimeMs: 30000, // 30000, 60000 o 90000

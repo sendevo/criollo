@@ -1,6 +1,7 @@
 import Home from './Home';
 import Params from './Params';
 import Velocity from './Velocity';
+import Volume from './Volume';
 import Control from './Control';
 import Info from './Info';
 import About from './About';
@@ -14,6 +15,7 @@ export {
     Home,
     Params,
     Velocity,
+    Volume,
     Control,
     Info,
     About,

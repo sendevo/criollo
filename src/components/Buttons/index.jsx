@@ -1,9 +1,17 @@
 import { Link, Block } from 'framework7-react';
-import { FaPlay, FaStop, FaArrowLeft, FaPlus, FaStopwatch, FaTrash } from 'react-icons/fa';
+import { 
+    FaPlay, 
+    FaStop, 
+    FaArrowLeft, 
+    FaPlus, 
+    FaStopwatch, 
+    FaTrash,
+    FaCalculator 
+} from 'react-icons/fa';
 import classes from './style.module.css';
 import Typography from '../Typography';
 
-const BackButton = props => (
+export const BackButton = props => (
     <Block className={classes.Container}>
         <Link tooltip="Volver" 
             onClick={() => props.f7router.back()}
@@ -14,7 +22,7 @@ const BackButton = props => (
     </Block>   
 ); 
 
-const NavbarTitle = props => (
+export const NavbarTitle = props => (
     <Link 
         style={{color:"black", fontSize:"0.9em", padding:"0px 5px"}}
         tooltip="Volver"
@@ -24,7 +32,7 @@ const NavbarTitle = props => (
     </Link>
 );
 
-const CalculatorButton = props => (
+export const CalculatorButton = props => (
     <Block style={{textAlign: "center", margin:"0px", padding:"0px"}}>
         <Link {...props} className={classes.RoundButton} style={{backgroundColor:props.color}}>
             <FaStopwatch size={20}/>
@@ -32,7 +40,15 @@ const CalculatorButton = props => (
     </Block>   
 );
 
-const DeleteButton = props => (
+export const VolumeCalculatorButton = props => (
+    <Block style={{textAlign: "center", margin:"0px", padding:"0px"}}>
+        <Link {...props} className={classes.RoundButton} style={{backgroundColor:props.color}}>
+            <FaCalculator size={20}/>
+        </Link>
+    </Block>   
+);
+
+export const DeleteButton = props => (
     <div style={{textAlign:"right", padding:"5px", height:"5px"}}>
         <Link
             tooltip="Quitar" 
@@ -42,20 +58,19 @@ const DeleteButton = props => (
     </div>
 );
 
-const AddButton = props => (
+export const AddButton = props => (
     <Block style={{textAlign: "right", margin:"0px", padding:"0px"}}>
         <Link 
             tooltip="Agregar producto" 
             onClick={props.onClick}
             className={classes.RoundButton}
-            style={{backgroundColor:"green", margin:"0px 0px 20px 0px"}}
-        >
+            style={{backgroundColor:"green", margin:"0px 0px 20px 0px"}}>
             <FaPlus size={20}/>
         </Link>
     </Block>   
 );
 
-const PlayButton = props => ( // Boton de control del cronometro
+export const PlayButton = props => ( // Boton de control del cronometro
     <span style={{minHeight:50}} onClick={props.onClick}>
         {
             props.running ? 
@@ -65,12 +80,3 @@ const PlayButton = props => ( // Boton de control del cronometro
         }
     </span>
 );
-
-export { 
-    BackButton, 
-    NavbarTitle,
-    CalculatorButton, 
-    DeleteButton, 
-    AddButton,
-    PlayButton 
-};

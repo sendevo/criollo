@@ -67,6 +67,14 @@ const f7params = {
                 transition: "f7-cover"        
             }
         },
+        { // Ajuste de caudal
+            path: '/volume/',
+            component: Views.Volume,
+            on:{pageInit: ()=>pushState("volume")},
+            options: {
+                transition: "f7-cover"        
+            }
+        },
         { // Seguridad y prevencion
             path: '/security/',
             component: Views.Security,
