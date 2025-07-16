@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { ModelCtx } from "../../context";
 import { computeQd } from "../../entities/API";
 import { set2Decimals } from "../../utils";
-import iconDensity from '../../assets/icons/densidad.png';
+import concentrationIcon from '../../assets/icons/concentration.png';
 import doseIcon from '../../assets/icons/dropper.png';
 
 
@@ -82,7 +82,7 @@ const View = props => { // View
                     name="nutrientConcentration"
                     type="number"
                     unit="%"
-                    icon={iconDensity}
+                    icon={concentrationIcon}
                     value={nutrientConcentration}
                     onChange={handleNutrientConcentrationChange}>
                 </Input>
