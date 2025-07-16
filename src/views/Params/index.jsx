@@ -164,6 +164,10 @@ const Params = props => {
                 workPressureUpdated: false,
                 workVolumeUpdated: false
             }));
+        
+    }, [model.workVelocity, model.velocityMeasured]);   
+
+    useEffect(() => {
         if(model.volumeMeasured)
             setInputs(prevState => ({
                 ...prevState,
@@ -172,7 +176,7 @@ const Params = props => {
                 workPressureUpdated: false,
                 workVolumeUpdated: true
             }));
-    }, [model.workVelocity, model.velocityMeasured, model.workVolume, model.volumeMeasured]);   
+    }, [model.workVolume, model.volumeMeasured]);
 
     const handleProductTypeChange = value => {
         const prevInputs = {
@@ -561,23 +565,27 @@ const Params = props => {
                             onChange={handleWorkVelocityChange}>
                         </Input>        
                     </Col>
-                    <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                    <Col width="20" style={{paddingTop:"7x", marginRight:"10px"}}>
                         <CalculatorButton href="/velocity/" tooltip="Medir velocidad"/>
                     </Col>
                 </Row>
                 
-                <Input
-                    slot="list"
-                    borderColor={getInputBorderColor(workPressureUpdated, productType)}
-                    label="Presión de trabajo"
-                    name="workPressure"
-                    type="number"
-                    unit="bar"
-                    icon={iconPressure}
-                    value={workPressure}
-                    onIconClick={computeWorkPressure}
-                    onChange={handleWorkPressureChange}>
-                </Input>
+                <Row slot="list" className="help-target-params-1 help-target-params-2">
+                    <Col width={"80"}>
+                        <Input
+                            slot="list"
+                            borderColor={getInputBorderColor(workPressureUpdated, productType)}
+                            label="Presión de trabajo"
+                            name="workPressure"
+                            type="number"
+                            unit="bar"
+                            icon={iconPressure}
+                            value={workPressure}
+                            onIconClick={computeWorkPressure}
+                            onChange={handleWorkPressureChange}>
+                        </Input>
+                    </Col>
+                </Row>
                 {sprayFlow && productType === "fitosanitarios" && equationsUpdated &&
                     <div slot="list">
                         <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
@@ -587,7 +595,7 @@ const Params = props => {
                 }
 
                 <Row slot="list" className="help-target-params-1 help-target-params-2">
-                    <Col width={productType === "fitosanitarios" ? "100" : "80"}>
+                    <Col width={"80"}>
                         <Input
                             slot="list"
                             borderColor={getInputBorderColor(workVolumeUpdated, productType)}
@@ -602,7 +610,7 @@ const Params = props => {
                         </Input>  
                     </Col>
                     {productType === "fertilizante" &&
-                        <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                        <Col width="20" style={{paddingTop:"7px", marginRight:"10px"}}>
                             <VolumeCalculatorButton href="/volume/" tooltip="Ajustar caudal"/>
                         </Col>
                     }

@@ -8,7 +8,6 @@ import { computeQd } from "../../entities/API";
 import { set2Decimals } from "../../utils";
 import iconDensity from '../../assets/icons/densidad.png';
 import doseIcon from '../../assets/icons/dropper.png';
-import Typography from "../../components/Typography";
 
 
 const View = props => { // View
@@ -39,6 +38,7 @@ const View = props => { // View
 
     const handleExport = () => { 
         try{
+            // Se calcula de nuevo para capturar errores
             const wv = computeQd({
                 Dnu: nutrientDose,
                 Cnu: nutrientConcentration,
@@ -52,7 +52,7 @@ const View = props => { // View
             });
             props.f7router.back();        
         } catch (err) {
-             Toast("error", err.message);
+            Toast("error", err.message);
         }
     };
 
@@ -62,9 +62,9 @@ const View = props => { // View
                 <NavbarTitle {...props} title="Ajuste por concentración"/>
             </Navbar>
             
-            <BlockTitle>Cálculo auxiliar de volumen de aplicación</BlockTitle>
+            <BlockTitle style={{marginTop: "0px"}}>Cálculo auxiliar de volumen de aplicación</BlockTitle>
 
-            <List form noHairlinesMd style={{marginTop:"0px"}}>
+            <List form noHairlinesMd style={{marginTop:"0px", marginBottom:"0px"}}>
                 <Input
                     slot="list"
                     label="Dosis de nutriente"
@@ -88,7 +88,7 @@ const View = props => { // View
                 </Input>
             </List>
 
-            <Block style={{marginTop:"-10px"}}>
+            <Block style={{marginTop:"5px"}}>
                 {workVolume && 
                     <span style={{fontSize: "0.9em", color: "rgb(100, 100, 100)"}}>
                         Volumen de aplicación: {workVolume}
@@ -96,8 +96,7 @@ const View = props => { // View
                 }
             </Block>
             
-            
-            <Block style={{marginTop:"0px", marginBottom: 15}}>
+            <Block>
                 <Row>
                     <Col width={20}></Col>
                     <Col width={60}><Button fill onClick={handleExport}>Exportar</Button></Col>
