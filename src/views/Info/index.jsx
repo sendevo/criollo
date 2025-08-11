@@ -44,8 +44,8 @@ const Info = props => {
                     </Link>                                
 
                 </Block>                  
-                <Footer />
             </PageContent>
+            <Footer />
         </Page>
     );
 };

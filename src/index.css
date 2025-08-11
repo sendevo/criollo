@@ -5,10 +5,10 @@ html, body {
 .app-container {
     max-width: 600px; /* typical mobile width */
     margin: 0 auto;
-    border: 1px solid #aaa; /* optional: for visibility/debugging */
-    box-shadow: 0 0 10px rgba(0,0,0,0.1); /* optional: for depth */
-    height: 100vh; /* ensure it stretches vertically */
-    overflow: hidden; /* optional: clip content */
+    border: 1px solid #aaa;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    height: 100vh;
+    overflow: hidden;
     background-color: white; /* match your app theme */
 }
 

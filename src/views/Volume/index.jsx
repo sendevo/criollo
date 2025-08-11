@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 import { ModelCtx } from "../../context";
 import { computeQd } from "../../entities/API";
 import { set2Decimals } from "../../utils";
-import concentrationIcon from '../../assets/icons/concentration.png';
+import concentrationIcon from '../../assets/icons/concentracion.png';
 import doseIcon from '../../assets/icons/dropper.png';
 
 
@@ -91,7 +91,7 @@ const View = props => { // View
             <Block style={{marginTop:"5px"}}>
                 {workVolume && 
                     <span style={{fontSize: "0.9em", color: "rgb(100, 100, 100)"}}>
-                        Volumen de aplicación: {workVolume}
+                        Volumen de aplicación: {workVolume} l/ha
                     </span>
                 }
             </Block>
