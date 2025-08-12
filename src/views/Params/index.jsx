@@ -281,7 +281,7 @@ const Params = props => {
     };
 
     const handleProductDensityChange = e => {
-        let density = parseInt(e.target.value);
+        let density = parseFloat(e.target.value);
         if(density < 0)
             density = '';
         setInputs({
@@ -294,14 +294,17 @@ const Params = props => {
         model.update("productDensity", density);
     };
 
+    // Verificar si se deben limpiar los otros campos al actualizar uno
+    const clearOthers = workVelocityUpdated && workPressureUpdated && workVolumeUpdated;
+
     const handleWorkVelocityChange = e => {
         const wv = e.target.value;
         setInputs({
             ...inputs,
             workVelocity: wv,
             workVelocityUpdated: true,
-            workPressureUpdated: false,
-            workVolumeUpdated: false
+            workPressureUpdated: workPressureUpdated && !clearOthers,
+            workVolumeUpdated: workVolumeUpdated && !clearOthers
         });
         model.update("workVelocity", wv);
     };
@@ -312,8 +315,8 @@ const Params = props => {
             ...inputs,
             workPressure: wp,
             workPressureUpdated: true,
-            workVelocityUpdated: false,
-            workVolumeUpdated: false
+            workVelocityUpdated: workVelocityUpdated && !clearOthers,
+            workVolumeUpdated: workVolumeUpdated && !clearOthers
         });
         model.update("workPressure", wp);
     };
@@ -324,8 +327,8 @@ const Params = props => {
             ...inputs,
             workVolume: wv,
             workVolumeUpdated: true,
-            workPressureUpdated: false,
-            workVelocityUpdated: false
+            workPressureUpdated: workPressureUpdated && !clearOthers,
+            workVelocityUpdated: workVelocityUpdated && !clearOthers
         });
         model.update("workVolume", wv);
     };
