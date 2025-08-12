@@ -93,15 +93,14 @@ const Params = props => {
     // pero solo si esta indicado el numero de picos
     let sprayFlow = model.sprayFlow;
     try{
-        if(productType === "fitosanitarios") {
-            sprayFlow = computeQb({
-                n: nozzleNumber,
-                Qnom: nominalFlow,
-                Pnom: nominalPressure,
-                Pt: workPressure
-            });
-            model.update("sprayFlow", sprayFlow);
-        }
+        sprayFlow = computeQb({
+            n: nozzleNumber,
+            Qnom: nominalFlow,
+            Pnom: nominalPressure,
+            Pt: workPressure,
+            Dp: productDensity
+        });
+        model.update("sprayFlow", sprayFlow);
     }catch(e){
         model.update("sprayFlow", null);
         //console.error("Error al calcular el caudal de pulverización:", e.message);
@@ -241,8 +240,8 @@ const Params = props => {
         });
     };
 
-    const handleNozzleNumberChange = value => {
-        let n = value;
+    const handleNozzleNumberChange = e => {
+        let n = parseInt(e.target.value);
         if(n < 0)
             n = '';
         setInputs({
@@ -282,7 +281,9 @@ const Params = props => {
     };
 
     const handleProductDensityChange = e => {
-        const density = e.target.value;
+        let density = parseInt(e.target.value);
+        if(density < 0)
+            density = '';
         setInputs({
             ...inputs,
             productDensity: density,
@@ -484,18 +485,16 @@ const Params = props => {
                     onChange={handleNozzleSeparationChange}>
                 </Input>
 
-                { productType==="fitosanitarios" &&
-                    <Input
-                        className="help-target-nozzle-cnt"
-                        slot="list"
-                        label="Cantidad de picos"
-                        name="nozzleNumber"
-                        type="number"                    
-                        icon={iconNozzles}
-                        value={nozzleNumber}
-                        onChange={handleNozzleNumberChange}>
-                    </Input>
-                }
+                <Input
+                    className="help-target-nozzle-cnt"
+                    slot="list"
+                    label="Cantidad de picos"
+                    name="nozzleNumber"
+                    type="number"                    
+                    icon={iconNozzles}
+                    value={nozzleNumber}
+                    onChange={handleNozzleNumberChange}>
+                </Input>
             </List>
 
             <Divider/>
@@ -586,7 +585,7 @@ const Params = props => {
                         </Input>
                     </Col>
                 </Row>
-                {sprayFlow && productType === "fitosanitarios" && equationsUpdated &&
+                {sprayFlow && equationsUpdated &&
                     <div slot="list">
                         <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
                             Caudal pulverizado: {sprayFlow.toFixed(2)} l/min

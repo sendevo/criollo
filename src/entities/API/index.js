@@ -56,7 +56,8 @@ const schemas = { // Esquemas de validación de parametros
         n: v => isPositiveFloat(v),
         Qnom: v => isPositiveFloat(v),
         Pnom: v => isPositiveFloat(v),
-        Pt: v => isPositiveFloat(v)
+        Pt: v => isPositiveFloat(v),
+        Dp: v => isPositiveFloat(v)
     },
     computeQa: {
         Dp: v => isPositiveFloat(v),
@@ -195,7 +196,7 @@ export const getDropletSizeName = (pressure, ranges) => {
 
 /** Cálculos de aplicación */
 
-export const computeQNom = params => { // qn
+export const computeQNom = params => { // qn (Caudal nominal de pico)
     const p = toFloat(params);
     checkParams(schemas.computeQNom, p);
     const {b, c, Pnom} = p;
@@ -204,7 +205,7 @@ export const computeQNom = params => { // qn
 
 const K = (Qnom, Pnom) => 600*Qnom/Math.sqrt(Pnom);
 
-export const computeVa = params => { // Q
+export const computeVa = params => { // Q (volumen de aplicación)
     const p = toFloat(params);
     checkParams(schemas.computeVa, p);
     const { Pt, Vt, d, Qnom, Pnom, Dp } = p;
@@ -212,7 +213,7 @@ export const computeVa = params => { // Q
     return round2(Va);
 };
 
-export const computePt = params => { // pe
+export const computePt = params => { // pe (presión de trabajo)
     const p = toFloat(params);
     checkParams(schemas.computePt, p);
     const { Va, Vt, d, Qnom, Pnom, Dp } = p;
@@ -221,7 +222,7 @@ export const computePt = params => { // pe
     return Pt;
 };
 
-export const computeVt = params => { // V
+export const computeVt = params => { // V (velocidad de trabajo)
     const p = toFloat(params);
     checkParams(schemas.computeVt, p);
     const { Va, Pt, d, Qnom, Pnom, Dp } = p;
@@ -229,7 +230,7 @@ export const computeVt = params => { // V
     return round2(Vt);
 };
 
-export const computeQt = params => { // qe
+export const computeQt = params => { // qe (Caudal efectivo)
     const p = toFloat(params);
     checkParams(schemas.computeQt, p);
     const { Qnom, Pnom, Pt } = p;
@@ -248,7 +249,7 @@ export const computeQd = params => { // Caudal de pulverizado ajustado por conce
 export const computeQb = params => { // Caudal de bomba o pulverizado (qe * numero de picos)
     const p = toFloat(params);
     checkParams(schemas.computeQb, p);
-    const Qb = computeQt(p)*p.n;
+    const Qb = computeQt(p)*p.n / Math.sqrt(p.Dp);
     return round2(Qb);
 };
 
