@@ -9,7 +9,7 @@ import {
     Button 
 } from 'framework7-react';
 import { useContext, useEffect, useState } from 'react';
-import { NavbarTitle, CalculatorButton, VolumeCalculatorButton } from '../../components/Buttons';
+import { NavbarTitle, CalculatorButton, VolumeCalculatorButton, BackButton } from '../../components/Buttons';
 import { NozzleSeparationSelector, ProductTypeSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
 import NozzleMenu from "../../components/NozzleMenu";
@@ -671,6 +671,8 @@ const Params = props => {
                 </Col>
                 <Col width={20}></Col>
             </Row>
+
+            <BackButton {...props} />
         </Page>
     );
 };
