@@ -1,6 +1,6 @@
 import { Page, Navbar, Block, List, Row, Col, Button, BlockTitle } from "framework7-react";
 import Input from "../../components/Input";
-import { NavbarTitle } from "../../components/Buttons";
+import { NavbarTitle, BackButton } from "../../components/Buttons";
 import Toast from '../../components/Toast';
 import { useContext, useState } from "react";
 import { ModelCtx } from "../../context";
@@ -103,6 +103,8 @@ const View = props => { // View
                     <Col width={20}></Col>
                 </Row>
             </Block>
+
+            <BackButton {...props} />
         </Page>
     );
 };

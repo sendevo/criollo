@@ -1,6 +1,6 @@
 import { Navbar, Page, Block, Row, Col, Button, BlockTitle } from 'framework7-react';
 import { useContext } from 'react';
-import { NavbarTitle } from '../../components/Buttons';
+import { NavbarTitle, BackButton } from '../../components/Buttons';
 import NozzlesTable from '../../components/NozzlesTable';
 import { SuppliesTable, PrescriptionTable } from '../../components/SuppliesTable';
 import { ModelCtx } from '../../context';
@@ -204,7 +204,7 @@ const ReportDetails = props => {
                     <Col width={20}></Col>
                 </Row>
             }
-            
+            <BackButton {...props}/>
         </Page>
     );
 };

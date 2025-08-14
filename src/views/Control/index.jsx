@@ -7,7 +7,7 @@ import * as API from '../../entities/API/index.js';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import Input from "../../components/Input";
 import { arrayAvg, formatNumber } from "../../utils";
-import { PlayButton, NavbarTitle } from "../../components/Buttons";
+import { PlayButton, NavbarTitle, BackButton } from "../../components/Buttons";
 import Timer from "../../entities/Timer";
 import Toast from "../../components/Toast";
 import { ElapsedSelector } from "../../components/Selectors";
@@ -310,6 +310,7 @@ const Control = props => {
                     </Row>
                 </Block>
             }
+            <BackButton {...props} />
         </Page>
     );
 };

@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { Page, Link, PageContent, Block, Navbar } from 'framework7-react';
-import { NavbarTitle } from '../../components/Buttons';
+import { NavbarTitle, BackButton } from '../../components/Buttons';
 import Footer from '../../components/Footer';
 import { WalkthroughCtx } from '../../context';
 import classes from '../style.module.css';
@@ -43,6 +43,7 @@ const Info = props => {
                         <p>Acerca de</p>
                     </Link>                                
 
+                <BackButton {...props} />
                 </Block>                  
             </PageContent>
             <Footer />

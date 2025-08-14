@@ -8,7 +8,7 @@ import {
     Link 
 } from 'framework7-react';
 import logoInta from '../../assets/logo_inta.png';
-import { NavbarTitle } from '../../components/Buttons';
+import { NavbarTitle, BackButton } from '../../components/Buttons';
 import { VERSION_NAME } from '../../entities/Model';
 
 const About = props => (
@@ -135,6 +135,7 @@ const About = props => (
                     </AccordionContent>
                 </ListItem>
             </List>
+            <BackButton {...props}/>
         </Block>
     </Page>
 );

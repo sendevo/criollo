@@ -1,6 +1,6 @@
 import { f7, Navbar, Page, Row, Col, Button, BlockTitle, List, Block } from 'framework7-react';
 import { useContext, useState } from 'react';
-import { NavbarTitle } from '../../components/Buttons';
+import { NavbarTitle, BackButton } from '../../components/Buttons';
 import Input from '../../components/Input';
 import { SuppliesTable, PrescriptionTable } from '../../components/SuppliesTable';
 import { ModelCtx } from '../../context';
@@ -111,7 +111,7 @@ const SuppliesList = props => {
                 </Col>
                 <Col width={20}></Col>
             </Row>
-
+            <BackButton {...props} />
         </Page>
     );
 };

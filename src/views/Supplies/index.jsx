@@ -14,7 +14,7 @@ import {
 import { useContext, useState } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
 import Input from '../../components/Input';
-import { NavbarTitle, DeleteButton, AddButton } from '../../components/Buttons';
+import { NavbarTitle, DeleteButton, AddButton, BackButton } from '../../components/Buttons';
 import Toast from '../../components/Toast';
 import { ModelCtx, WalkthroughCtx } from '../../context';
 import * as API from '../../entities/API';
@@ -300,8 +300,8 @@ const Supplies = props => {
                     <Button fill onClick={submit} style={{textTransform:"none"}}>Calcular insumos</Button>
                 </Col>
                 <Col width={20}></Col>
-            </Row>                
-            
+            </Row>
+            <BackButton {...props} />
         </Page>
     );
 };
