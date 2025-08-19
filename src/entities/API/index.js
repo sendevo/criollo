@@ -84,9 +84,9 @@ export const presentationUnits = [
     "ml/ha", // 0
     "gr/ha", // 1
     "ml/100l", // 2
-    "gr/100l" // 3
+    "gr/100l", // 3
+    "l/ha"
 ];
-
 
 
 /** Validación de lista de parametros */
@@ -280,8 +280,19 @@ export const computeSprayVolume = params => {
     return round2(vol);
 };
 
-const computeProductVolume = (prod, vol, Va) => { // Cantidad de insumo (gr o ml) por volumen de agua
-    return prod.presentation === 0 || prod.presentation === 1 ? vol*prod.dose/Va : vol*prod.dose/100;
+const computeProductVolume = (prod, vol, Va) => { // Cantidad de insumo (gr, ml o l) por volumen de agua
+    switch(prod.presentation) {
+        case 0: // ml/ha
+        case 1: // ml/100L
+            return vol*prod.dose/Va;
+        case 2: // gr/ha
+        case 3: // gr/100L
+            return vol*prod.dose/100;
+        case 4: // L/ha
+            return vol*prod.dose/Va*1000;
+        default:
+            return 0;
+    }   
 };
 
 export const computeSuppliesList = params => { // Lista de insumos y cargas para mezcla   
@@ -296,12 +307,11 @@ export const computeSuppliesList = params => { // Lista de insumos y cargas para
     const Vftl = Vf/T < 0.2; // Detectar volumen fraccional total menor a 20%
     // Calcular cantidades de cada producto
     const pr = products.map(prod => ({
-        ...p, // Por comodidad, dejar resto de los detalles en este arreglo
+        ...prod, // Por comodidad, dejar resto de los detalles en este arreglo
         cpp: computeProductVolume(prod, T, Va)/1000, // Cantidad por carga completa [l o kg]
         cfc: computeProductVolume(prod, Vf, Va)/1000, // Cantidad por carga fraccional [l o kg]
         ceq: computeProductVolume(prod, Vcb, Va)/1000, // Cantidad por carga equilibrada [l o kg]
         total: computeProductVolume(prod, T, Va)*Nc/1000, // Cantidad total de insumo [l o kg]
     }));
-
     return {pr, Nc, Ncc, Vf, Ncb, Vcb, Vftl};
 };

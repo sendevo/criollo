@@ -83,6 +83,7 @@ const get_blank_report = () => {
 };
 
 const defaultFormParams = {
+    productType: "fitosanitarios", // Tipo de producto. Puede ser "fitosanitarios" o "fertilizante"
     productDensity: 1, // Densidad del producto (g/l)
     workVelocity: "20.0", // Velocidad de trabajo (km/h)
     velocityMeasured: false, // Para disparar render en vista de parametros
@@ -113,7 +114,15 @@ const defaultFormParams = {
     gpsEnabled: false, // Habilitacion coordenadas lote
     loadBalancingEnabled: true, // Habilitacion balanceo de carga
     capacity: null, // Capacidad del tanque
-    products: [], // Lista de prductos
+    products: [], // Lista de prductos. Formato:
+    /*
+    {
+        key: "id_unico",
+        name: "Nombre del producto",
+        dose: "0.0",
+        presentation: 0 -> ml/ha, 1 -> ml/100L, 2 -> gr/ha, 3 -> gr/100L, 4 -> L/ha
+    }
+    */
     supplies: {}, // Insumos y cantidades
 
     currentReport: get_blank_report(),

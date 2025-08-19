@@ -6,14 +6,17 @@ import { formatNumber } from '../../utils';
 const PrescriptionTable = props => (
     <Card className={classes.Card}>
         <table className={["data-table", classes.SuppliesTable].join(' ')}>
-            <tr>
-                <th height="40" className="label-cell" style={{margin:0, padding:0}}>Producto</th>                
-                <th className="label-cell" style={{margin:0, padding:0}}>Dosis</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th height="40" className="label-cell" style={{margin:0, padding:0}}>Producto</th>                
+                    <th className="label-cell" style={{margin:0, padding:0}}>Dosis</th>
+                </tr>
+            </thead>
+            
             <tbody>
             {
-                props.supplies.pr?.map(prod => (
-                    <tr key={prod.key}>
+                props.supplies.pr?.map((prod, index) => (
+                    <tr key={index}>
                         <td>{prod.name}</td>
                         <td>{formatNumber(prod.dose)} {presentationUnits[prod.presentation]}</td>
                     </tr>

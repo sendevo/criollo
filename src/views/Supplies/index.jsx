@@ -1,3 +1,4 @@
+import { useContext, useState, useEffect } from 'react';
 import { 
     Navbar, 
     Page, 
@@ -11,7 +12,6 @@ import {
     Card, 
     CardContent
 } from 'framework7-react';
-import { useContext, useState } from 'react';
 import { Geolocation } from '@capacitor/geolocation';
 import Input from '../../components/Input';
 import { NavbarTitle, DeleteButton, AddButton, BackButton } from '../../components/Buttons';
@@ -88,6 +88,19 @@ const Supplies = props => {
     });
 
     const [products, setProducts] = useState(model.products || []);
+
+    useEffect( () => {
+        if(model.productType === "fertilizante"){
+            const temp = [{
+                key: generateId(),
+                name: 'Fertilizante',
+                dose: model.workVolume, // Dosis
+                presentation: 4 // L/Ha
+            }];
+            model.update("products", temp);
+            setProducts(temp);
+        }
+    }, []);
 
     const addProduct = () => {
         const temp = [...products];
@@ -183,8 +196,8 @@ const Supplies = props => {
                     type="text"
                     icon={iconName}
                     value={lotName}
-                    onChange={v=>setMainParams('lotName', v.target.value)}
-                    ></Input>
+                    onChange={v=>setMainParams('lotName', v.target.value)}>
+                </Input>
                 <Input
                     className="help-target-supplies-form"
                     slot="list"
@@ -194,8 +207,8 @@ const Supplies = props => {
                     unit="ha"
                     icon={iconArea}
                     value={workArea}
-                    onChange={v=>setMainParams('workArea', parseFloat(v.target.value))}
-                    ></Input>
+                    onChange={v=>setMainParams('workArea', parseFloat(v.target.value))}>
+                </Input>
                 <div 
                     slot="list" 
                     style={{paddingLeft: 30, paddingBottom: 10}}
@@ -247,14 +260,26 @@ const Supplies = props => {
                 <BlockTitle 
                     className="help-target-supplies-add" 
                     style={{marginBottom:"0px", marginTop: "0px"}}>
-                        <Typography variant="subtitle">Lista de insumos</Typography>
+                        {model.productType === "fitosanitarios" ?
+                            <Typography variant="subtitle">Lista de insumos</Typography>
+                            :
+                            <Typography variant="subtitle">Insumos</Typography>
+                        }
                 </BlockTitle>
                 {
                     products.map((p, index) =>(
                         <Card key={p.key} style={{margin:"0px 0px 10px 0px"}}>
-                            <DeleteButton onClick={()=>removeProduct(index)}/>
-                            <CardContent style={{paddingTop:0}}>
-                                <span style={{color:"gray"}}>Producto {index+1}</span>
+                            {model.productType === "fitosanitarios" && 
+                                <DeleteButton onClick={()=>removeProduct(index)}/>
+                            }
+                            <CardContent style={{paddingTop:model.productType === "fitosanitarios" ? 0 : 10}}>
+                                <span style={{color:"gray"}}>
+                                    {model.productType === "fitosanitarios" ? (
+                                        <>Producto {index+1}</>
+                                    ) : (
+                                        <>Fertilizante</>
+                                    )}
+                                </span>
                                 <List form noHairlinesMd style={{marginBottom:"0px", marginTop: "0px"}}>
                                     <Input
                                         slot="list"
@@ -263,8 +288,8 @@ const Supplies = props => {
                                         icon={iconProduct}                                       
                                         value={p.name || ''}
                                         onInputClear={()=>setProductParams(index, "name", "")}
-                                        onChange={v=>setProductParams(index, "name", v.target.value)}
-                                        ></Input>
+                                        onChange={v=>setProductParams(index, "name", v.target.value)}>
+                                    </Input>
                                     <Input
                                         className="help-target-add-products"
                                         slot="list"
@@ -274,16 +299,18 @@ const Supplies = props => {
                                         icon={iconDose}
                                         value={p.dose || ''}
                                         onInputClear={()=>setProductParams(index, "dose", "")}
-                                        onChange={v=>setProductParams(index, "dose", parseFloat(v.target.value))}
-                                        ></Input>
+                                        onChange={v=>setProductParams(index, "dose", parseFloat(v.target.value))}>
+                                    </Input>
                                 </List>
-                                <PresentationSelector value={p.presentation} onChange={v=>{setProductParams(index, "presentation", v)}}/>
+                                {model.productType === "fitosanitarios" && (
+                                    <PresentationSelector value={p.presentation} onChange={v=>{setProductParams(index, "presentation", v)}}/>
+                                )}
                             </CardContent>                    
                         </Card>
                     ))
                 }
                 {
-                    products.length > 0 ? 
+                    products.length > 0 || model.productType === "fertilizante" ? 
                         null
                     :                        
                         <div style={{textAlign: "center", color:"rgb(150,150,150)"}}>
@@ -291,9 +318,11 @@ const Supplies = props => {
                         </div>
                 }
             </Block>
-            <Block style={{margin:0}}>
-                <AddButton onClick={()=>addProduct()}/>
-            </Block>
+            {model.productType === "fitosanitarios" && 
+                <Block style={{margin:0}}>
+                    <AddButton onClick={()=>addProduct()}/>
+                </Block>
+            }   
             <Row style={{marginBottom:"15px"}} className="help-target-supplies-results">
                 <Col width={20}></Col>
                 <Col width={60}>

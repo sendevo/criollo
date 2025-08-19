@@ -50,7 +50,6 @@ const Params = props => {
 
     const [inputs, setInputs] = useState({
         nozzleSeparation: model.nozzleSeparation || 0.35,
-        productType: "fitosanitarios", // Por defecto, fitosanitarios    
         nozzleNumber: model.nozzleNumber || '',        
         nominalFlow: model.nominalFlow || 0.8,        
         nominalPressure: model.nominalPressure || 3,
@@ -60,7 +59,8 @@ const Params = props => {
         workPressure: model.workPressure || 2,
         workPressureUpdated: false,
         workVolume: model.workVolume || 56,
-        workVolumeUpdated: false
+        workVolumeUpdated: false,
+        productType: model.productType
     });
 
     const [nozzleSelection, setNozzleSelection] = useState(model.nozzleSelection || [-1, -1, -1, -1]);
@@ -191,6 +191,11 @@ const Params = props => {
         }else{
             prevInputs.nozzleNumber = '';
             setNozzleSelection([0, -1, -1, -1]); // Dejar por defecto norma ISO
+        }
+        if(value === "fitosanitarios" || value === "fertilizante") {
+            model.update({
+                productType: value,
+            });
         }
         setInputs({...prevInputs});  
     };
