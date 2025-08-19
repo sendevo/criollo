@@ -1,7 +1,9 @@
 export const set2Decimals = value => Math.round(value * 100) / 100;
 
-export const formatNumber = (value, decimals = 2) => value === "number" ? value.toFixed(decimals).replace('.', ',') : value;
-
+export const formatNumber = (value, decimals = 2) => {
+    const v = value === "number" ? value : parseFloat(value);
+    return v.toFixed(decimals).replace('.', ',');
+}
 export const generateId = () => "_" + Math.random().toString(36).substr(2) + Date.now();
 
 export const arrayAvg = (arr, attr) => arr.reduce((a, b) => a + b[attr], 0) / arr.length;
