@@ -12,12 +12,20 @@ import classes from '../style.module.css';
 
 const Home = () => (
     <Page name="home" className={classes.HomePage}>
-        <PageContent>
-            <Block style={{textAlign: "center", marginBottom: "0px", marginTop:"20px"}}>
-                <img className={classes.AppLogo}src={logoCriollo} alt="logo"/>
-            </Block>
-            <Block style={{textAlign: "center", marginTop:"5px"}}>
-                <h2 className={classes.Title}>CRIOLLO</h2>                
+        <PageContent className={classes.Content}>
+            <svg
+                className={classes.Wave}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1440 320"
+                preserveAspectRatio="none">
+                <path
+                    fill="#ffffff"
+                    d="M0,100 C580,280 1000,0 1440,130 L1440,320 L0,320 Z"/>
+            </svg>
+            <div className={classes.BottomWhite}></div>
+            <Block className={classes.TitleContainer}>
+                <h2 className={classes.Title}>Criollo</h2>
+                <img className={classes.AppLogo} src={logoCriollo} alt="logo"/>
             </Block>
             <Block className={classes.ButtonContainer}>
                 <Link href="/params/" className={classes.MenuButton}>

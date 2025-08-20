@@ -67,8 +67,9 @@ const About = props => (
                 <ListItem accordionItem title="Fuente de información">
                     <AccordionContent>
                         <Block>                        
-                        <p style={{textAlign:"justify"}}>La lista de picos con código de color normalizado se basa en los criterios de la norma ISO 10625 (2005) "Equipment for crop protection - Sprayer nozzles - Colour coding for identification"</p>
-                        <p style={{textAlign:"justify"}}>Las ecuaciones de cálculo fueron tomadas del libro "Pulverizaciones agrícolas terrestres" Onorato, Agustín y Tesouro, Omar. Ediciones, INTA. 2006</p>
+                        <p style={{textAlign:"justify"}}>La lista de picos con código de color normalizado se basa en los criterios de la norma <b>ISO 10625</b> (2005) <i>"Equipment for crop protection - Sprayer nozzles - Colour coding for identification"</i>.</p>
+                        <p style={{textAlign:"justify"}}>El código de colores indicativo de los espectros de tamaño de gota se basa en los criterios de la norma <b>ISO 25358 (2018)</b> <i>"Crop protection equipment — Droplet-size spectra from atomizers — Measurement and classification"</i>.</p>
+                        <p style={{textAlign:"justify"}}>Las ecuaciones de cálculo fueron tomadas del libro "Pulverizaciones agrícolas terrestres" Onorato, Agustín y Tesouro, Omar. Ediciones, INTA. 2006.</p>
                         </Block>
                     </AccordionContent>
                 </ListItem>

@@ -8,7 +8,6 @@ import Toast from './components/Toast';
 import Popovers from './components/Popover';
 import { ModelProvider, WalkthroughProvider } from './context';
 import './index.css';
-import backgroundImage from './assets/backgrounds/landscape.jpeg';
 
 // Navegacion
 const pushState = page => window.history.pushState(null, null, page);
@@ -166,7 +165,7 @@ const Criollo = () => {
                     {showBackground && (
                         <div
                             style={{
-                                backgroundImage: `url(${backgroundImage})`,
+                                background: "lightgray",
                                 filter: 'brightness(1.2) blur(6px) contrast(0.8)',
                                 position: 'fixed',
                                 top: 0,
