@@ -205,7 +205,11 @@ const PDFExport = async (report, share) => {
                     [{
                         text: "Diferencia:",
                         style: "tableHeader"
-                    }, formatNumber(report.control.diff) + " l/ha, " + formatNumber(report.control.diffp)+" %"]
+                    }, formatNumber(report.control.diff) + " l/ha, " + formatNumber(report.control.diffp)+" %"],
+                    [{
+                        text: "Comentarios: ",
+                        style: "tableHeader"
+                    }, report.control.comments ? report.control.comments : " - "]
                 ]
             },
             margin: [0, 0, 0, 15]

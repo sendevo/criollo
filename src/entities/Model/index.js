@@ -105,7 +105,18 @@ const defaultFormParams = {
     // Verificacion de picos
     samplingTimeMs: 30000, // 30000, 60000 o 90000
     collectedData: [], // Datos de jarreo
-    verificationOutput: {},
+    verificationOutput: {
+        /*
+            ready: false, // Verificacion finalizada: muestra resultados
+            efAvg: undefined, // Caudal pulverizado promedio
+            totalEffectiveFlow: undefined, // Caudal pulverizado efectivo
+            expectedSprayVolume: undefined, // model.workVolume
+            effectiveSprayVolume: undefined, // Volumen pulverizado efectivo
+            diff: undefined, // effectiveSprayVolume - expectedSprayVolume
+            diffp: undefined, // diff/model.workVolume*100
+            comments: ""
+        */
+    },
 
     // Variables de insumos
     workArea: null, // Superficie de lote

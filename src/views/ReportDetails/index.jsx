@@ -128,6 +128,12 @@ const ReportDetails = props => {
                                 <td><b>Diferencia:</b></td>
                                 <td className={classes.DataCell}>{formatNumber(report.control.diff)} l/ha <br/>({formatNumber(report.control.diffp)} %)</td>
                             </tr>
+                            { report.control.comments && 
+                                <tr>
+                                    <td><b>Comentarios:</b></td>
+                                    <td className={classes.DataCell}>{report.control.comments}</td>
+                                </tr>
+                            }
                         </tbody>
                     </table>
                     <NozzlesTable 
