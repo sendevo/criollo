@@ -124,7 +124,7 @@ const Reports = props => {
                                     <tr className={classes.TableRow} key={r.id} style={{backgroundColor: r.selected ? "rgb(230,230,230)" : "white"}}>
                                         <td className={classes.CheckboxCell}>
                                             <Checkbox
-                                                checked={r.selected}                                                
+                                                checked={r.selected}
                                                 onChange={e => setSelected(r.id, e.target.checked)}
                                             />
                                         </td>

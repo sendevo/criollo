@@ -13,13 +13,15 @@
 }
 
 .TableRow {
-    cursor: pointer;    
     height: 35px;
 }
 
 .CheckboxCell {
     padding-left: 10px;
     padding-right: 20px;
+    padding-top: 7px;
+    display: flex;
+    justify-content: center;
 }
 
 .NameCell {
