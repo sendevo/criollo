@@ -62,11 +62,14 @@ const reportFooter = {
 
 const PDFExport = async (report, share) => {
 
+    /*
     const pdfMakeModule = await import('pdfmake/build/pdfmake');
     const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
+    const pdfmk = pdfMakeModule.default || pdfMakeModule;
+    pdfmk.vfs = pdfFontsModule.pdfMake.vfs || pdfFontsModule.pdfMake?.vfs;
+    */
 
-    const pdfmk = pdfMakeModule.default || pdfMake;
-    pdfmk.vfs = pdfFontsModule.pdfMake.vfs;
+    const pdfmk = pdfMake;
 
     const reportContent = [ // Composicion de todo el documento
         {
