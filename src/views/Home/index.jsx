@@ -13,27 +13,21 @@ import classes from '../style.module.css';
 const Home = () => (
     <Page name="home" className={classes.HomePage}>
         <PageContent className={classes.Content}>
-            <div style={{
-                position: "fixed",
-                width: "100%",
-                maxWidth: "600px"
-            }}>
-                <svg
-                    className={classes.Wave}
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 1440 320"
-                    preserveAspectRatio="none">
-                    <path
-                        fill="#ffffff"
-                        d="M0,140 C380,190 1000,0 1440,50 L1440,320 L0,320 Z"/>
+            <div className={classes.BlueTop}></div>
+            <svg
+                className={classes.Wave}
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 1440 320"
+                preserveAspectRatio="none">
+                <path
+                    fill="#245977"
+                    d="M0,140 C380,190 1000,0 1440,50 L1440,0 L0,0 Z"/>
                 </svg>
-                <div className={classes.BottomWhite}></div>
-                <div className={classes.TitleContainer}>
-                    <h2 className={classes.Title}>Criollo</h2>
-                    <img className={classes.AppLogo} src={logoCriollo} alt="logo"/>
-                </div>
-                <Footer />
+            <div className={classes.TitleContainer}>
+                <h2 className={classes.Title}>Criollo</h2>
+                <img className={classes.AppLogo} src={logoCriollo} alt="logo"/>
             </div>
+            
             <div className={classes.ButtonContainer}>
                 <Link href="/params/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={paramsIcon} alt="params"/>
@@ -61,6 +55,7 @@ const Home = () => (
                 </Link>
             </div>
         </PageContent>
+        <Footer />
     </Page>
 );
 
