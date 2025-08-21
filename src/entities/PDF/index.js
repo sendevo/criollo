@@ -1,5 +1,5 @@
-//import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
-//import pdfMake from 'pdfmake';
+import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
+import pdfMake from 'pdfmake';
 import moment from 'moment';
 import Toast from '../../components/Toast';
 import { formatNumber } from "../../utils";
@@ -9,7 +9,7 @@ import { Filesystem, Directory } from '@capacitor/filesystem';
 import { FileSharer } from '@byteowls/capacitor-filesharer';
 import { logoCriollo, membreteCriollo } from '../../assets/base64';
 
-//pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
 
 const styles = { // Definicion de estilos de las secciones del reporte
     header: {
@@ -65,8 +65,8 @@ const PDFExport = async (report, share) => {
     const pdfMakeModule = await import('pdfmake/build/pdfmake');
     const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
 
-    const pdfMake = pdfMakeModule.default;
-    pdfMake.vfs = pdfFontsModule.pdfMake.vfs; 
+    const pdfmk = pdfMakeModule.default || pdfMake;
+    pdfmk.vfs = pdfFontsModule.pdfMake.vfs;
 
     const reportContent = [ // Composicion de todo el documento
         {
@@ -408,7 +408,7 @@ const PDFExport = async (report, share) => {
 
     // Generar y guardar
     const fileName = "Reporte Criollo "+moment(report.timestamp).format("DD-MM-YYYY HH-mm")+".pdf";    
-    const pdfFile = pdfMake.createPdf(document);
+    const pdfFile = pdfmk.createPdf(document);
 
     if(Capacitor.isNativePlatform()){
         

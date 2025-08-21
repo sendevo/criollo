@@ -13,21 +13,28 @@ import classes from '../style.module.css';
 const Home = () => (
     <Page name="home" className={classes.HomePage}>
         <PageContent className={classes.Content}>
-            <svg
-                className={classes.Wave}
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 1440 320"
-                preserveAspectRatio="none">
-                <path
-                    fill="#ffffff"
-                    d="M0,100 C580,280 1000,0 1440,130 L1440,320 L0,320 Z"/>
-            </svg>
-            <div className={classes.BottomWhite}></div>
-            <Block className={classes.TitleContainer}>
-                <h2 className={classes.Title}>Criollo</h2>
-                <img className={classes.AppLogo} src={logoCriollo} alt="logo"/>
-            </Block>
-            <Block className={classes.ButtonContainer}>
+            <div style={{
+                position: "fixed",
+                width: "100%",
+                maxWidth: "600px"
+            }}>
+                <svg
+                    className={classes.Wave}
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 1440 320"
+                    preserveAspectRatio="none">
+                    <path
+                        fill="#ffffff"
+                        d="M0,140 C380,190 1000,0 1440,50 L1440,320 L0,320 Z"/>
+                </svg>
+                <div className={classes.BottomWhite}></div>
+                <div className={classes.TitleContainer}>
+                    <h2 className={classes.Title}>Criollo</h2>
+                    <img className={classes.AppLogo} src={logoCriollo} alt="logo"/>
+                </div>
+                <Footer />
+            </div>
+            <div className={classes.ButtonContainer}>
                 <Link href="/params/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={paramsIcon} alt="params"/>
                     <p>Parámetros de <br/> aplicación</p>
@@ -38,11 +45,11 @@ const Home = () => (
                 </Link>
                 <Link href="/supplies/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={suppliesIcon} alt="supplies"/>
-                    <p>Calculador de mezclas</p>
+                    <p>Calculador de <br/> mezcla</p>
                 </Link>
                 <Link href="/security/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={securityIcon} alt="security"/>
-                    <p>Seguridad y prevención</p>
+                    <p>Seguridad y <br/> prevención</p>
                 </Link>
                 <Link href="/reports/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={reportsIcon} alt="reports"/>
@@ -50,10 +57,9 @@ const Home = () => (
                 </Link>
                 <Link href="/info/" className={classes.MenuButton}>
                     <img className={classes.HomeIcon} src={infoIcon} alt="info"/>
-                    <p>Información y ayuda</p>
+                    <p>Información <br/> y ayuda</p>
                 </Link>
-            </Block>
-            <Footer />
+            </div>
         </PageContent>
     </Page>
 );
