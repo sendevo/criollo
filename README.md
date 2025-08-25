@@ -10,9 +10,11 @@ Una vez instalada, la utilización de Criollo no requiere disponibilidad de señ
 ![criollo](doc/promo_criollo.jpg)
 
 ### Versión 5.0 [20] (Tamaño de gota)
-  - Nuevo nivel de picos para norma ISO y CEN.  
-  - Cálculo de tamaño de gota según presión de trabajo.  
-  - Agregado de parámetros al reporte.  
+  - Categorización de producto: Fitosanitario o Fertilizante.  
+  - Ajuste por concentración para fertilizantes líquidos.  
+  - Cálculo de tamaño de gota.  
+  - Edición de observaciones en verificación de picos.  
+  - Renovación del menú principal.  
 
 ### Versión 4.2 [17] (Migración nativo -> híbrido)
   - Implementación con Vite (Rollup): ReactJS (v18) + Framework7 + Capacitor.
@@ -56,8 +58,8 @@ $ npm run build && npx cap sync
 3.- Indicar el SDK level en app/variables.gradle
 ```
 minSdkVersion = 21
-compileSdkVersion = 30
-targetSdkVersion = 31
+compileSdkVersion = 34
+targetSdkVersion = 34
 ```
 
 4.- Agregar permisos en android/app/src/main/AndroidManifest.xml.
@@ -104,6 +106,22 @@ $ npx cap open android
 3.- Ingresar directorio de la firma (.jks), claves "Key Store Password" y "Key Password".  
 4.- Generar app-release.apk o app-release.aab.   
 5.- Preparar capturas de pantalla y lista de cambios.   
+
+
+### Actualización de la app
+Configurar valores de version y compilación en:  
+
+  - [package.json](package.json)
+  - [build.gradle](app/build.gradle)
+  - [.env](.env)
+
+En caso de tener que actualizar el SDK level, se configuran los valores en ```android/variables.gradle```  
+
+```
+minSdkVersion = ...
+compileSdkVersion = ...
+targetSdkVersion = ...
+```
 
 
 

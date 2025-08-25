@@ -12,7 +12,7 @@ import classes from './style.module.css';
 import Typography from '../Typography';
 
 export const BackButton = props => (
-    <Block className={classes.Container}>
+    <Block className={classes.BackButtonContainer}>
         <Link tooltip="Volver" 
             onClick={() => props.f7router.back()}
             className={classes.RoundButton} 

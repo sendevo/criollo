@@ -1,7 +1,12 @@
 apply plugin: 'com.android.application'
 
 android {
+    namespace "com.inta.criollo2"
     compileSdkVersion rootProject.ext.compileSdkVersion
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
     defaultConfig {
         applicationId "com.inta.criollo2"
         minSdkVersion rootProject.ext.minSdkVersion
