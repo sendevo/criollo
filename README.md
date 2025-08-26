@@ -57,9 +57,9 @@ $ npm run build && npx cap sync
 
 3.- Indicar el SDK level en app/variables.gradle
 ```
-minSdkVersion = 21
-compileSdkVersion = 34
-targetSdkVersion = 34
+minSdkVersion = 23
+compileSdkVersion = 36
+targetSdkVersion = 36
 ```
 
 4.- Agregar permisos en android/app/src/main/AndroidManifest.xml.
@@ -101,10 +101,11 @@ $ npx cap open android
 ```
 
 ### Compilar versión release con AndroidStudio:  
+<b>IMPORTANTE</b>: no se puede subri el bundle (.aab) a menos que se registre la firma en Google Play.  
 1.- Editar versionName y versionCode en android/app/build.gradle   
 2.- Ir al menú Build -> Generate Signed Bundle/APK...  
 3.- Ingresar directorio de la firma (.jks), claves "Key Store Password" y "Key Password".  
-4.- Generar app-release.apk o app-release.aab.   
+4.- Generar app-release.apk.   
 5.- Preparar capturas de pantalla y lista de cambios.   
 
 
