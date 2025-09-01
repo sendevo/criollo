@@ -194,11 +194,16 @@ export default class CriolloModel {
     }
 
     getNozzle = selection => {
-        const level = selection.findIndex(x => x === -1); // Max prof. de seleccion
+        if (!Array.isArray(selection) || selection.length === 0) 
+            return null;
+        let level = selection.findIndex(x => x === -1); // Max prof. de seleccion
+        if (level === -1) 
+            level = selection.length;
         const node = selection
             .slice(0, level) // Tomar los niveles seleccionados
             .reduce((acc, idx) => { // Nodo seleccionado
-                if (!acc || !Array.isArray(acc.childs) || idx < 0) return null;
+                if (!acc || !Array.isArray(acc.childs) || idx < 0)  // Si no hay seleccion
+                    return null;
                 return acc.childs[idx];
             }, { childs: nozzles });
         if(node){
