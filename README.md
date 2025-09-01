@@ -62,7 +62,9 @@ compileSdkVersion = 36
 targetSdkVersion = 36
 ```
 
-4.- Agregar permisos en android/app/src/main/AndroidManifest.xml.
+4.- Puede sugerir quitar ```package="capacitor.android.plugins"``` del archivo AndroidManifest.xml: ~criollo/android/capacitor-cordova-android-plugins/src/main/AndroidManifest.xml.
+
+5.- Agregar permisos en android/app/src/main/AndroidManifest.xml.
 Para API level 31 se requiere el activity->android:exported
 
 ```xml
@@ -87,9 +89,9 @@ Para API level 31 se requiere el activity->android:exported
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 ```
 
-4.- Definir iconos y splashcreens en android/app/src/main/res.  
+6.- Definir iconos y splashcreens en android/app/src/main/res.  
 
-5.- Abrir proyecto de AndroidStudio:
+7.- Abrir proyecto de AndroidStudio:
 ```bash
 $ npx cap open android
 ```
@@ -101,17 +103,19 @@ $ npx cap open android
 ```
 
 ### Compilar versión release con AndroidStudio:  
-<b>IMPORTANTE</b>: no se puede subri el bundle (.aab) a menos que se registre la firma en Google Play.  
-1.- Editar versionName y versionCode en android/app/build.gradle   
-2.- Ir al menú Build -> Generate Signed Bundle/APK...  
-3.- Ingresar directorio de la firma (.jks), claves "Key Store Password" y "Key Password".  
-4.- Generar app-release.apk.   
-5.- Preparar capturas de pantalla y lista de cambios.   
+<b>IMPORTANTE</b>: no se puede subir el bundle (.aab) a menos que se registre la firma en Google Play.  
+1.- Luego de hacer syn, puede que haya que quitar ```package="capacitor.android.plugins"``` del archivo AndroidManifest.xml: ~criollo/android/capacitor-cordova-android-plugins/src/main/AndroidManifest.xml.
+2.- Editar versionName y versionCode en android/app/build.gradle   
+3.- Ir al menú Build -> Generate Signed Bundle/APK...  
+4.- Ingresar directorio de la firma (.jks), claves "Key Store Password" y "Key Password".  
+5.- Generar app-release.apk.   
+6.- Preparar capturas de pantalla y lista de cambios.   
 
 
 ### Actualización de la app
 Configurar valores de version y compilación en:  
 
+  - [src/entities/Model/index.js](src/entities/Model/index.js)
   - [package.json](package.json)
   - [build.gradle](app/build.gradle)
   - [.env](.env)
