@@ -228,7 +228,7 @@ const Params = props => {
         }
     };
 
-    const handleNozzleSeparationChange = value => {
+    const handleNozzleSeparationChange = (_, value) => {
         const ns = value;
         setInputs({
             ...inputs,

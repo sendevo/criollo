@@ -36,7 +36,7 @@ const NozzleSeparationSelector = props => {
 
     const setValue = (el, value) => {
         if(el.target.checked){
-            props.onChange(value);
+            props.onChange(0, value);
         }
     };
 
