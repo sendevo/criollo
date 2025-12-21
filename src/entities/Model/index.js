@@ -5,18 +5,35 @@ import nozzles from '../../data/nozzles_droplet_sizes.json';
 
 // A partir de version 5.0.0, se agrega modelo de migraciones
 export const APP_NAME = "Criollo";
-export const ANDROID_VERSION_CODE = "20"; // Para app store
-export const VERSION_NAME = "5.0.0";
+export const ANDROID_VERSION_CODE = "21"; // Para app store
+export const VERSION_NAME = "5.0.2";
 export const BUILD_DATE = 1751553918425; // 3-7-2025 11:45hs
 
 // Lista de versiones
 const DB_NAMES = [
     "criollo_model4",
-    "criollo_model_5.0.0"
+    "criollo_model_5.0.0",
+    "criollo_model_5.0.1",
+    "criollo_model_5.0.2"
 ];
 
 const migrationFunctions = [
-    oldData => oldData // DB_NAMES[0] -> DB_NAMES[1] (no hay cambios)
+    oldData => oldData, // criollo_model4 -> criollo_model_5.0.0
+    oldData => { // criollo_model_5.0.0 -> criollo_model_5.0.1
+        const newData = { ...oldData,
+            workVelocity: parseInt(oldData.workVelocity).toFixed(1) || "20.0",
+            workPressure: parseFloat(oldData.workPressure).toFixed(1) || "2.0",
+            workVolume: parseFloat(oldData.workVolume).toFixed(1) || "56.0"
+        };
+        return newData;
+    },
+    oldData => { // criollo_model_5.0.1 -> criollo_model_5.0.2
+        const newData = { ...oldData,
+            nutrientDose: "0.0",
+            nutrientConcentration: "100"
+        };
+        return newData;
+    }
 ];
 
 
@@ -66,24 +83,40 @@ const get_blank_report = () => {
 };
 
 const defaultFormParams = {
+    productType: "fitosanitarios", // Tipo de producto. Puede ser "fitosanitarios" o "fertilizante"
     productDensity: 1, // Densidad del producto (g/l)
-    workVelocity: 20, // Velocidad de trabajo (km/h)
+    workVelocity: "20.0", // Velocidad de trabajo (km/h)
     velocityMeasured: false, // Para disparar render en vista de parametros
-    workPressure: 2, // Presion de trabajo (bar)
-    workVolume: 56, // Volumen de aplicacion (l/ha)
+    volumeMeasured: false, // Para disparar render en vista de parametros
+    workPressure: "2.0", // Presion de trabajo (bar)
+    workVolume: "56.0", // Volumen de aplicacion (l/ha)
     workFlow: 0.65, // Caudal de trabajo efectivo (l/min) por pico
     nominalFlow: 0.8, // Caudal nominal de pico seleccionado
+    nominalPressure: 3, // Presion nominal de pico seleccionado
     sprayFlow: null, // Caudal de pulverizacion (caudal de picos multiplicado por n de picos)
     waterEqSprayFlow: null, // Caudal de agua equivalente (para aplicacion con fertilizantes)
-    nominalPressure: 3, // Presion nominal de pico seleccionado
     nozzleSeparation: 0.35, // Distancia entre picos (m)
     nozzleNumber: null, // Numero de picos
     nozzleSelection: [-1, -1, -1, -1], // Indices de picos seleccionados
+
+    nutrientConcentration: "100", // Concentracion de nutriente (%)
+    nutrientDose: "0.0", // Dosis de nutriente (kg/ha)
     
     // Verificacion de picos
     samplingTimeMs: 30000, // 30000, 60000 o 90000
     collectedData: [], // Datos de jarreo
-    verificationOutput: {},
+    verificationOutput: {
+        /*
+            ready: false, // Verificacion finalizada: muestra resultados
+            efAvg: undefined, // Caudal pulverizado promedio
+            totalEffectiveFlow: undefined, // Caudal pulverizado efectivo
+            expectedSprayVolume: undefined, // model.workVolume
+            effectiveSprayVolume: undefined, // Volumen pulverizado efectivo
+            diff: undefined, // effectiveSprayVolume - expectedSprayVolume
+            diffp: undefined, // diff/model.workVolume*100
+            comments: ""
+        */
+    },
 
     // Variables de insumos
     workArea: null, // Superficie de lote
@@ -92,7 +125,15 @@ const defaultFormParams = {
     gpsEnabled: false, // Habilitacion coordenadas lote
     loadBalancingEnabled: true, // Habilitacion balanceo de carga
     capacity: null, // Capacidad del tanque
-    products: [], // Lista de prductos
+    products: [], // Lista de prductos. Formato:
+    /*
+    {
+        key: "id_unico",
+        name: "Nombre del producto",
+        dose: "0.0",
+        presentation: 0 -> ml/ha, 1 -> ml/100L, 2 -> gr/ha, 3 -> gr/100L, 4 -> L/ha
+    }
+    */
     supplies: {}, // Insumos y cantidades
 
     currentReport: get_blank_report(),
@@ -153,11 +194,16 @@ export default class CriolloModel {
     }
 
     getNozzle = selection => {
-        const level = selection.findIndex(x => x === -1); // Max prof. de seleccion
+        if (!Array.isArray(selection) || selection.length === 0) 
+            return null;
+        let level = selection.findIndex(x => x === -1); // Max prof. de seleccion
+        if (level === -1) 
+            level = selection.length;
         const node = selection
             .slice(0, level) // Tomar los niveles seleccionados
             .reduce((acc, idx) => { // Nodo seleccionado
-                if (!acc || !Array.isArray(acc.childs) || idx < 0) return null;
+                if (!acc || !Array.isArray(acc.childs) || idx < 0)  // Si no hay seleccion
+                    return null;
                 return acc.childs[idx];
             }, { childs: nozzles });
         if(node){
@@ -208,6 +254,7 @@ export default class CriolloModel {
                 break;
             }
             currentData = migrationFn(currentData);
+            console.log(`Migrando datos de ${DB_NAMES[i]} a ${DB_NAMES[i+1]}`);
         }
 
         await ls.set({

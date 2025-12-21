@@ -7,7 +7,7 @@ import * as API from '../../entities/API/index.js';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import Input from "../../components/Input";
 import { arrayAvg, formatNumber } from "../../utils";
-import { PlayButton, NavbarTitle } from "../../components/Buttons";
+import { PlayButton, NavbarTitle, BackButton } from "../../components/Buttons";
 import Timer from "../../entities/Timer";
 import Toast from "../../components/Toast";
 import { ElapsedSelector } from "../../components/Selectors";
@@ -19,6 +19,7 @@ import twoSfx from '../../assets/sounds/dos.mp3';
 import threeSfx from '../../assets/sounds/tres.mp3';
 import readySfx from '../../assets/sounds/listo.mp3';
 import classes from './style.module.css';
+import iconReport from '../../assets/icons/reportes.png';
 
 
 const timer = new Timer(0, true);
@@ -42,7 +43,8 @@ const Control = props => {
         expectedSprayVolume: undefined,
         effectiveSprayVolume: undefined,
         diff: undefined,
-        diffp: undefined
+        diffp: undefined,
+        comments: ""
     });
     
     // Estado del timer
@@ -148,6 +150,15 @@ const Control = props => {
         setData(newData);
     };
 
+    const setComments = comments => {
+        const temp = {
+            ...outputs,
+            comments
+        };
+        model.update("verificationOutput", temp);
+        setOutputs(temp);
+    };
+
     useEffect(() => { // Como esta creado con initial=0, hay que inicializarlo en el valor correcto
         timer.setInitial(elapsed);
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -219,7 +230,8 @@ const Control = props => {
             effectiveSprayVolume,
             totalEffectiveFlow,
             diff,
-            diffp
+            diffp,
+            comments
         } = outputs;
         model.addControlToReport({
             efAvg,
@@ -228,7 +240,8 @@ const Control = props => {
             totalEffectiveFlow,
             diff,
             diffp,
-            data
+            data,
+            comments
         });
         f7.panel.open();       
     };
@@ -292,6 +305,18 @@ const Control = props => {
                     evalCollected={handleNewCollectedValue}/>
             </Block>
 
+            <List form noHairlinesMd style={{marginBottom:"10px", marginTop: "10px"}}>    
+                <Input
+                    slot="list"
+                    label="Observaciones"
+                    name="comments"
+                    type="textarea"
+                    icon={iconReport}
+                    value={outputs.comments}
+                    onChange={e => setComments(e.target.value)}>
+                </Input>
+            </List>
+
             {outputs.ready && 
                 <Block className={classes.OutputBlock}>
                     <p className="help-target-control-results"><b>Resultados</b></p>
@@ -310,6 +335,7 @@ const Control = props => {
                     </Row>
                 </Block>
             }
+            <BackButton {...props} />
         </Page>
     );
 };

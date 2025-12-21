@@ -19,7 +19,7 @@ const ProductTypeSelector = ({value, onChange}) => {
                     <Radio 
                         name="input-type" 
                         checked={value==="fitosanitarios"} 
-                        onChange={e=>setValue(e, "fitosanitarios")}/> Fitosanitarios
+                        onChange={e=>setValue(e, "fitosanitarios")}/> Fitosanitario
                 </Col>
                 <Col style={{textAlign:"center"}}>
                     <Radio 
@@ -36,7 +36,7 @@ const NozzleSeparationSelector = props => {
 
     const setValue = (el, value) => {
         if(el.target.checked){
-            props.onChange(value);
+            props.onChange(0, value);
         }
     };
 

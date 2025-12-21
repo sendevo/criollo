@@ -1,6 +1,6 @@
 import { f7, Navbar, Page, Row, Col, Button, BlockTitle, List, Block } from 'framework7-react';
 import { useContext, useState } from 'react';
-import { NavbarTitle } from '../../components/Buttons';
+import { NavbarTitle, BackButton } from '../../components/Buttons';
 import Input from '../../components/Input';
 import { SuppliesTable, PrescriptionTable } from '../../components/SuppliesTable';
 import { ModelCtx } from '../../context';
@@ -50,34 +50,36 @@ const SuppliesList = props => {
             </Navbar>
             <BlockTitle className={classes.SectionTitle}>Parámetros de Mezcla</BlockTitle>
             <Row>
-                <table className={["data-table", classes.MainTable].join(' ')}>
-                    <tr>
-                        <td><b>Lote:</b></td>
-                        <td>{model.lotName}</td>
-                    </tr>
-                    {
-                        model.lotCoordinates && 
+                <table className={classes.MainTable}>
+                    <tbody>
                         <tr>
-                            <td><b>Ubicación:</b></td>
-                            <td>{model.lotCoordinates.length > 0 ? "lat: "+model.lotCoordinates.join(', long:') : " - "}</td>
+                            <td><b>Lote:</b></td>
+                            <td>{model.lotName}</td>
                         </tr>
-                    }
-                    <tr>
-                        <td><b>Superficie:</b></td>
-                        <td>{model.workArea} ha</td>
-                    </tr>
-                    <tr>
-                        <td><b>Volumen de pulverización:</b></td>
-                        <td>{formatNumber(model.workVolume)} l/ha</td>
-                    </tr>
-                    <tr>
-                        <td><b>Capacidad del tanque:</b></td>
-                        <td>{model.capacity} litros</td>
-                    </tr>
-                    <tr>
-                        <td><b>Cantidad de cargas:</b></td>
-                        <td>{loadsText}</td>
-                    </tr>
+                        {
+                            model.lotCoordinates && 
+                            <tr>
+                                <td><b>Ubicación:</b></td>
+                                <td>{model.lotCoordinates.length > 0 ? "lat: "+model.lotCoordinates.join(', long:') : " - "}</td>
+                            </tr>
+                        }
+                        <tr>
+                            <td><b>Superficie:</b></td>
+                            <td>{model.workArea} ha</td>
+                        </tr>
+                        <tr>
+                            <td><b>Volumen de pulverización:</b></td>
+                            <td>{formatNumber(model.workVolume)} l/ha</td>
+                        </tr>
+                        <tr>
+                            <td><b>Capacidad del tanque:</b></td>
+                            <td>{model.capacity} litros</td>
+                        </tr>
+                        <tr>
+                            <td><b>Cantidad de cargas:</b></td>
+                            <td>{loadsText}</td>
+                        </tr>
+                    </tbody>
                 </table>
             </Row>
 
@@ -111,7 +113,7 @@ const SuppliesList = props => {
                 </Col>
                 <Col width={20}></Col>
             </Row>
-
+            <BackButton {...props} />
         </Page>
     );
 };

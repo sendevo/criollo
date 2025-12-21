@@ -1,6 +1,6 @@
 import { Page, Navbar, Block, List, Row, Col, Button } from "framework7-react";
 import Input from "../../components/Input";
-import { NavbarTitle } from "../../components/Buttons";
+import { NavbarTitle, BackButton } from "../../components/Buttons";
 import DistanceIcon from "../../assets/icons/distancia.png";
 import moment from 'moment';
 import Timer from '../../entities/Timer';
@@ -30,13 +30,13 @@ const InputBlock = props => ( // Input de distancia
     </List>
 );
 
-const NozzlesTable = props => ( // Tabla de resultados parciales
+const RecordsTable = props => ( // Tabla de resultados parciales
     <table className={`data-table ${classes.Table}`}>
         <thead>
             <tr>
                 <th>#</th>
                 <th>Tiempo</th>
-                <th>velocidad</th>
+                <th>Velocidad</th>
             </tr>
         </thead>
         <tbody>
@@ -156,25 +156,27 @@ const Velocity = props => { // View
                 <p style={{fontSize:"50px", margin:"0px"}}>{getTime()}</p>
                 <PlayButton onClick={toggleRunning} running={running} />
             </Block>
-            <Block style={{marginBottom: "0px",textAlign:"center"}}>
-                <Row style={{alignItems:"center"}}>
-                    <Col width={20}>
-                        <Row>
-                            <Button disabled={!pushEnabled} onClick={pushData}>
-                                <FaPlus  color="green" size={30}/>
-                            </Button>
-                        </Row>
-                        <Row>
-                            <Button disabled={running || data.length===0} onClick={popData}>
-                                <FaMinus color="red" size={30}/>
-                            </Button>
-                        </Row>
-                    </Col>
-                    <Col width={80}>
-                        <NozzlesTable data={data} />
-                    </Col>
-                </Row>
-            </Block>
+            {time > 0 &&
+                <Block style={{marginBottom: "0px",textAlign:"center"}}>
+                    <Row style={{alignItems:"center"}}>
+                        <Col width={20}>
+                            <Row>
+                                <Button disabled={!pushEnabled} onClick={pushData}>
+                                    <FaPlus  color="green" size={30}/>
+                                </Button>
+                            </Row>
+                            <Row>
+                                <Button disabled={running || data.length===0} onClick={popData}>
+                                    <FaMinus color="red" size={30}/>
+                                </Button>
+                            </Row>
+                        </Col>
+                        <Col width={80}>
+                            <RecordsTable data={data} />
+                        </Col>
+                    </Row>
+                </Block>
+            }
 
             <Block style={{marginTop:"0px",textAlign:"center"}}>
                 <OutputBlock output={dataAvg().toFixed(2)}/>
@@ -187,6 +189,7 @@ const Velocity = props => { // View
                     <Col width={20}></Col>
                 </Row>
             </Block>
+            <BackButton {...props} />
         </Page>
     );
 };

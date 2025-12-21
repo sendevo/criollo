@@ -9,13 +9,14 @@ import {
     Button 
 } from 'framework7-react';
 import { useContext, useEffect, useState } from 'react';
-import { NavbarTitle, CalculatorButton } from '../../components/Buttons';
+import { NavbarTitle, CalculatorButton, VolumeCalculatorButton, BackButton } from '../../components/Buttons';
 import { NozzleSeparationSelector, ProductTypeSelector } from '../../components/Selectors';
 import Input from "../../components/Input";
 import NozzleMenu from "../../components/NozzleMenu";
 import Toast from '../../components/Toast';
 import Typography from '../../components/Typography';
 import DropletSizeSlider from '../../components/DropletSizeSlider';
+import Divider from '../../components/Divider';
 import { ModelCtx, WalkthroughCtx } from '../../context';
 import {
     computeQa,
@@ -25,8 +26,8 @@ import {
     computeVt,
     computePt,
     computeVa,
-    dropletSizesColors,
-    dropletSizeRange
+    dropletSizeProperties,
+    getDropletSizeName
 } from '../../entities/API';
 import iconDistance from '../../assets/icons/dpicos.png';
 import iconNozzles from '../../assets/icons/cant_picos2.png';
@@ -35,7 +36,13 @@ import iconPressure from '../../assets/icons/presion.png';
 import iconDensity from '../../assets/icons/densidad.png';
 import iconVolume from '../../assets/icons/dosis.png';
 
-const Divider = () => <div style={{height: "1px", backgroundColor: "#ddd", width: "95%", margin: "10px auto"}}></div>;
+const getInputBorderColor = (updated, productType) => {
+    if(productType === "fitosanitarios") {
+        return updated ? "green" : "#F2D118";
+    }else {
+        return updated ? "#007bff" : "orange";
+    }
+};
 
 const Params = props => {
 
@@ -43,7 +50,6 @@ const Params = props => {
 
     const [inputs, setInputs] = useState({
         nozzleSeparation: model.nozzleSeparation || 0.35,
-        productType: "fitosanitarios", // Por defecto, fitosanitarios    
         nozzleNumber: model.nozzleNumber || '',        
         nominalFlow: model.nominalFlow || 0.8,        
         nominalPressure: model.nominalPressure || 3,
@@ -53,12 +59,13 @@ const Params = props => {
         workPressure: model.workPressure || 2,
         workPressureUpdated: false,
         workVolume: model.workVolume || 56,
-        workVolumeUpdated: false
+        workVolumeUpdated: false,
+        productType: model.productType
     });
 
     const [nozzleSelection, setNozzleSelection] = useState(model.nozzleSelection || [-1, -1, -1, -1]);
 
-    const nozzle = model.getNozzle(nozzleSelection);
+    const nozzle = model.getNozzle(nozzleSelection); // Sin seleccion retorna null
 
     const {
         nozzleSeparation,
@@ -75,20 +82,25 @@ const Params = props => {
         workVolumeUpdated
     } = inputs;
 
+    const equationsUpdated = workPressureUpdated && workVelocityUpdated && workVolumeUpdated;
+
+    let withinRange = false; // Condicional para mostrar el slider de tamaño de gota
+    if(nozzle)
+        if(Array.isArray(nozzle.droplet_sizes)) 
+            withinRange = nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure;
 
     // El caudal total de pulverizacion se calcula ante cualquier cambio de variable
     // pero solo si esta indicado el numero de picos
     let sprayFlow = model.sprayFlow;
     try{
-        if(productType === "fitosanitarios") {
-            sprayFlow = computeQb({
-                n: nozzleNumber,
-                Qnom: nominalFlow,
-                Pnom: nominalPressure,
-                Pt: workPressure
-            });
-            model.update("sprayFlow", sprayFlow);
-        }
+        sprayFlow = computeQb({
+            n: nozzleNumber,
+            Qnom: nominalFlow,
+            Pnom: nominalPressure,
+            Pt: workPressure,
+            Dp: productDensity
+        });
+        model.update("sprayFlow", sprayFlow);
     }catch(e){
         model.update("sprayFlow", null);
         //console.error("Error al calcular el caudal de pulverización:", e.message);
@@ -97,13 +109,19 @@ const Params = props => {
     // Calcular caudal equivalente en agua
     let waterEqSprayFlow = model.waterEqSprayFlow;
     try {
-        waterEqSprayFlow = computeQa({Dp: productDensity});
+        waterEqSprayFlow = computeQa({
+            Dp: productDensity,
+            Pt: workPressure,
+            Vt: workVelocity,
+            d: nozzleSeparation,
+            Qnom: nominalFlow,
+            Pnom: nominalPressure
+        });
         model.update("waterEqSprayFlow", waterEqSprayFlow);
     }catch(e){
         model.update("waterEqSprayFlow", null);
         //console.error("Error al calcular el caudal equivalente en agua:", e.message);
     }
-
 
     // El caudal de pulverizacion de cada pico se calcula ante cualquier cambio de variable
     // pero no se usa en esta seccion, sino en verificacion de picos
@@ -145,46 +163,41 @@ const Params = props => {
                 workPressureUpdated: false,
                 workVolumeUpdated: false
             }));
+        
     }, [model.workVelocity, model.velocityMeasured]);   
 
-    const handleProductTypeChange = value => {
-        const prevInputs = {...inputs};
-        prevInputs.productType = value;
-        if(value === "fitosanitarios"){
-            prevInputs.productDensity =  1;
-        }else{
-            prevInputs.nozzleNumber = '';
-        }
-        setNozzleSelection([-1, -1, -1, -1]); // Reiniciar la seleccion de picos
-        setInputs({...prevInputs});  
-    };
+    useEffect(() => {
+        if(model.volumeMeasured)
+            setInputs(prevState => ({
+                ...prevState,
+                workVolume: model.workVolume,
+                workVelocityUpdated: false,
+                workPressureUpdated: false,
+                workVolumeUpdated: true
+            }));
+    }, [model.workVolume, model.volumeMeasured]);
 
-    const handleNozzleSeparationChange = value => {
-        const ns = parseFloat(value);
-        setInputs({
+    const handleProductTypeChange = value => {
+        const prevInputs = {
             ...inputs,
-            nozzleSeparation: ns,
-            nozzleNumber: '',
+            productType: value,
             workPressureUpdated: false,
             workVelocityUpdated: false,
             workVolumeUpdated: false
-        });
-        model.update({
-            nozzleSeparation: ns, 
-            nozzleNumber: '',
-            sprayFlow: null
-        });
-    };
-
-    const handleNozzleNumberChange = value => {
-        let n = parseInt(value);
-        if(n < 0)
-            n = '';
-        setInputs({
-            ...inputs,
-            nozzleNumber: n
-        });
-        model.update("nozzleNumber", n);
+        };
+        if(value === "fitosanitarios"){
+            prevInputs.productDensity =  1;
+            setNozzleSelection([-1, -1, -1, -1]); // Reiniciar la seleccion de picos
+        }else{
+            prevInputs.nozzleNumber = '';
+            setNozzleSelection([0, -1, -1, -1]); // Dejar por defecto norma ISO
+        }
+        if(value === "fitosanitarios" || value === "fertilizante") {
+            model.update({
+                productType: value,
+            });
+        }
+        setInputs({...prevInputs});  
     };
 
     const handleNozzleSelected = selection => {        
@@ -215,8 +228,36 @@ const Params = props => {
         }
     };
 
+    const handleNozzleSeparationChange = (_, value) => {
+        const ns = value;
+        setInputs({
+            ...inputs,
+            nozzleSeparation: ns,
+            nozzleNumber: '',
+            workPressureUpdated: false,
+            workVelocityUpdated: false,
+            workVolumeUpdated: false
+        });
+        model.update({
+            nozzleSeparation: ns, 
+            nozzleNumber: '',
+            sprayFlow: null
+        });
+    };
+
+    const handleNozzleNumberChange = e => {
+        let n = parseInt(e.target.value);
+        if(n < 0)
+            n = '';
+        setInputs({
+            ...inputs,
+            nozzleNumber: n
+        });
+        model.update("nozzleNumber", n);
+    };
+
     const handleNominalFlowChange = e => {        
-        const nf = parseFloat(e.target.value);
+        const nf = e.target.value;
         setInputs({
             ...inputs,
             nominalFlow: nf,                        
@@ -233,7 +274,7 @@ const Params = props => {
     };
 
     const handleNominalPressureChange = e => {
-        const np = parseFloat(e.target.value);
+        const np = e.target.value;
         setInputs({
             ...inputs,
             nominalPressure: np,
@@ -245,46 +286,54 @@ const Params = props => {
     };
 
     const handleProductDensityChange = e => {
-        const density = parseFloat(e.target.value);
+        let density = parseFloat(e.target.value);
+        if(density < 0)
+            density = '';
         setInputs({
             ...inputs,
-            productDensity: density
+            productDensity: density,
+            workPressureUpdated: false,
+            workVelocityUpdated: false,
+            workVolumeUpdated: false
         });
         model.update("productDensity", density);
     };
 
+    // Verificar si se deben limpiar los otros campos al actualizar uno
+    const clearOthers = workVelocityUpdated && workPressureUpdated && workVolumeUpdated;
+
     const handleWorkVelocityChange = e => {
-        const wv = parseFloat(e.target.value);
+        const wv = e.target.value;
         setInputs({
             ...inputs,
             workVelocity: wv,
             workVelocityUpdated: true,
-            workPressureUpdated: false,
-            workVolumeUpdated: false
+            workPressureUpdated: workPressureUpdated && !clearOthers,
+            workVolumeUpdated: workVolumeUpdated && !clearOthers
         });
         model.update("workVelocity", wv);
     };
 
     const handleWorkPressureChange = e => {
-        const wp = parseFloat(e.target.value);
+        const wp = e.target.value;
         setInputs({
             ...inputs,
             workPressure: wp,
             workPressureUpdated: true,
-            workVelocityUpdated: false,
-            workVolumeUpdated: false
+            workVelocityUpdated: workVelocityUpdated && !clearOthers,
+            workVolumeUpdated: workVolumeUpdated && !clearOthers
         });
         model.update("workPressure", wp);
     };
 
     const handleWorkVolumeChange = e => {
-        const wv = parseFloat(e.target.value);
+        const wv = e.target.value;
         setInputs({
             ...inputs,
             workVolume: wv,
             workVolumeUpdated: true,
-            workPressureUpdated: false,
-            workVelocityUpdated: false
+            workPressureUpdated: workPressureUpdated && !clearOthers,
+            workVelocityUpdated: workVelocityUpdated && !clearOthers
         });
         model.update("workVolume", wv);
     };
@@ -305,7 +354,9 @@ const Params = props => {
             });
             setInputs({
                 ...inputs,
-                workVelocity: newVel,
+                workVelocity: newVel.toFixed(1),
+                workPressure: parseFloat(workPressure).toFixed(1),
+                workVolume: parseFloat(workVolume).toFixed(1),
                 workVelocityUpdated: true,
                 workPressureUpdated: true,
                 workVolumeUpdated: true
@@ -328,7 +379,9 @@ const Params = props => {
             model.update("workPressure", newPres);
             setInputs({
                 ...inputs,
-                workPressure: newPres,
+                workPressure: newPres.toFixed(1),
+                workVelocity: parseFloat(workVelocity).toFixed(1),
+                workVolume: parseFloat(workVolume).toFixed(1),
                 workVelocityUpdated: true,
                 workPressureUpdated: true,
                 workVolumeUpdated: true
@@ -348,10 +401,15 @@ const Params = props => {
                 Qnom: nominalFlow,
                 Pnom: nominalPressure
             });
-            model.update("workVolume", newVol);
+            model.update({
+                workVolume: newVol,
+                volumeMeasured: false
+            });
             setInputs({
                 ...inputs,
-                workVolume: newVol,
+                workVolume: newVol.toFixed(1),
+                workVelocity: parseFloat(workVelocity).toFixed(1),
+                workPressure: parseFloat(workPressure).toFixed(1),
                 workVelocityUpdated: true,
                 workPressureUpdated: true,
                 workVolumeUpdated: true
@@ -362,14 +420,10 @@ const Params = props => {
     };
 
     const addParamsToReport = () => {
-        const {
-            nozzleSeparation,
-            nominalFlow,
-            nominalPressure,
-            workVelocity,
-            workPressure,
-            workVolume
-        } = inputs;
+        let dropletSizeLabel;
+        if(productType === "fitosanitarios" && nozzle?.droplet_sizes) {
+            dropletSizeLabel = getDropletSizeName(workPressure, nozzle?.droplet_sizes);
+        }
         model.addParamsToReport({
             nozzleSeparation,
             nominalFlow,
@@ -377,6 +431,10 @@ const Params = props => {
             workVelocity,
             workPressure,
             workVolume,
+            waterEqSprayFlow,
+            productDensity,
+            productType,
+            dropletSizeLabel,
             nozzleName: model.nozzleName
         });
         f7.panel.open();
@@ -409,7 +467,7 @@ const Params = props => {
                             label="Densidad de producto"
                             name="workDensity"
                             type="number"
-                            unit="Kg/L"
+                            unit="kg/l"
                             icon={iconDensity}
                             value={productDensity}
                             onChange={handleProductDensityChange}>
@@ -432,39 +490,39 @@ const Params = props => {
                     unit="m"
                     icon={iconDistance}
                     value={nozzleSeparation}
-                    onChange={v => handleNozzleSeparationChange(v.target.value)}>
+                    onChange={handleNozzleSeparationChange}>
                 </Input>
 
-                { productType==="fitosanitarios" &&
-                    <Input
-                        className="help-target-nozzle-cnt"
-                        slot="list"
-                        label="Cantidad de picos"
-                        name="nozzleNumber"
-                        type="number"                    
-                        icon={iconNozzles}
-                        value={nozzleNumber}
-                        onChange={v => handleNozzleNumberChange(v.target.value)}>
-                    </Input>
-                }
+                <Input
+                    className="help-target-nozzle-cnt"
+                    slot="list"
+                    label="Cantidad de picos"
+                    name="nozzleNumber"
+                    type="number"                    
+                    icon={iconNozzles}
+                    value={nozzleNumber}
+                    onChange={handleNozzleNumberChange}>
+                </Input>
             </List>
 
             <Divider/>
 
             <BlockTitle style={{marginBottom: "5px", marginTop: "5px"}}>
-                <Typography variant='subtitle'>Capacidad del pico</Typography>
+                <Typography variant='subtitle'>Pico</Typography>
             </BlockTitle>
             
             <center className="help-target-nozzle-select">
                 <NozzleMenu 
-                    hideNozzleTypes={productType === "fertilizante"}
+                    productType={productType}
                     onOptionSelected={handleNozzleSelected} 
                     selection={nozzleSelection} />
             </center>
 
+            {/*
             <div style={{paddingLeft:"20px"}}>
                 <Typography variant="small" sx={{color:"#000"}}>Selección: {model.getNozzleName(nozzleSelection)}</Typography>
             </div>
+            */}
 
             <List form noHairlinesMd style={{marginBottom:"5px", marginTop: "0px"}}>    
                 <Row slot="list">
@@ -503,58 +561,72 @@ const Params = props => {
                     <Col width="80">
                         <Input
                             slot="list"
-                            borderColor={workVelocityUpdated ? "green":"#F2D118"}
+                            borderColor={getInputBorderColor(workVelocityUpdated, productType)}
                             label="Velocidad de avance"
                             name="workVelocity"
                             type="number"
                             unit="km/h"
                             icon={iconVelocity}
-                            value={workVelocity.toFixed()}
+                            value={workVelocity}
                             onIconClick={computeWorkVelocity}
                             onChange={handleWorkVelocityChange}>
                         </Input>        
                     </Col>
-                    <Col width="20" style={{paddingTop:"5px", marginRight:"10px"}}>
+                    <Col width="20" style={{paddingTop:"7x", marginRight:"10px"}}>
                         <CalculatorButton href="/velocity/" tooltip="Medir velocidad"/>
                     </Col>
                 </Row>
                 
-                <Input
-                    slot="list"
-                    borderColor={workPressureUpdated ? "green":"#F2D118"}
-                    label="Presión de trabajo"
-                    name="workPressure"
-                    type="number"
-                    unit="bar"
-                    icon={iconPressure}
-                    value={workPressure}
-                    onIconClick={computeWorkPressure}
-                    onChange={handleWorkPressureChange}>
-                </Input>
-                {sprayFlow && productType === "fitosanitarios" && 
+                <Row slot="list" className="help-target-params-1 help-target-params-2">
+                    <Col width={"80"}>
+                        <Input
+                            slot="list"
+                            borderColor={getInputBorderColor(workPressureUpdated, productType)}
+                            label="Presión de trabajo"
+                            name="workPressure"
+                            type="number"
+                            unit="bar"
+                            icon={iconPressure}
+                            value={workPressure}
+                            onIconClick={computeWorkPressure}
+                            onChange={handleWorkPressureChange}>
+                        </Input>
+                    </Col>
+                </Row>
+                {sprayFlow && equationsUpdated &&
                     <div slot="list">
                         <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
-                            Caudal pulverizado: {sprayFlow} l/min
+                            Caudal pulverizado: {sprayFlow.toFixed(2)} l/min
                         </span>
                     </div>
                 }
 
-                <Input
-                    slot="list"
-                    borderColor={workVolumeUpdated ? "green":"#F2D118"}
-                    label="Volumen de aplicación"
-                    name="workVolume"
-                    type="number"
-                    unit="l/ha"
-                    icon={iconVolume}
-                    value={workVolume.toFixed()}
-                    onIconClick={computeWorkVolume}
-                    onChange={handleWorkVolumeChange}>
-                </Input>
-                {waterEqSprayFlow && productType === "fertilizante" && 
+                <Row slot="list" className="help-target-params-1 help-target-params-2">
+                    <Col width={"80"}>
+                        <Input
+                            slot="list"
+                            borderColor={getInputBorderColor(workVolumeUpdated, productType)}
+                            label="Volumen de aplicación"
+                            name="workVolume"
+                            type="number"
+                            unit="l/ha"
+                            icon={iconVolume}
+                            value={workVolume}
+                            onIconClick={computeWorkVolume}
+                            onChange={handleWorkVolumeChange}>
+                        </Input>  
+                    </Col>
+                    {productType === "fertilizante" &&
+                        <Col width="20" style={{paddingTop:"7px", marginRight:"10px"}}>
+                            <VolumeCalculatorButton href="/volume/" tooltip="Ajustar caudal"/>
+                        </Col>
+                    }
+                </Row>
+
+                {waterEqSprayFlow && productType === "fertilizante" && equationsUpdated &&
                     <div slot="list">
-                        <span style={{fontSize: "0.85em", color: "rgb(100, 100, 100)", marginLeft: "50px"}}>
-                            Caudal equivalente en agua: {waterEqSprayFlow} l/min
+                        <span style={{fontSize: "0.9em", color: "rgb(100, 100, 250)", marginLeft: "50px"}}>
+                            Volumen equivalente en agua: {waterEqSprayFlow.toFixed()} l/ha
                         </span>
                     </div>
                 }
@@ -563,17 +635,20 @@ const Params = props => {
             { nozzle?.droplet_sizes &&
                 <div>
                     <Divider/>
-                    <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}>
-                        <Typography variant='subtitle'>Tamaño de gota</Typography>
-                    </BlockTitle>
+                    {withinRange && 
+                        <BlockTitle style={{marginBottom: "5px", marginTop: "10px"}}>
+                            <Typography variant='subtitle'>Tamaño de gota: {getDropletSizeName(workPressure, nozzle?.droplet_sizes)}</Typography>
+                        </BlockTitle>
+                    }
                     <div style={{paddingLeft:"20px", paddingRight:"20px", marginBottom:"10px"}}>
-                        {nozzle?.droplet_sizes[0].from < workPressure && nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to > workPressure ? // Ver si la presion de trabajo esta dentro del rango de tamaños de gota
+                        {withinRange ? // Ver si la presion de trabajo esta dentro del rango de tamaños de gota
                             <DropletSizeSlider
-                                min={dropletSizeRange.min}
-                                max={dropletSizeRange.max}
+                                min={nozzle?.droplet_sizes[0].from}
+                                max={nozzle?.droplet_sizes[nozzle?.droplet_sizes.length - 1].to}
                                 ranges={nozzle.droplet_sizes.map(range => ({
                                         ...range,
-                                        ...dropletSizesColors[range.label] // Agregar color y fondo
+                                        label: dropletSizeProperties[range.label] ? dropletSizeProperties[range.label].label_es : range.label, // Usar etiqueta en español
+                                        ...dropletSizeProperties[range.label] // Agregar color y fondo
                                     }))}
                                     value={workPressure}/>                            
                         :
@@ -601,6 +676,8 @@ const Params = props => {
                 </Col>
                 <Col width={20}></Col>
             </Row>
+
+            <BackButton {...props} />
         </Page>
     );
 };

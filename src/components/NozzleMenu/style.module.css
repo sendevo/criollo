@@ -4,15 +4,32 @@
     justify-content: center;
     align-items: center;
     width: 93%;         
-    /*box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(150,150,150,0.6);*/
     border-radius: 5px;    
     margin-bottom: 5px;
-    padding: 5px 0px;
+    padding: 0px;
+}
+
+.Menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .MenuItem {
     box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.2);
+    height: auto;
+    min-height: 40px;
+}
+
+.MenuDropdownItemBW {
+    text-align: left;
+    white-space: normal;
+    word-break: break-word;
+    min-width: 200px;
+}
+
+.MenuDropdownItem {
+    text-align: left;
 }
 
 .SelectedOptionContainer {
@@ -32,4 +49,10 @@
 .SelectedOptionText {      
     font-size: 14px;    
     color: #000;
+    max-width: 100px;
+    text-align: left;
+    white-space: normal;
+    word-break: break-word;
+    padding-top: 5px;
+    padding-bottom: 5px;
 }

@@ -9,6 +9,7 @@ package-lock.json
 
 # production
 /dist
+/android/app/release
 
 # misc
 .DS_Store

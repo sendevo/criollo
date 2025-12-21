@@ -1,13 +1,12 @@
-.HeaderBlock {
-    margin-top: 10px;
-    line-height: 10px;
-}
-
 .SectionTitle {
     font-size: 14px;
     font-weight: bold;
     margin-top: 15px;
     margin-bottom: 10px;
+}
+
+.SectionBlock {
+    margin-top: 10px;
 }
 
 .CommentsBlock {

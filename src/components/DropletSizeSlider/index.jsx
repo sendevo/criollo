@@ -43,8 +43,7 @@ const DropletSizeSlider = ({ min, max, ranges, value }) => {
                     background: `linear-gradient(to right, ${gradient})`,
                     overflow: 'visible',
                     border: '1px solid #ccc',
-                    zIndex: 1
-                }}>
+                    zIndex: 1}}>
                     {
                         ranges.map((range, index) => {
                             const startPct = getPercentage(range.from);
@@ -62,8 +61,7 @@ const DropletSizeSlider = ({ min, max, ranges, value }) => {
                                         whiteSpace: 'nowrap',
                                         overflow: 'hidden',
                                         color: range.color,
-                                        pointerEvents: 'none'
-                                    }}>
+                                        pointerEvents: 'none'}}>
                                     {range.label}
                                 </div>
                             );

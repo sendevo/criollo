@@ -1,15 +1,15 @@
-//import * as pdfFonts from "pdfmake/build/vfs_fonts.js";
-//import pdfMake from 'pdfmake';
+import pdfMake from "pdfmake";
+import vfs from "pdfmake/build/vfs_fonts.js";
 import moment from 'moment';
 import Toast from '../../components/Toast';
-import { formatNumber } from "../../utils";
+import { formatNumber, handleSaveReport } from "../../utils";
 import { presentationUnits } from "../API";
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory } from '@capacitor/filesystem';
-import { FileSharer } from '@byteowls/capacitor-filesharer';
+
 import { logoCriollo, membreteCriollo } from '../../assets/base64';
 
-//pdfMake.vfs = pdfFonts.pdfMake.vfs;
+pdfMake.vfs = vfs;
 
 const styles = { // Definicion de estilos de las secciones del reporte
     header: {
@@ -62,12 +62,6 @@ const reportFooter = {
 
 const PDFExport = async (report, share) => {
 
-    const pdfMakeModule = await import('pdfmake/build/pdfmake');
-    const pdfFontsModule = await import('pdfmake/build/vfs_fonts');
-
-    const pdfMake = pdfMakeModule.default;
-    pdfMake.vfs = pdfFontsModule.pdfMake.vfs; 
-
     const reportContent = [ // Composicion de todo el documento
         {
             text: "Calibrador Criollo",
@@ -93,7 +87,11 @@ const PDFExport = async (report, share) => {
             style: "section"
         });
         reportContent.push({
-            text: "Capacidad de pico",
+            text: "Producto a aplicar: " + report.params.productType,
+            style: "text"
+        });
+        reportContent.push({
+            text: "Pico",
             style: "subsection"
         });
         reportContent.push({
@@ -149,6 +147,30 @@ const PDFExport = async (report, share) => {
             },
             margin: [0, 0, 0, 15]
         });
+        if(report.params.waterEqSprayFlow && report.params.productType === "fertilizante") {
+            reportContent[reportContent.length - 1].table.body.push(
+                [{
+                    text: "Caudal equivalente en agua",
+                    style: "tableHeader"
+                }, formatNumber(report.params.waterEqSprayFlow) + " l/ha"]
+            );
+        }
+        if(report.params.dropletSizeLabel){
+            reportContent[reportContent.length - 1].table.body.push(
+                [{
+                    text: "Tamaño de gota",
+                    style: "tableHeader"
+                }, report.params.dropletSizeLabel]
+            );
+        }
+        if(report.params.productDensity){
+            reportContent[reportContent.length - 1].table.body.push(
+                [{
+                    text: "Densidad del producto",
+                    style: "tableHeader"
+                }, formatNumber(report.params.productDensity, 2) + " kg/l"]
+            );
+        }
     }
 
     if(report.completed.control) {
@@ -177,7 +199,11 @@ const PDFExport = async (report, share) => {
                     [{
                         text: "Diferencia:",
                         style: "tableHeader"
-                    }, formatNumber(report.control.diff) + " l/ha, " + formatNumber(report.control.diffp)+" %"]
+                    }, formatNumber(report.control.diff) + " l/ha, " + formatNumber(report.control.diffp)+" %"],
+                    [{
+                        text: "Comentarios: ",
+                        style: "tableHeader"
+                    }, report.control.comments ? report.control.comments : " - "]
                 ]
             },
             margin: [0, 0, 0, 15]
@@ -378,54 +404,9 @@ const PDFExport = async (report, share) => {
     const fileName = "Reporte Criollo "+moment(report.timestamp).format("DD-MM-YYYY HH-mm")+".pdf";    
     const pdfFile = pdfMake.createPdf(document);
 
-    if(Capacitor.isNativePlatform()){
-        
-        const shareFile = (fileName, data) => {
-            FileSharer.share({
-                filename: fileName,
-                base64Data: data,
-                contentType: "application/pdf",
-            }).then(() => {
-                Toast("success", "Reporte compartido", 2000, "center");
-            }).catch(error => {
-                console.error("Error FileSharer: "+error.message);
-                Toast("error", "Reporte no compartido", 2000, "center");
-            });
-        };
-
-        const saveFile = fileName => {            
-            pdfFile.getBase64(base64pdf => {                                
-                Filesystem.writeFile({
-                    data: base64pdf,
-                    path: fileName,
-                    directory: Directory.Documents,                    
-                    replace: true
-                }).then(() => {                    
-                    if(share){
-                        Toast("info", "Generando reporte...", 2000, "center");
-                        shareFile(fileName, base64pdf);
-                    }else 
-                        Toast("success", "Reporte guardado en Documentos: "+fileName, 2000, "center");                    
-                }).catch(err => {
-                    //console.log(err);
-                    Toast("error", "Error al guardar el reporte", 2000, "center");
-                });
-            });
-        };
-
-        Filesystem.checkPermissions().then(permissions => {                        
-            if(permissions.publicStorage === "granted"){ 
-                saveFile(fileName);
-            }else{
-                Toast("info", "Permisos de almacenamiento no otorgados", 2000, "center");
-                Filesystem.requestPermissions().then(res => {
-                    //console.log(res);
-                    saveFile(fileName);
-                }).catch(() => {
-                    //console.log("No se pudo guardar el reporte");
-                    Function.prototype();
-                });
-            }
+    if(Capacitor.isNativePlatform()){ 
+        pdfFile.getBase64(b64 => {
+            handleSaveReport(fileName, b64, share, Toast);
         });
     }else{
         pdfFile.download(fileName);

@@ -1,7 +1,7 @@
 import { f7, Navbar, Page, Block, Checkbox, Row, Col, Button } from 'framework7-react';
 import { useState, useContext } from 'react';
 import moment from 'moment';
-import { NavbarTitle } from '../../components/Buttons';
+import { NavbarTitle, BackButton } from '../../components/Buttons';
 import iconEmpty from '../../assets/icons/empty_folder.png';
 import { ModelCtx } from '../../context';
 import Toast from '../../components/Toast';
@@ -124,7 +124,7 @@ const Reports = props => {
                                     <tr className={classes.TableRow} key={r.id} style={{backgroundColor: r.selected ? "rgb(230,230,230)" : "white"}}>
                                         <td className={classes.CheckboxCell}>
                                             <Checkbox
-                                                checked={r.selected}                                                
+                                                checked={r.selected}
                                                 onChange={e => setSelected(r.id, e.target.checked)}
                                             />
                                         </td>
@@ -179,7 +179,7 @@ const Reports = props => {
                 :
                 null
             }
-            
+            <BackButton {...props} />
         </Page>
     );
 };

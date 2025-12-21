@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from 'react';
 import { App, View, f7 } from 'framework7-react';
 import { App as cApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
@@ -63,6 +64,14 @@ const f7params = {
             path: '/velocity/',
             component: Views.Velocity,
             on:{pageInit: ()=>pushState("velocity")},
+            options: {
+                transition: "f7-cover"        
+            }
+        },
+        { // Ajuste de caudal
+            path: '/volume/',
+            component: Views.Volume,
+            on:{pageInit: ()=>pushState("volume")},
             options: {
                 transition: "f7-cover"        
             }
@@ -138,16 +147,46 @@ else
         f7.view.main.router.back();
     }, false);
 
-const Criollo = () => (
-    <App {...f7params}>
-        <ModelProvider>
-            <WalkthroughProvider>
-                <View main url="/" className="app"/>
-                <ReportsPanel />
-                <Popovers />
-            </WalkthroughProvider>
-        </ModelProvider>
-    </App>
-);
+const Criollo = () => {
+
+    const [showBackground, setShowBackground] = useState(false);
+
+    useEffect(() => {
+        const checkWidth = () => setShowBackground(window.innerWidth > 600);
+        checkWidth();
+        window.addEventListener('resize', checkWidth);
+        return () => window.removeEventListener('resize', checkWidth);
+    }, []);
+
+    return (
+        <App {...f7params}>
+            <ModelProvider>
+                <WalkthroughProvider>
+                    {showBackground && (
+                        <div
+                            style={{
+                                background: "lightgray",
+                                filter: 'brightness(1.2) blur(6px) contrast(0.8)',
+                                position: 'fixed',
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                backgroundRepeat: 'no-repeat',
+                                backgroundPosition: 'center top',
+                                backgroundSize: 'cover',
+                                zIndex: -1,
+                            }}/>
+                    )}
+                    <div className="app-container">
+                        <View main url="/" className="app"/>
+                    </div>
+                    <ReportsPanel />
+                    <Popovers />
+                </WalkthroughProvider>
+            </ModelProvider>
+        </App>
+    );
+};
 
 export default Criollo;

@@ -3,10 +3,12 @@
     table-layout:fixed;    
 }
 
-.SuppliesTable > tr > th{
+.SuppliesTable > thead > tr > th{
     background-color: rgb(200,200,200,0.6);
     font-size: 12px;
+    font-weight: bold;
     text-align: center;
+    color: black!important;
 }
 
 .SuppliesTable td {

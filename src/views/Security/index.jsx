@@ -1,5 +1,5 @@
 import { Page, Navbar, Link } from 'framework7-react';
-import { NavbarTitle } from '../../components/Buttons';
+import { NavbarTitle, BackButton } from '../../components/Buttons';
 import pictogram from '../../assets/pictograma_seguridad.jpg';
 import infoIcon from '../../assets/icons/info.png';
 import classes from '../style.module.css';
@@ -42,7 +42,7 @@ const Security = props => (
             </Link>
 
         </div>
-    
+        <BackButton {...props} />
     </Page>
 );
 
