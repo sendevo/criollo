@@ -228,8 +228,10 @@ const Params = props => {
         }
     };
 
-    const handleNozzleSeparationChange = (_, value) => {
-        const ns = value;
+    const handleNozzleSeparationChange = e => {
+        let ns = parseFloat(e.target.value);
+        if(ns < 0)
+            ns = 0;
         setInputs({
             ...inputs,
             nozzleSeparation: ns,
