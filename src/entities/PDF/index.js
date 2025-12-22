@@ -355,7 +355,8 @@ const PDFExport = async (report, share) => {
         ];
 
         report.supplies.pr.forEach(prod => {
-            const unit = prod.presentation === 0 || prod.presentation === 2 ? " l" : " kg";
+            const literPresIndex = [0,2,4].includes(prod.presentation);
+            const unit = literPresIndex ? " l" : " kg";
             rows2.push( report.supplies.loadBalancingEnabled ? [
                 prod.name,
                 formatNumber(prod.ceq, 1) + unit,

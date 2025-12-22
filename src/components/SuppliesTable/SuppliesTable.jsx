@@ -20,8 +20,8 @@ const SuppliesTable = props => (
                 props.supplies.pr?.map((prod, index) => {
                     const presentations = [
                         'l',
-                        'l',
                         'kg',
+                        'l',
                         'kg',
                         'l'
                     ];
