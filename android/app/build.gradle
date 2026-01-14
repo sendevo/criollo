@@ -2,17 +2,13 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "com.inta.criollo2"
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
-    }
+    compileSdk rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.inta.criollo2"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 22
-        versionName "5.0.3"
+        versionCode 1
+        versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
