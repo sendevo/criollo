@@ -5,9 +5,9 @@ import nozzles from '../../data/nozzles_droplet_sizes.json';
 
 // A partir de version 5.0.0, se agrega modelo de migraciones
 export const APP_NAME = "Criollo";
-export const ANDROID_VERSION_CODE = "22"; // Para app store
-export const VERSION_NAME = "5.0.3"; // Version visible para el usuario
-export const BUILD_DATE = 1766405960722; // 22-12-2025 9:19hs
+export const ANDROID_VERSION_CODE = "23"; // Para app store
+export const VERSION_NAME = "5.0.4"; // Version visible para el usuario
+export const BUILD_DATE = 1770381269641; // 06-2-2026 9:34hs
 
 // Lista de versiones
 const DB_NAMES = [
